@@ -188,6 +188,30 @@ struct ProcessTask {
 	1: required string processTaskId
 }
 
+/**
+ * This structure defines a task Scheduling. A scheduling is a collection of process tasks to be executed one after the other by the system.
+ *
+ * <dl>
+ * <dt>schedulingId</dt>
+ * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
+ * </dl>
+ */
+struct Scheduling {
+	1: required string schedulingId
+}
+
+/**
+ * This structure defines a task RecommendationBlock. A RecommendationBlock is a visual block of recommendation for one page of your web-site (product detail page, basket page, etc.) you can have several recommendation blocks on the same page.
+ *
+ * <dl>
+ * <dt>recommendationBlockId</dt>
+ * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
+ * </dl>
+ */
+struct RecommendationBlock {
+	1: required string recommendationBlockId
+}
+
 enum Language {
 	GERMAN = 1,
 	FRENCH = 2,
@@ -329,15 +353,15 @@ struct ProcessTaskExecutionStatus {
 }
 
 /**
- * This structure defines a process task execution parameters
+ * This structure defines a process tasks execution parameters. A process task covers any kind of process task to be executed by the system.
  *
  * <dl>
  * <dt>processTaskId</dt>
  * <dd>the process task id to execute</dd>
  * <dt>development</dt>
- * <dd>should the process run with dev version data</dd>
+ * <dd>should the process task run with development version data</dd>
  * <dt>delta</dt>
- * <dd>is the process an incremental process (or full)</dd>
+ * <dd>is the process task an incremental process (or full)</dd>
  * <dt>forceStart</dt>
  * <dd>if another similar process is already running, the forceStart will make the new one run, otherwise, the execution will be aborted</dd>
  * </dl>
@@ -349,6 +373,26 @@ struct ProcessTaskExecutionParameters {
 	4: required bool forceStart
 }
 
+/**
+ * This structure defines a schedulings execution parameters. A scheduling is a collection of process tasks to be executed one after the other by the system.
+ *
+ * <dl>
+ * <dt>schedulingId</dt>
+ * <dd>the scheduling id to execute</dd>
+ * <dt>development</dt>
+ * <dd>should the process tasks run with development version data</dd>
+ * <dt>delta</dt>
+ * <dd>are the process tasks incremental processes (or full)</dd>
+ * <dt>forceStart</dt>
+ * <dd>if similar process tasks are already running, the forceStart will make the new ones run, otherwise, the execution will be aborted</dd>
+ * </dl>
+ */
+struct SchedulingExecutionParameters {
+	1: required string schedulingId,
+	2: required bool development,
+	3: required bool delta,
+	4: required bool forceStart
+}
 
 service BoxalinoDataIntelligence {
 /**
@@ -510,7 +554,7 @@ service BoxalinoDataIntelligence {
 	map<string, ProcessTask> GetProcessTasks(1: Authentication authentication, 2: ConfigurationVersion configuration) throws (1: DataIntelligenceServiceException e),
 	
 /**
- * this service function creates a new process task 
+ * this service function creates a new process task. A process task covers any kind of process task to be executed by the system.
  *
  * <dl>
  * <dt>@param authenticationToken</dt>
@@ -529,7 +573,7 @@ service BoxalinoDataIntelligence {
 	void CreateProcessTask(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string processTaskId) throws (1: DataIntelligenceServiceException e),
 	
 /**
- * this service function updates a process task 
+ * this service function updates a process task. A process task covers any kind of process task to be executed by the system.
  *
  * <dl>
  * <dt>@param authenticationToken</dt>
@@ -549,7 +593,7 @@ service BoxalinoDataIntelligence {
 	void UpdateProcessTask(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: ProcessTask processTask) throws (1: DataIntelligenceServiceException e),
 	
 /**
- * this service function deletes a process task
+ * this service function deletes a process task. A process task covers any kind of process task to be executed by the system.
  *
  * <dl>
  * <dt>@param authenticationToken</dt>
@@ -567,7 +611,7 @@ service BoxalinoDataIntelligence {
 	void DeleteProcessTask(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string processTaskId) throws (1: DataIntelligenceServiceException e),
 	
 /**
- * this service function executes a process task
+ * this service function executes a process task. A process task covers any kind of process task to be executed by the system.
  *
  * <dl>
  * <dt>@param authenticationToken</dt>
@@ -886,5 +930,171 @@ service BoxalinoDataIntelligence {
  * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
  * </dl>
  */
-	void CloneConfiguration(1: Authentication authentication, 2: ConfigurationVersion configuration) throws (1: DataIntelligenceServiceException e)
+	void CloneConfiguration(1: Authentication authentication, 2: ConfigurationVersion configuration) throws (1: DataIntelligenceServiceException e),
+	
+/**
+ * this service function returns the map of all the defined schedulings (key = schedulingId, value = Scheduling object).
+ *
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dt>@returns map<string, Scheduling></dt>
+ * <dd>A map containing all the defined schedulings of your account in this configuration version, with the schedulingId as key and the Scheduling object as value (key is provided for accessibility only, as the schedulingId is also present in the Scheduling object</dd>
+ * </dl>
+ */
+	map<string, Scheduling> GetSchedulings(1: Authentication authentication, 2: ConfigurationVersion configuration) throws (1: DataIntelligenceServiceException e),
+	
+/**
+ * this service function creates a new scheduling. A scheduling is a collection of process tasks to be executed one after the other by the system.
+ *
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param schedulingId</dt>
+ * <dd>the scheduling id to be created (must follow the content id format: <= 50 alphanumeric characters without accent or punctuation)</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>ALREADY_EXISTING_CONTENT_ID:if the provided  scheduling id already exists.</dd>
+ * <dd>INVALID_CONTENT_ID:if the provided scheduling id format is not valid.</dd>
+ * </dl>
+ */
+	void CreateScheduling(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string schedulingId) throws (1: DataIntelligenceServiceException e),
+	
+/**
+ * this service function updates a scheduling. A scheduling is a collection of process tasks to be executed one after the other by the system.
+ *
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param scheduling</dt>
+ * <dd>a Scheduling object to be updated (the content of the object will be updated on the content id provided)</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>NON_EXISTING_CONTENT_ID:if the provided Scheduling id doesn't already exists.</dd>
+ * <dd>INVALID_CONTENT:if the provided Scheduling content is not valid.</dd>
+ * <dd>The </dd>
+ * </dl>
+ */
+	void UpdateScheduling(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: Scheduling scheduling) throws (1: DataIntelligenceServiceException e),
+	
+/**
+ * this service function deletes a scheduling. A scheduling is a collection of process tasks to be executed one after the other by the system.
+ *
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param schedulingId</dt>
+ * <dd>the schedulingId to be deleted</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>NON_EXISTING_CONTENT_ID:if the provided schedulingId id doesn't already exists.</dd>
+ * </dl>
+ */
+	void DeleteScheduling(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string schedulingId) throws (1: DataIntelligenceServiceException e),
+
+/**
+ * this service function executes a scheduling. A scheduling is a collection of process tasks to be executed one after the other by the system.
+ *
+ * <dl>
+ * <dt>@param authentication</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configuration</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param parameters</dt>
+ * <dd>parameters describing the scheduling which we want to execute</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>NON_EXISTING_CONTENT_ID:if the provided scheduling id doesn't already exists.</dd>
+ * </dl>
+ */
+	void RunScheduling(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: SchedulingExecutionParameters parameters) throws (1: DataIntelligenceServiceException e),
+	
+/**
+ * this service function returns the map of all the defined recommendation blocks (key = recommendationBlockId, value = RecommendationBlock object).
+ *
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dt>@returns map<string, RecommendationBlock></dt>
+ * <dd>A map containing all the defined RecommendationBlocks of your account in this configuration version, with the RecommendationBlock id as key and the RecommendationBlock object as value (key is provided for accessibility only, as the RecommendationBlock id is also present in the RecommendationBlock object</dd>
+ * </dl>
+ */
+	map<string, RecommendationBlock> GetRecommendationBlocks(1: Authentication authentication, 2: ConfigurationVersion configuration) throws (1: DataIntelligenceServiceException e),
+	
+/**
+ * this service function creates a new RecommendationBlock. A RecommendationBlock is a visual block of recommendation for one page of your web-site (product detail page, basket page, etc.) you can have several recommendation blocks on the same page.
+ *
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param recommendationBlockId</dt>
+ * <dd>the recommendation block id to be created (must follow the content id format: <= 50 alphanumeric characters without accent or punctuation)</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>ALREADY_EXISTING_CONTENT_ID:if the provided  recommendationBlock id already exists.</dd>
+ * <dd>INVALID_CONTENT_ID:if the provided recommendationBlock id format is not valid.</dd>
+ * </dl>
+ */
+	void CreateRecommendationBlock(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string recommendationBlockId) throws (1: DataIntelligenceServiceException e),
+	
+/**
+ * this service function updates a RecommendationBlock. A RecommendationBlock is a visual block of recommendation for one page of your web-site (product detail page, basket page, etc.) you can have several recommendation blocks on the same page.
+ * 
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param recommendationBlock</dt>
+ * <dd>a recommendationBlock object to be updated (the content of the object will be updated on the content id provided)</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>NON_EXISTING_CONTENT_ID:if the provided RecommendationBlock id doesn't already exists.</dd>
+ * <dd>INVALID_CONTENT:if the provided RecommendationBlock content is not valid.</dd>
+ * <dd>The </dd>
+ * </dl>
+ */
+	void UpdateRecommendationBlock(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: RecommendationBlock recommendationBlock) throws (1: DataIntelligenceServiceException e),
+	
+/**
+ * this service function deletes a RecommendationBlock. A RecommendationBlock is a visual block of recommendation for one page of your web-site (product detail page, basket page, etc.) you can have several recommendation blocks on the same page.
+ *
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param recommendationBlockId</dt>
+ * <dd>the recommendationBlockId to be deleted</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>NON_EXISTING_CONTENT_ID:if the provided recommendationBlockId id doesn't already exists.</dd>
+ * </dl>
+ */
+	void DeleteRecommendationBlock(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string recommendationBlockId) throws (1: DataIntelligenceServiceException e)
 }

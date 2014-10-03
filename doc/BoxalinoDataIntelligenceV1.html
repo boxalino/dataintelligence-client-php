@@ -17,11 +17,15 @@
 <li><a href="#Fn_BoxalinoDataIntelligence_CreateEmailCampaign">CreateEmailCampaign</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_CreateField">CreateField</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_CreateProcessTask">CreateProcessTask</a></li>
+<li><a href="#Fn_BoxalinoDataIntelligence_CreateRecommendationBlock">CreateRecommendationBlock</a></li>
+<li><a href="#Fn_BoxalinoDataIntelligence_CreateScheduling">CreateScheduling</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_DeleteChoice">DeleteChoice</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_DeleteChoiceVariant">DeleteChoiceVariant</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_DeleteEmailCampaign">DeleteEmailCampaign</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_DeleteField">DeleteField</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_DeleteProcessTask">DeleteProcessTask</a></li>
+<li><a href="#Fn_BoxalinoDataIntelligence_DeleteRecommendationBlock">DeleteRecommendationBlock</a></li>
+<li><a href="#Fn_BoxalinoDataIntelligence_DeleteScheduling">DeleteScheduling</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_GetAuthentication">GetAuthentication</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_GetChoiceVariants">GetChoiceVariants</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_GetChoices">GetChoices</a></li>
@@ -31,8 +35,11 @@
 <li><a href="#Fn_BoxalinoDataIntelligence_GetFields">GetFields</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_GetProcessStatus">GetProcessStatus</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_GetProcessTasks">GetProcessTasks</a></li>
+<li><a href="#Fn_BoxalinoDataIntelligence_GetRecommendationBlocks">GetRecommendationBlocks</a></li>
+<li><a href="#Fn_BoxalinoDataIntelligence_GetSchedulings">GetSchedulings</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_PublishConfiguration">PublishConfiguration</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_RunProcessTask">RunProcessTask</a></li>
+<li><a href="#Fn_BoxalinoDataIntelligence_RunScheduling">RunScheduling</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_SetDataSourcesConfiguration">SetDataSourcesConfiguration</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_UpdateChoice">UpdateChoice</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_UpdateChoiceVariant">UpdateChoiceVariant</a></li>
@@ -40,6 +47,8 @@
 <li><a href="#Fn_BoxalinoDataIntelligence_UpdateField">UpdateField</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_UpdatePassword">UpdatePassword</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_UpdateProcessTask">UpdateProcessTask</a></li>
+<li><a href="#Fn_BoxalinoDataIntelligence_UpdateRecommendationBlock">UpdateRecommendationBlock</a></li>
+<li><a href="#Fn_BoxalinoDataIntelligence_UpdateScheduling">UpdateScheduling</a></li>
 </ul>
 </td>
 <td><a href="#Struct_Authentication">Authentication</a><br/>
@@ -58,6 +67,9 @@
 <a href="#Struct_ProcessTaskExecutionParameters">ProcessTaskExecutionParameters</a><br/>
 <a href="#Struct_ProcessTaskExecutionStatus">ProcessTaskExecutionStatus</a><br/>
 <a href="#Enum_ProcessTaskExecutionStatusType">ProcessTaskExecutionStatusType</a><br/>
+<a href="#Struct_RecommendationBlock">RecommendationBlock</a><br/>
+<a href="#Struct_Scheduling">Scheduling</a><br/>
+<a href="#Struct_SchedulingExecutionParameters">SchedulingExecutionParameters</a><br/>
 </td>
 <td></code></td>
 </tr></table>
@@ -323,6 +335,24 @@ This enumeration defines the possible process task execution statuses type (to c
 <dt>processTaskId</dt>
 <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
 </dl>
+<br/></div><div class="definition"><h3 id="Struct_Scheduling">Struct: Scheduling</h3>
+<table class="table-bordered table-striped table-condensed"><thead><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></thead>
+<tr><td>1</td><td>schedulingId</td><td><code>string</code></td><td></td><td>required</td><td></td></tr>
+</table><br/>This structure defines a task Scheduling. A scheduling is a collection of process tasks to be executed one after the other by the system.
+
+<dl>
+<dt>schedulingId</dt>
+<dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
+</dl>
+<br/></div><div class="definition"><h3 id="Struct_RecommendationBlock">Struct: RecommendationBlock</h3>
+<table class="table-bordered table-striped table-condensed"><thead><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></thead>
+<tr><td>1</td><td>recommendationBlockId</td><td><code>string</code></td><td></td><td>required</td><td></td></tr>
+</table><br/>This structure defines a task RecommendationBlock. A RecommendationBlock is a visual block of recommendation for one page of your web-site (product detail page, basket page, etc.) you can have several recommendation blocks on the same page.
+
+<dl>
+<dt>recommendationBlockId</dt>
+<dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
+</dl>
 <br/></div><div class="definition"><h3 id="Struct_EmailCampaign">Struct: EmailCampaign</h3>
 <table class="table-bordered table-striped table-condensed"><thead><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></thead>
 <tr><td>1</td><td>emailCampaignId</td><td><code>string</code></td><td></td><td>required</td><td></td></tr>
@@ -396,17 +426,35 @@ This enumeration defines the possible process task execution statuses type (to c
 <tr><td>2</td><td>development</td><td><code>bool</code></td><td></td><td>required</td><td></td></tr>
 <tr><td>3</td><td>delta</td><td><code>bool</code></td><td></td><td>required</td><td></td></tr>
 <tr><td>4</td><td>forceStart</td><td><code>bool</code></td><td></td><td>required</td><td></td></tr>
-</table><br/>This structure defines a process task execution parameters
+</table><br/>This structure defines a process tasks execution parameters. A process task covers any kind of process task to be executed by the system.
 
 <dl>
 <dt>processTaskId</dt>
 <dd>the process task id to execute</dd>
 <dt>development</dt>
-<dd>should the process run with dev version data</dd>
+<dd>should the process task run with development version data</dd>
 <dt>delta</dt>
-<dd>is the process an incremental process (or full)</dd>
+<dd>is the process task an incremental process (or full)</dd>
 <dt>forceStart</dt>
 <dd>if another similar process is already running, the forceStart will make the new one run, otherwise, the execution will be aborted</dd>
+</dl>
+<br/></div><div class="definition"><h3 id="Struct_SchedulingExecutionParameters">Struct: SchedulingExecutionParameters</h3>
+<table class="table-bordered table-striped table-condensed"><thead><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></thead>
+<tr><td>1</td><td>schedulingId</td><td><code>string</code></td><td></td><td>required</td><td></td></tr>
+<tr><td>2</td><td>development</td><td><code>bool</code></td><td></td><td>required</td><td></td></tr>
+<tr><td>3</td><td>delta</td><td><code>bool</code></td><td></td><td>required</td><td></td></tr>
+<tr><td>4</td><td>forceStart</td><td><code>bool</code></td><td></td><td>required</td><td></td></tr>
+</table><br/>This structure defines a schedulings execution parameters. A scheduling is a collection of process tasks to be executed one after the other by the system.
+
+<dl>
+<dt>schedulingId</dt>
+<dd>the scheduling id to execute</dd>
+<dt>development</dt>
+<dd>should the process tasks run with development version data</dd>
+<dt>delta</dt>
+<dd>are the process tasks incremental processes (or full)</dd>
+<dt>forceStart</dt>
+<dd>if similar process tasks are already running, the forceStart will make the new ones run, otherwise, the execution will be aborted</dd>
 </dl>
 <br/></div><hr/><h2 id="Services">Services</h2>
 <h3 id="Svc_BoxalinoDataIntelligence">Service: BoxalinoDataIntelligence</h3>
@@ -575,7 +623,7 @@ This enumeration defines the possible process task execution statuses type (to c
                        <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
                        <code>string</code> processTaskId)
     throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
-</pre>this service function creates a new process task
+</pre>this service function creates a new process task. A process task covers any kind of process task to be executed by the system.
 
 <dl>
 <dt>@param authenticationToken</dt>
@@ -595,7 +643,7 @@ This enumeration defines the possible process task execution statuses type (to c
                        <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
                        <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ProcessTask">ProcessTask</a></code> processTask)
     throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
-</pre>this service function updates a process task
+</pre>this service function updates a process task. A process task covers any kind of process task to be executed by the system.
 
 <dl>
 <dt>@param authenticationToken</dt>
@@ -616,7 +664,7 @@ This enumeration defines the possible process task execution statuses type (to c
                        <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
                        <code>string</code> processTaskId)
     throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
-</pre>this service function deletes a process task
+</pre>this service function deletes a process task. A process task covers any kind of process task to be executed by the system.
 
 <dl>
 <dt>@param authenticationToken</dt>
@@ -635,7 +683,7 @@ This enumeration defines the possible process task execution statuses type (to c
                       <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
                       <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ProcessTaskExecutionParameters">ProcessTaskExecutionParameters</a></code> parameters)
     throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
-</pre>this service function executes a process task
+</pre>this service function executes a process task. A process task covers any kind of process task to be executed by the system.
 
 <dl>
 <dt>@param authenticationToken</dt>
@@ -974,5 +1022,178 @@ This enumeration defines the possible process task execution statuses type (to c
 <dt>@throws DataIntelligenceServiceException</dt>
 <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
 <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_GetSchedulings">Function: BoxalinoDataIntelligence.GetSchedulings</h4>
+<pre><code>map&lt;<code>string</code>, <code><a href="BoxalinoDataIntelligenceV1.html#Struct_Scheduling">Scheduling</a></code>&gt;</code> GetSchedulings(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
+                                     <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration)
+    throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
+</pre>this service function returns the map of all the defined schedulings (key = schedulingId, value = Scheduling object).
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dt>@returns map&lt;string, Scheduling&gt;</dt>
+<dd>A map containing all the defined schedulings of your account in this configuration version, with the schedulingId as key and the Scheduling object as value (key is provided for accessibility only, as the schedulingId is also present in the Scheduling object</dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_CreateScheduling">Function: BoxalinoDataIntelligence.CreateScheduling</h4>
+<pre><code>void</code> CreateScheduling(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
+                      <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
+                      <code>string</code> schedulingId)
+    throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
+</pre>this service function creates a new scheduling. A scheduling is a collection of process tasks to be executed one after the other by the system.
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@param schedulingId</dt>
+<dd>the scheduling id to be created (must follow the content id format: &lt;= 50 alphanumeric characters without accent or punctuation)&lt;/dd&gt;
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dd>ALREADY_EXISTING_CONTENT_ID:if the provided  scheduling id already exists.</dd>
+<dd>INVALID_CONTENT_ID:if the provided scheduling id format is not valid.</dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_UpdateScheduling">Function: BoxalinoDataIntelligence.UpdateScheduling</h4>
+<pre><code>void</code> UpdateScheduling(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
+                      <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
+                      <code><a href="BoxalinoDataIntelligenceV1.html#Struct_Scheduling">Scheduling</a></code> scheduling)
+    throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
+</pre>this service function updates a scheduling. A scheduling is a collection of process tasks to be executed one after the other by the system.
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@param scheduling</dt>
+<dd>a Scheduling object to be updated (the content of the object will be updated on the content id provided)</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dd>NON_EXISTING_CONTENT_ID:if the provided Scheduling id doesn't already exists.</dd>
+<dd>INVALID_CONTENT:if the provided Scheduling content is not valid.</dd>
+<dd>The </dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_DeleteScheduling">Function: BoxalinoDataIntelligence.DeleteScheduling</h4>
+<pre><code>void</code> DeleteScheduling(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
+                      <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
+                      <code>string</code> schedulingId)
+    throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
+</pre>this service function deletes a scheduling. A scheduling is a collection of process tasks to be executed one after the other by the system.
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@param schedulingId</dt>
+<dd>the schedulingId to be deleted</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dd>NON_EXISTING_CONTENT_ID:if the provided schedulingId id doesn't already exists.</dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_RunScheduling">Function: BoxalinoDataIntelligence.RunScheduling</h4>
+<pre><code>void</code> RunScheduling(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
+                   <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
+                   <code><a href="BoxalinoDataIntelligenceV1.html#Struct_SchedulingExecutionParameters">SchedulingExecutionParameters</a></code> parameters)
+    throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
+</pre>this service function executes a scheduling. A scheduling is a collection of process tasks to be executed one after the other by the system.
+
+<dl>
+<dt>@param authentication</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configuration</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@param parameters</dt>
+<dd>parameters describing the scheduling which we want to execute</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dd>NON_EXISTING_CONTENT_ID:if the provided scheduling id doesn't already exists.</dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_GetRecommendationBlocks">Function: BoxalinoDataIntelligence.GetRecommendationBlocks</h4>
+<pre><code>map&lt;<code>string</code>, <code><a href="BoxalinoDataIntelligenceV1.html#Struct_RecommendationBlock">RecommendationBlock</a></code>&gt;</code> GetRecommendationBlocks(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
+                                                       <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration)
+    throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
+</pre>this service function returns the map of all the defined recommendation blocks (key = recommendationBlockId, value = RecommendationBlock object).
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dt>@returns map&lt;string, RecommendationBlock&gt;</dt>
+<dd>A map containing all the defined RecommendationBlocks of your account in this configuration version, with the RecommendationBlock id as key and the RecommendationBlock object as value (key is provided for accessibility only, as the RecommendationBlock id is also present in the RecommendationBlock object</dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_CreateRecommendationBlock">Function: BoxalinoDataIntelligence.CreateRecommendationBlock</h4>
+<pre><code>void</code> CreateRecommendationBlock(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
+                               <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
+                               <code>string</code> recommendationBlockId)
+    throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
+</pre>this service function creates a new RecommendationBlock. A RecommendationBlock is a visual block of recommendation for one page of your web-site (product detail page, basket page, etc.) you can have several recommendation blocks on the same page.
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@param recommendationBlockId</dt>
+<dd>the recommendation block id to be created (must follow the content id format: &lt;= 50 alphanumeric characters without accent or punctuation)&lt;/dd&gt;
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dd>ALREADY_EXISTING_CONTENT_ID:if the provided  recommendationBlock id already exists.</dd>
+<dd>INVALID_CONTENT_ID:if the provided recommendationBlock id format is not valid.</dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_UpdateRecommendationBlock">Function: BoxalinoDataIntelligence.UpdateRecommendationBlock</h4>
+<pre><code>void</code> UpdateRecommendationBlock(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
+                               <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
+                               <code><a href="BoxalinoDataIntelligenceV1.html#Struct_RecommendationBlock">RecommendationBlock</a></code> recommendationBlock)
+    throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
+</pre>this service function updates a RecommendationBlock. A RecommendationBlock is a visual block of recommendation for one page of your web-site (product detail page, basket page, etc.) you can have several recommendation blocks on the same page.
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@param recommendationBlock</dt>
+<dd>a recommendationBlock object to be updated (the content of the object will be updated on the content id provided)</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dd>NON_EXISTING_CONTENT_ID:if the provided RecommendationBlock id doesn't already exists.</dd>
+<dd>INVALID_CONTENT:if the provided RecommendationBlock content is not valid.</dd>
+<dd>The </dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_DeleteRecommendationBlock">Function: BoxalinoDataIntelligence.DeleteRecommendationBlock</h4>
+<pre><code>void</code> DeleteRecommendationBlock(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
+                               <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
+                               <code>string</code> recommendationBlockId)
+    throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
+</pre>this service function deletes a RecommendationBlock. A RecommendationBlock is a visual block of recommendation for one page of your web-site (product detail page, basket page, etc.) you can have several recommendation blocks on the same page.
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@param recommendationBlockId</dt>
+<dd>the recommendationBlockId to be deleted</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dd>NON_EXISTING_CONTENT_ID:if the provided recommendationBlockId id doesn't already exists.</dd>
 </dl>
 <br/></div></div></body></html>

@@ -964,6 +964,172 @@ class ProcessTask {
 }
 
 /**
+ * This structure defines a task Scheduling. A scheduling is a collection of process tasks to be executed one after the other by the system.
+ * 
+ * <dl>
+ * <dt>schedulingId</dt>
+ * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
+ * </dl>
+ */
+class Scheduling {
+  static $_TSPEC;
+
+  /**
+   * @var string
+   */
+  public $schedulingId = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'schedulingId',
+          'type' => TType::STRING,
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['schedulingId'])) {
+        $this->schedulingId = $vals['schedulingId'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'Scheduling';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->schedulingId);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('Scheduling');
+    if ($this->schedulingId !== null) {
+      $xfer += $output->writeFieldBegin('schedulingId', TType::STRING, 1);
+      $xfer += $output->writeString($this->schedulingId);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+/**
+ * This structure defines a task RecommendationBlock. A RecommendationBlock is a visual block of recommendation for one page of your web-site (product detail page, basket page, etc.) you can have several recommendation blocks on the same page.
+ * 
+ * <dl>
+ * <dt>recommendationBlockId</dt>
+ * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
+ * </dl>
+ */
+class RecommendationBlock {
+  static $_TSPEC;
+
+  /**
+   * @var string
+   */
+  public $recommendationBlockId = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'recommendationBlockId',
+          'type' => TType::STRING,
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['recommendationBlockId'])) {
+        $this->recommendationBlockId = $vals['recommendationBlockId'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'RecommendationBlock';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->recommendationBlockId);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('RecommendationBlock');
+    if ($this->recommendationBlockId !== null) {
+      $xfer += $output->writeFieldBegin('recommendationBlockId', TType::STRING, 1);
+      $xfer += $output->writeString($this->recommendationBlockId);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+/**
  * This structure defines a data EmailCampaign. A campaign is a parameter holder for a campaign execution. It should not change at each sending, but the parameters (especially cmpid) can be
  * (should) be changed before any new campaign sending (if new campid applies). For the case of trigger campaigns, the cmpid (and other parameters) usually don't change, but for the case of newsletter campaigns, very often each sending has a different id. In this case, the cmpid must be updated (and the dev configuration should be published) every time.
  * <dl>
@@ -1876,15 +2042,15 @@ class ProcessTaskExecutionStatus {
 }
 
 /**
- * This structure defines a process task execution parameters
+ * This structure defines a process tasks execution parameters. A process task covers any kind of process task to be executed by the system.
  * 
  * <dl>
  * <dt>processTaskId</dt>
  * <dd>the process task id to execute</dd>
  * <dt>development</dt>
- * <dd>should the process run with dev version data</dd>
+ * <dd>should the process task run with development version data</dd>
  * <dt>delta</dt>
- * <dd>is the process an incremental process (or full)</dd>
+ * <dd>is the process task an incremental process (or full)</dd>
  * <dt>forceStart</dt>
  * <dd>if another similar process is already running, the forceStart will make the new one run, otherwise, the execution will be aborted</dd>
  * </dl>
@@ -2009,6 +2175,164 @@ class ProcessTaskExecutionParameters {
     if ($this->processTaskId !== null) {
       $xfer += $output->writeFieldBegin('processTaskId', TType::STRING, 1);
       $xfer += $output->writeString($this->processTaskId);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->development !== null) {
+      $xfer += $output->writeFieldBegin('development', TType::BOOL, 2);
+      $xfer += $output->writeBool($this->development);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->delta !== null) {
+      $xfer += $output->writeFieldBegin('delta', TType::BOOL, 3);
+      $xfer += $output->writeBool($this->delta);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->forceStart !== null) {
+      $xfer += $output->writeFieldBegin('forceStart', TType::BOOL, 4);
+      $xfer += $output->writeBool($this->forceStart);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+/**
+ * This structure defines a schedulings execution parameters. A scheduling is a collection of process tasks to be executed one after the other by the system.
+ * 
+ * <dl>
+ * <dt>schedulingId</dt>
+ * <dd>the scheduling id to execute</dd>
+ * <dt>development</dt>
+ * <dd>should the process tasks run with development version data</dd>
+ * <dt>delta</dt>
+ * <dd>are the process tasks incremental processes (or full)</dd>
+ * <dt>forceStart</dt>
+ * <dd>if similar process tasks are already running, the forceStart will make the new ones run, otherwise, the execution will be aborted</dd>
+ * </dl>
+ */
+class SchedulingExecutionParameters {
+  static $_TSPEC;
+
+  /**
+   * @var string
+   */
+  public $schedulingId = null;
+  /**
+   * @var bool
+   */
+  public $development = null;
+  /**
+   * @var bool
+   */
+  public $delta = null;
+  /**
+   * @var bool
+   */
+  public $forceStart = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'schedulingId',
+          'type' => TType::STRING,
+          ),
+        2 => array(
+          'var' => 'development',
+          'type' => TType::BOOL,
+          ),
+        3 => array(
+          'var' => 'delta',
+          'type' => TType::BOOL,
+          ),
+        4 => array(
+          'var' => 'forceStart',
+          'type' => TType::BOOL,
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['schedulingId'])) {
+        $this->schedulingId = $vals['schedulingId'];
+      }
+      if (isset($vals['development'])) {
+        $this->development = $vals['development'];
+      }
+      if (isset($vals['delta'])) {
+        $this->delta = $vals['delta'];
+      }
+      if (isset($vals['forceStart'])) {
+        $this->forceStart = $vals['forceStart'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'SchedulingExecutionParameters';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->schedulingId);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::BOOL) {
+            $xfer += $input->readBool($this->development);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
+          if ($ftype == TType::BOOL) {
+            $xfer += $input->readBool($this->delta);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 4:
+          if ($ftype == TType::BOOL) {
+            $xfer += $input->readBool($this->forceStart);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('SchedulingExecutionParameters');
+    if ($this->schedulingId !== null) {
+      $xfer += $output->writeFieldBegin('schedulingId', TType::STRING, 1);
+      $xfer += $output->writeString($this->schedulingId);
       $xfer += $output->writeFieldEnd();
     }
     if ($this->development !== null) {

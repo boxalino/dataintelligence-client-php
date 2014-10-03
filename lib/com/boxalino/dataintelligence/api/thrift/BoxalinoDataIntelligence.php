@@ -221,7 +221,7 @@ interface BoxalinoDataIntelligenceIf {
    */
   public function GetProcessTasks(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration);
   /**
-   * this service function creates a new process task
+   * this service function creates a new process task. A process task covers any kind of process task to be executed by the system.
    * 
    * <dl>
    * <dt>@param authenticationToken</dt>
@@ -244,7 +244,7 @@ interface BoxalinoDataIntelligenceIf {
    */
   public function CreateProcessTask(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $processTaskId);
   /**
-   * this service function updates a process task
+   * this service function updates a process task. A process task covers any kind of process task to be executed by the system.
    * 
    * <dl>
    * <dt>@param authenticationToken</dt>
@@ -268,7 +268,7 @@ interface BoxalinoDataIntelligenceIf {
    */
   public function UpdateProcessTask(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\ProcessTask $processTask);
   /**
-   * this service function deletes a process task
+   * this service function deletes a process task. A process task covers any kind of process task to be executed by the system.
    * 
    * <dl>
    * <dt>@param authenticationToken</dt>
@@ -290,7 +290,7 @@ interface BoxalinoDataIntelligenceIf {
    */
   public function DeleteProcessTask(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $processTaskId);
   /**
-   * this service function executes a process task
+   * this service function executes a process task. A process task covers any kind of process task to be executed by the system.
    * 
    * <dl>
    * <dt>@param authenticationToken</dt>
@@ -699,6 +699,208 @@ interface BoxalinoDataIntelligenceIf {
    * @throws \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
    */
   public function CloneConfiguration(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration);
+  /**
+   * this service function returns the map of all the defined schedulings (key = schedulingId, value = Scheduling object).
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dt>@returns map<string, Scheduling></dt>
+   * <dd>A map containing all the defined schedulings of your account in this configuration version, with the schedulingId as key and the Scheduling object as value (key is provided for accessibility only, as the schedulingId is also present in the Scheduling object</dd>
+   * </dl>
+   * 
+   * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
+   * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
+   * @return array
+   * @throws \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public function GetSchedulings(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration);
+  /**
+   * this service function creates a new scheduling. A scheduling is a collection of process tasks to be executed one after the other by the system.
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@param schedulingId</dt>
+   * <dd>the scheduling id to be created (must follow the content id format: <= 50 alphanumeric characters without accent or punctuation)</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dd>ALREADY_EXISTING_CONTENT_ID:if the provided  scheduling id already exists.</dd>
+   * <dd>INVALID_CONTENT_ID:if the provided scheduling id format is not valid.</dd>
+   * </dl>
+   * 
+   * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
+   * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
+   * @param string $schedulingId
+   * @throws \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public function CreateScheduling(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $schedulingId);
+  /**
+   * this service function updates a scheduling. A scheduling is a collection of process tasks to be executed one after the other by the system.
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@param scheduling</dt>
+   * <dd>a Scheduling object to be updated (the content of the object will be updated on the content id provided)</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dd>NON_EXISTING_CONTENT_ID:if the provided Scheduling id doesn't already exists.</dd>
+   * <dd>INVALID_CONTENT:if the provided Scheduling content is not valid.</dd>
+   * <dd>The </dd>
+   * </dl>
+   * 
+   * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
+   * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
+   * @param \com\boxalino\dataintelligence\api\thrift\Scheduling $scheduling
+   * @throws \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public function UpdateScheduling(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\Scheduling $scheduling);
+  /**
+   * this service function deletes a scheduling. A scheduling is a collection of process tasks to be executed one after the other by the system.
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@param schedulingId</dt>
+   * <dd>the schedulingId to be deleted</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dd>NON_EXISTING_CONTENT_ID:if the provided schedulingId id doesn't already exists.</dd>
+   * </dl>
+   * 
+   * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
+   * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
+   * @param string $schedulingId
+   * @throws \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public function DeleteScheduling(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $schedulingId);
+  /**
+   * this service function executes a scheduling. A scheduling is a collection of process tasks to be executed one after the other by the system.
+   * 
+   * <dl>
+   * <dt>@param authentication</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configuration</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@param parameters</dt>
+   * <dd>parameters describing the scheduling which we want to execute</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dd>NON_EXISTING_CONTENT_ID:if the provided scheduling id doesn't already exists.</dd>
+   * </dl>
+   * 
+   * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
+   * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
+   * @param \com\boxalino\dataintelligence\api\thrift\SchedulingExecutionParameters $parameters
+   * @throws \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public function RunScheduling(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\SchedulingExecutionParameters $parameters);
+  /**
+   * this service function returns the map of all the defined recommendation blocks (key = recommendationBlockId, value = RecommendationBlock object).
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dt>@returns map<string, RecommendationBlock></dt>
+   * <dd>A map containing all the defined RecommendationBlocks of your account in this configuration version, with the RecommendationBlock id as key and the RecommendationBlock object as value (key is provided for accessibility only, as the RecommendationBlock id is also present in the RecommendationBlock object</dd>
+   * </dl>
+   * 
+   * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
+   * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
+   * @return array
+   * @throws \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public function GetRecommendationBlocks(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration);
+  /**
+   * this service function creates a new RecommendationBlock. A RecommendationBlock is a visual block of recommendation for one page of your web-site (product detail page, basket page, etc.) you can have several recommendation blocks on the same page.
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@param recommendationBlockId</dt>
+   * <dd>the recommendation block id to be created (must follow the content id format: <= 50 alphanumeric characters without accent or punctuation)</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dd>ALREADY_EXISTING_CONTENT_ID:if the provided  recommendationBlock id already exists.</dd>
+   * <dd>INVALID_CONTENT_ID:if the provided recommendationBlock id format is not valid.</dd>
+   * </dl>
+   * 
+   * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
+   * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
+   * @param string $recommendationBlockId
+   * @throws \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public function CreateRecommendationBlock(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $recommendationBlockId);
+  /**
+   * this service function updates a RecommendationBlock. A RecommendationBlock is a visual block of recommendation for one page of your web-site (product detail page, basket page, etc.) you can have several recommendation blocks on the same page.
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@param recommendationBlock</dt>
+   * <dd>a recommendationBlock object to be updated (the content of the object will be updated on the content id provided)</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dd>NON_EXISTING_CONTENT_ID:if the provided RecommendationBlock id doesn't already exists.</dd>
+   * <dd>INVALID_CONTENT:if the provided RecommendationBlock content is not valid.</dd>
+   * <dd>The </dd>
+   * </dl>
+   * 
+   * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
+   * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
+   * @param \com\boxalino\dataintelligence\api\thrift\RecommendationBlock $recommendationBlock
+   * @throws \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public function UpdateRecommendationBlock(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\RecommendationBlock $recommendationBlock);
+  /**
+   * this service function deletes a RecommendationBlock. A RecommendationBlock is a visual block of recommendation for one page of your web-site (product detail page, basket page, etc.) you can have several recommendation blocks on the same page.
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@param recommendationBlockId</dt>
+   * <dd>the recommendationBlockId to be deleted</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dd>NON_EXISTING_CONTENT_ID:if the provided recommendationBlockId id doesn't already exists.</dd>
+   * </dl>
+   * 
+   * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
+   * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
+   * @param string $recommendationBlockId
+   * @throws \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public function DeleteRecommendationBlock(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $recommendationBlockId);
 }
 
 class BoxalinoDataIntelligenceClient implements \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligenceIf {
@@ -2270,6 +2472,487 @@ class BoxalinoDataIntelligenceClient implements \com\boxalino\dataintelligence\a
         throw $x;
       }
       $result = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_CloneConfiguration_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->e !== null) {
+      throw $result->e;
+    }
+    return;
+  }
+
+  public function GetSchedulings(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration)
+  {
+    $this->send_GetSchedulings($authentication, $configuration);
+    return $this->recv_GetSchedulings();
+  }
+
+  public function send_GetSchedulings(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration)
+  {
+    $args = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_GetSchedulings_args();
+    $args->authentication = $authentication;
+    $args->configuration = $configuration;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'GetSchedulings', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('GetSchedulings', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_GetSchedulings()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_GetSchedulings_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_GetSchedulings_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->success !== null) {
+      return $result->success;
+    }
+    if ($result->e !== null) {
+      throw $result->e;
+    }
+    throw new \Exception("GetSchedulings failed: unknown result");
+  }
+
+  public function CreateScheduling(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $schedulingId)
+  {
+    $this->send_CreateScheduling($authentication, $configuration, $schedulingId);
+    $this->recv_CreateScheduling();
+  }
+
+  public function send_CreateScheduling(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $schedulingId)
+  {
+    $args = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_CreateScheduling_args();
+    $args->authentication = $authentication;
+    $args->configuration = $configuration;
+    $args->schedulingId = $schedulingId;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'CreateScheduling', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('CreateScheduling', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_CreateScheduling()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_CreateScheduling_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_CreateScheduling_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->e !== null) {
+      throw $result->e;
+    }
+    return;
+  }
+
+  public function UpdateScheduling(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\Scheduling $scheduling)
+  {
+    $this->send_UpdateScheduling($authentication, $configuration, $scheduling);
+    $this->recv_UpdateScheduling();
+  }
+
+  public function send_UpdateScheduling(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\Scheduling $scheduling)
+  {
+    $args = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_UpdateScheduling_args();
+    $args->authentication = $authentication;
+    $args->configuration = $configuration;
+    $args->scheduling = $scheduling;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'UpdateScheduling', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('UpdateScheduling', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_UpdateScheduling()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_UpdateScheduling_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_UpdateScheduling_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->e !== null) {
+      throw $result->e;
+    }
+    return;
+  }
+
+  public function DeleteScheduling(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $schedulingId)
+  {
+    $this->send_DeleteScheduling($authentication, $configuration, $schedulingId);
+    $this->recv_DeleteScheduling();
+  }
+
+  public function send_DeleteScheduling(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $schedulingId)
+  {
+    $args = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_DeleteScheduling_args();
+    $args->authentication = $authentication;
+    $args->configuration = $configuration;
+    $args->schedulingId = $schedulingId;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'DeleteScheduling', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('DeleteScheduling', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_DeleteScheduling()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_DeleteScheduling_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_DeleteScheduling_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->e !== null) {
+      throw $result->e;
+    }
+    return;
+  }
+
+  public function RunScheduling(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\SchedulingExecutionParameters $parameters)
+  {
+    $this->send_RunScheduling($authentication, $configuration, $parameters);
+    $this->recv_RunScheduling();
+  }
+
+  public function send_RunScheduling(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\SchedulingExecutionParameters $parameters)
+  {
+    $args = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_RunScheduling_args();
+    $args->authentication = $authentication;
+    $args->configuration = $configuration;
+    $args->parameters = $parameters;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'RunScheduling', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('RunScheduling', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_RunScheduling()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_RunScheduling_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_RunScheduling_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->e !== null) {
+      throw $result->e;
+    }
+    return;
+  }
+
+  public function GetRecommendationBlocks(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration)
+  {
+    $this->send_GetRecommendationBlocks($authentication, $configuration);
+    return $this->recv_GetRecommendationBlocks();
+  }
+
+  public function send_GetRecommendationBlocks(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration)
+  {
+    $args = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_GetRecommendationBlocks_args();
+    $args->authentication = $authentication;
+    $args->configuration = $configuration;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'GetRecommendationBlocks', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('GetRecommendationBlocks', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_GetRecommendationBlocks()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_GetRecommendationBlocks_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_GetRecommendationBlocks_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->success !== null) {
+      return $result->success;
+    }
+    if ($result->e !== null) {
+      throw $result->e;
+    }
+    throw new \Exception("GetRecommendationBlocks failed: unknown result");
+  }
+
+  public function CreateRecommendationBlock(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $recommendationBlockId)
+  {
+    $this->send_CreateRecommendationBlock($authentication, $configuration, $recommendationBlockId);
+    $this->recv_CreateRecommendationBlock();
+  }
+
+  public function send_CreateRecommendationBlock(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $recommendationBlockId)
+  {
+    $args = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_CreateRecommendationBlock_args();
+    $args->authentication = $authentication;
+    $args->configuration = $configuration;
+    $args->recommendationBlockId = $recommendationBlockId;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'CreateRecommendationBlock', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('CreateRecommendationBlock', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_CreateRecommendationBlock()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_CreateRecommendationBlock_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_CreateRecommendationBlock_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->e !== null) {
+      throw $result->e;
+    }
+    return;
+  }
+
+  public function UpdateRecommendationBlock(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\RecommendationBlock $recommendationBlock)
+  {
+    $this->send_UpdateRecommendationBlock($authentication, $configuration, $recommendationBlock);
+    $this->recv_UpdateRecommendationBlock();
+  }
+
+  public function send_UpdateRecommendationBlock(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\RecommendationBlock $recommendationBlock)
+  {
+    $args = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_UpdateRecommendationBlock_args();
+    $args->authentication = $authentication;
+    $args->configuration = $configuration;
+    $args->recommendationBlock = $recommendationBlock;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'UpdateRecommendationBlock', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('UpdateRecommendationBlock', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_UpdateRecommendationBlock()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_UpdateRecommendationBlock_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_UpdateRecommendationBlock_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->e !== null) {
+      throw $result->e;
+    }
+    return;
+  }
+
+  public function DeleteRecommendationBlock(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $recommendationBlockId)
+  {
+    $this->send_DeleteRecommendationBlock($authentication, $configuration, $recommendationBlockId);
+    $this->recv_DeleteRecommendationBlock();
+  }
+
+  public function send_DeleteRecommendationBlock(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $recommendationBlockId)
+  {
+    $args = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_DeleteRecommendationBlock_args();
+    $args->authentication = $authentication;
+    $args->configuration = $configuration;
+    $args->recommendationBlockId = $recommendationBlockId;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'DeleteRecommendationBlock', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('DeleteRecommendationBlock', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_DeleteRecommendationBlock()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_DeleteRecommendationBlock_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_DeleteRecommendationBlock_result();
       $result->read($this->input_);
       $this->input_->readMessageEnd();
     }
@@ -8776,6 +9459,1965 @@ class BoxalinoDataIntelligence_CloneConfiguration_result {
   public function write($output) {
     $xfer = 0;
     $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_CloneConfiguration_result');
+    if ($this->e !== null) {
+      $xfer += $output->writeFieldBegin('e', TType::STRUCT, 1);
+      $xfer += $this->e->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_GetSchedulings_args {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\Authentication
+   */
+  public $authentication = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion
+   */
+  public $configuration = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'authentication',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\Authentication',
+          ),
+        2 => array(
+          'var' => 'configuration',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ConfigurationVersion',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['authentication'])) {
+        $this->authentication = $vals['authentication'];
+      }
+      if (isset($vals['configuration'])) {
+        $this->configuration = $vals['configuration'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_GetSchedulings_args';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->authentication = new \com\boxalino\dataintelligence\api\thrift\Authentication();
+            $xfer += $this->authentication->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRUCT) {
+            $this->configuration = new \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion();
+            $xfer += $this->configuration->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_GetSchedulings_args');
+    if ($this->authentication !== null) {
+      if (!is_object($this->authentication)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('authentication', TType::STRUCT, 1);
+      $xfer += $this->authentication->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->configuration !== null) {
+      if (!is_object($this->configuration)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('configuration', TType::STRUCT, 2);
+      $xfer += $this->configuration->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_GetSchedulings_result {
+  static $_TSPEC;
+
+  /**
+   * @var array
+   */
+  public $success = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public $e = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        0 => array(
+          'var' => 'success',
+          'type' => TType::MAP,
+          'ktype' => TType::STRING,
+          'vtype' => TType::STRUCT,
+          'key' => array(
+            'type' => TType::STRING,
+          ),
+          'val' => array(
+            'type' => TType::STRUCT,
+            'class' => '\com\boxalino\dataintelligence\api\thrift\Scheduling',
+            ),
+          ),
+        1 => array(
+          'var' => 'e',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['success'])) {
+        $this->success = $vals['success'];
+      }
+      if (isset($vals['e'])) {
+        $this->e = $vals['e'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_GetSchedulings_result';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 0:
+          if ($ftype == TType::MAP) {
+            $this->success = array();
+            $_size136 = 0;
+            $_ktype137 = 0;
+            $_vtype138 = 0;
+            $xfer += $input->readMapBegin($_ktype137, $_vtype138, $_size136);
+            for ($_i140 = 0; $_i140 < $_size136; ++$_i140)
+            {
+              $key141 = '';
+              $val142 = new \com\boxalino\dataintelligence\api\thrift\Scheduling();
+              $xfer += $input->readString($key141);
+              $val142 = new \com\boxalino\dataintelligence\api\thrift\Scheduling();
+              $xfer += $val142->read($input);
+              $this->success[$key141] = $val142;
+            }
+            $xfer += $input->readMapEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->e = new \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException();
+            $xfer += $this->e->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_GetSchedulings_result');
+    if ($this->success !== null) {
+      if (!is_array($this->success)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('success', TType::MAP, 0);
+      {
+        $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
+        {
+          foreach ($this->success as $kiter143 => $viter144)
+          {
+            $xfer += $output->writeString($kiter143);
+            $xfer += $viter144->write($output);
+          }
+        }
+        $output->writeMapEnd();
+      }
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->e !== null) {
+      $xfer += $output->writeFieldBegin('e', TType::STRUCT, 1);
+      $xfer += $this->e->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_CreateScheduling_args {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\Authentication
+   */
+  public $authentication = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion
+   */
+  public $configuration = null;
+  /**
+   * @var string
+   */
+  public $schedulingId = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'authentication',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\Authentication',
+          ),
+        2 => array(
+          'var' => 'configuration',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ConfigurationVersion',
+          ),
+        3 => array(
+          'var' => 'schedulingId',
+          'type' => TType::STRING,
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['authentication'])) {
+        $this->authentication = $vals['authentication'];
+      }
+      if (isset($vals['configuration'])) {
+        $this->configuration = $vals['configuration'];
+      }
+      if (isset($vals['schedulingId'])) {
+        $this->schedulingId = $vals['schedulingId'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_CreateScheduling_args';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->authentication = new \com\boxalino\dataintelligence\api\thrift\Authentication();
+            $xfer += $this->authentication->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRUCT) {
+            $this->configuration = new \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion();
+            $xfer += $this->configuration->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->schedulingId);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_CreateScheduling_args');
+    if ($this->authentication !== null) {
+      if (!is_object($this->authentication)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('authentication', TType::STRUCT, 1);
+      $xfer += $this->authentication->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->configuration !== null) {
+      if (!is_object($this->configuration)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('configuration', TType::STRUCT, 2);
+      $xfer += $this->configuration->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->schedulingId !== null) {
+      $xfer += $output->writeFieldBegin('schedulingId', TType::STRING, 3);
+      $xfer += $output->writeString($this->schedulingId);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_CreateScheduling_result {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public $e = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'e',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['e'])) {
+        $this->e = $vals['e'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_CreateScheduling_result';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->e = new \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException();
+            $xfer += $this->e->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_CreateScheduling_result');
+    if ($this->e !== null) {
+      $xfer += $output->writeFieldBegin('e', TType::STRUCT, 1);
+      $xfer += $this->e->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_UpdateScheduling_args {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\Authentication
+   */
+  public $authentication = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion
+   */
+  public $configuration = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\Scheduling
+   */
+  public $scheduling = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'authentication',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\Authentication',
+          ),
+        2 => array(
+          'var' => 'configuration',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ConfigurationVersion',
+          ),
+        3 => array(
+          'var' => 'scheduling',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\Scheduling',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['authentication'])) {
+        $this->authentication = $vals['authentication'];
+      }
+      if (isset($vals['configuration'])) {
+        $this->configuration = $vals['configuration'];
+      }
+      if (isset($vals['scheduling'])) {
+        $this->scheduling = $vals['scheduling'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_UpdateScheduling_args';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->authentication = new \com\boxalino\dataintelligence\api\thrift\Authentication();
+            $xfer += $this->authentication->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRUCT) {
+            $this->configuration = new \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion();
+            $xfer += $this->configuration->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
+          if ($ftype == TType::STRUCT) {
+            $this->scheduling = new \com\boxalino\dataintelligence\api\thrift\Scheduling();
+            $xfer += $this->scheduling->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_UpdateScheduling_args');
+    if ($this->authentication !== null) {
+      if (!is_object($this->authentication)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('authentication', TType::STRUCT, 1);
+      $xfer += $this->authentication->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->configuration !== null) {
+      if (!is_object($this->configuration)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('configuration', TType::STRUCT, 2);
+      $xfer += $this->configuration->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->scheduling !== null) {
+      if (!is_object($this->scheduling)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('scheduling', TType::STRUCT, 3);
+      $xfer += $this->scheduling->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_UpdateScheduling_result {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public $e = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'e',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['e'])) {
+        $this->e = $vals['e'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_UpdateScheduling_result';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->e = new \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException();
+            $xfer += $this->e->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_UpdateScheduling_result');
+    if ($this->e !== null) {
+      $xfer += $output->writeFieldBegin('e', TType::STRUCT, 1);
+      $xfer += $this->e->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_DeleteScheduling_args {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\Authentication
+   */
+  public $authentication = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion
+   */
+  public $configuration = null;
+  /**
+   * @var string
+   */
+  public $schedulingId = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'authentication',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\Authentication',
+          ),
+        2 => array(
+          'var' => 'configuration',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ConfigurationVersion',
+          ),
+        3 => array(
+          'var' => 'schedulingId',
+          'type' => TType::STRING,
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['authentication'])) {
+        $this->authentication = $vals['authentication'];
+      }
+      if (isset($vals['configuration'])) {
+        $this->configuration = $vals['configuration'];
+      }
+      if (isset($vals['schedulingId'])) {
+        $this->schedulingId = $vals['schedulingId'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_DeleteScheduling_args';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->authentication = new \com\boxalino\dataintelligence\api\thrift\Authentication();
+            $xfer += $this->authentication->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRUCT) {
+            $this->configuration = new \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion();
+            $xfer += $this->configuration->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->schedulingId);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_DeleteScheduling_args');
+    if ($this->authentication !== null) {
+      if (!is_object($this->authentication)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('authentication', TType::STRUCT, 1);
+      $xfer += $this->authentication->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->configuration !== null) {
+      if (!is_object($this->configuration)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('configuration', TType::STRUCT, 2);
+      $xfer += $this->configuration->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->schedulingId !== null) {
+      $xfer += $output->writeFieldBegin('schedulingId', TType::STRING, 3);
+      $xfer += $output->writeString($this->schedulingId);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_DeleteScheduling_result {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public $e = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'e',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['e'])) {
+        $this->e = $vals['e'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_DeleteScheduling_result';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->e = new \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException();
+            $xfer += $this->e->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_DeleteScheduling_result');
+    if ($this->e !== null) {
+      $xfer += $output->writeFieldBegin('e', TType::STRUCT, 1);
+      $xfer += $this->e->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_RunScheduling_args {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\Authentication
+   */
+  public $authentication = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion
+   */
+  public $configuration = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\SchedulingExecutionParameters
+   */
+  public $parameters = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'authentication',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\Authentication',
+          ),
+        2 => array(
+          'var' => 'configuration',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ConfigurationVersion',
+          ),
+        3 => array(
+          'var' => 'parameters',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\SchedulingExecutionParameters',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['authentication'])) {
+        $this->authentication = $vals['authentication'];
+      }
+      if (isset($vals['configuration'])) {
+        $this->configuration = $vals['configuration'];
+      }
+      if (isset($vals['parameters'])) {
+        $this->parameters = $vals['parameters'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_RunScheduling_args';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->authentication = new \com\boxalino\dataintelligence\api\thrift\Authentication();
+            $xfer += $this->authentication->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRUCT) {
+            $this->configuration = new \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion();
+            $xfer += $this->configuration->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
+          if ($ftype == TType::STRUCT) {
+            $this->parameters = new \com\boxalino\dataintelligence\api\thrift\SchedulingExecutionParameters();
+            $xfer += $this->parameters->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_RunScheduling_args');
+    if ($this->authentication !== null) {
+      if (!is_object($this->authentication)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('authentication', TType::STRUCT, 1);
+      $xfer += $this->authentication->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->configuration !== null) {
+      if (!is_object($this->configuration)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('configuration', TType::STRUCT, 2);
+      $xfer += $this->configuration->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->parameters !== null) {
+      if (!is_object($this->parameters)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('parameters', TType::STRUCT, 3);
+      $xfer += $this->parameters->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_RunScheduling_result {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public $e = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'e',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['e'])) {
+        $this->e = $vals['e'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_RunScheduling_result';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->e = new \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException();
+            $xfer += $this->e->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_RunScheduling_result');
+    if ($this->e !== null) {
+      $xfer += $output->writeFieldBegin('e', TType::STRUCT, 1);
+      $xfer += $this->e->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_GetRecommendationBlocks_args {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\Authentication
+   */
+  public $authentication = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion
+   */
+  public $configuration = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'authentication',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\Authentication',
+          ),
+        2 => array(
+          'var' => 'configuration',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ConfigurationVersion',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['authentication'])) {
+        $this->authentication = $vals['authentication'];
+      }
+      if (isset($vals['configuration'])) {
+        $this->configuration = $vals['configuration'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_GetRecommendationBlocks_args';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->authentication = new \com\boxalino\dataintelligence\api\thrift\Authentication();
+            $xfer += $this->authentication->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRUCT) {
+            $this->configuration = new \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion();
+            $xfer += $this->configuration->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_GetRecommendationBlocks_args');
+    if ($this->authentication !== null) {
+      if (!is_object($this->authentication)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('authentication', TType::STRUCT, 1);
+      $xfer += $this->authentication->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->configuration !== null) {
+      if (!is_object($this->configuration)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('configuration', TType::STRUCT, 2);
+      $xfer += $this->configuration->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_GetRecommendationBlocks_result {
+  static $_TSPEC;
+
+  /**
+   * @var array
+   */
+  public $success = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public $e = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        0 => array(
+          'var' => 'success',
+          'type' => TType::MAP,
+          'ktype' => TType::STRING,
+          'vtype' => TType::STRUCT,
+          'key' => array(
+            'type' => TType::STRING,
+          ),
+          'val' => array(
+            'type' => TType::STRUCT,
+            'class' => '\com\boxalino\dataintelligence\api\thrift\RecommendationBlock',
+            ),
+          ),
+        1 => array(
+          'var' => 'e',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['success'])) {
+        $this->success = $vals['success'];
+      }
+      if (isset($vals['e'])) {
+        $this->e = $vals['e'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_GetRecommendationBlocks_result';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 0:
+          if ($ftype == TType::MAP) {
+            $this->success = array();
+            $_size145 = 0;
+            $_ktype146 = 0;
+            $_vtype147 = 0;
+            $xfer += $input->readMapBegin($_ktype146, $_vtype147, $_size145);
+            for ($_i149 = 0; $_i149 < $_size145; ++$_i149)
+            {
+              $key150 = '';
+              $val151 = new \com\boxalino\dataintelligence\api\thrift\RecommendationBlock();
+              $xfer += $input->readString($key150);
+              $val151 = new \com\boxalino\dataintelligence\api\thrift\RecommendationBlock();
+              $xfer += $val151->read($input);
+              $this->success[$key150] = $val151;
+            }
+            $xfer += $input->readMapEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->e = new \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException();
+            $xfer += $this->e->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_GetRecommendationBlocks_result');
+    if ($this->success !== null) {
+      if (!is_array($this->success)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('success', TType::MAP, 0);
+      {
+        $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
+        {
+          foreach ($this->success as $kiter152 => $viter153)
+          {
+            $xfer += $output->writeString($kiter152);
+            $xfer += $viter153->write($output);
+          }
+        }
+        $output->writeMapEnd();
+      }
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->e !== null) {
+      $xfer += $output->writeFieldBegin('e', TType::STRUCT, 1);
+      $xfer += $this->e->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_CreateRecommendationBlock_args {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\Authentication
+   */
+  public $authentication = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion
+   */
+  public $configuration = null;
+  /**
+   * @var string
+   */
+  public $recommendationBlockId = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'authentication',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\Authentication',
+          ),
+        2 => array(
+          'var' => 'configuration',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ConfigurationVersion',
+          ),
+        3 => array(
+          'var' => 'recommendationBlockId',
+          'type' => TType::STRING,
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['authentication'])) {
+        $this->authentication = $vals['authentication'];
+      }
+      if (isset($vals['configuration'])) {
+        $this->configuration = $vals['configuration'];
+      }
+      if (isset($vals['recommendationBlockId'])) {
+        $this->recommendationBlockId = $vals['recommendationBlockId'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_CreateRecommendationBlock_args';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->authentication = new \com\boxalino\dataintelligence\api\thrift\Authentication();
+            $xfer += $this->authentication->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRUCT) {
+            $this->configuration = new \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion();
+            $xfer += $this->configuration->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->recommendationBlockId);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_CreateRecommendationBlock_args');
+    if ($this->authentication !== null) {
+      if (!is_object($this->authentication)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('authentication', TType::STRUCT, 1);
+      $xfer += $this->authentication->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->configuration !== null) {
+      if (!is_object($this->configuration)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('configuration', TType::STRUCT, 2);
+      $xfer += $this->configuration->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->recommendationBlockId !== null) {
+      $xfer += $output->writeFieldBegin('recommendationBlockId', TType::STRING, 3);
+      $xfer += $output->writeString($this->recommendationBlockId);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_CreateRecommendationBlock_result {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public $e = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'e',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['e'])) {
+        $this->e = $vals['e'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_CreateRecommendationBlock_result';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->e = new \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException();
+            $xfer += $this->e->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_CreateRecommendationBlock_result');
+    if ($this->e !== null) {
+      $xfer += $output->writeFieldBegin('e', TType::STRUCT, 1);
+      $xfer += $this->e->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_UpdateRecommendationBlock_args {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\Authentication
+   */
+  public $authentication = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion
+   */
+  public $configuration = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\RecommendationBlock
+   */
+  public $recommendationBlock = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'authentication',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\Authentication',
+          ),
+        2 => array(
+          'var' => 'configuration',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ConfigurationVersion',
+          ),
+        3 => array(
+          'var' => 'recommendationBlock',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\RecommendationBlock',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['authentication'])) {
+        $this->authentication = $vals['authentication'];
+      }
+      if (isset($vals['configuration'])) {
+        $this->configuration = $vals['configuration'];
+      }
+      if (isset($vals['recommendationBlock'])) {
+        $this->recommendationBlock = $vals['recommendationBlock'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_UpdateRecommendationBlock_args';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->authentication = new \com\boxalino\dataintelligence\api\thrift\Authentication();
+            $xfer += $this->authentication->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRUCT) {
+            $this->configuration = new \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion();
+            $xfer += $this->configuration->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
+          if ($ftype == TType::STRUCT) {
+            $this->recommendationBlock = new \com\boxalino\dataintelligence\api\thrift\RecommendationBlock();
+            $xfer += $this->recommendationBlock->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_UpdateRecommendationBlock_args');
+    if ($this->authentication !== null) {
+      if (!is_object($this->authentication)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('authentication', TType::STRUCT, 1);
+      $xfer += $this->authentication->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->configuration !== null) {
+      if (!is_object($this->configuration)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('configuration', TType::STRUCT, 2);
+      $xfer += $this->configuration->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->recommendationBlock !== null) {
+      if (!is_object($this->recommendationBlock)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('recommendationBlock', TType::STRUCT, 3);
+      $xfer += $this->recommendationBlock->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_UpdateRecommendationBlock_result {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public $e = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'e',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['e'])) {
+        $this->e = $vals['e'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_UpdateRecommendationBlock_result';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->e = new \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException();
+            $xfer += $this->e->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_UpdateRecommendationBlock_result');
+    if ($this->e !== null) {
+      $xfer += $output->writeFieldBegin('e', TType::STRUCT, 1);
+      $xfer += $this->e->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_DeleteRecommendationBlock_args {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\Authentication
+   */
+  public $authentication = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion
+   */
+  public $configuration = null;
+  /**
+   * @var string
+   */
+  public $recommendationBlockId = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'authentication',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\Authentication',
+          ),
+        2 => array(
+          'var' => 'configuration',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ConfigurationVersion',
+          ),
+        3 => array(
+          'var' => 'recommendationBlockId',
+          'type' => TType::STRING,
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['authentication'])) {
+        $this->authentication = $vals['authentication'];
+      }
+      if (isset($vals['configuration'])) {
+        $this->configuration = $vals['configuration'];
+      }
+      if (isset($vals['recommendationBlockId'])) {
+        $this->recommendationBlockId = $vals['recommendationBlockId'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_DeleteRecommendationBlock_args';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->authentication = new \com\boxalino\dataintelligence\api\thrift\Authentication();
+            $xfer += $this->authentication->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRUCT) {
+            $this->configuration = new \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion();
+            $xfer += $this->configuration->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->recommendationBlockId);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_DeleteRecommendationBlock_args');
+    if ($this->authentication !== null) {
+      if (!is_object($this->authentication)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('authentication', TType::STRUCT, 1);
+      $xfer += $this->authentication->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->configuration !== null) {
+      if (!is_object($this->configuration)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('configuration', TType::STRUCT, 2);
+      $xfer += $this->configuration->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->recommendationBlockId !== null) {
+      $xfer += $output->writeFieldBegin('recommendationBlockId', TType::STRING, 3);
+      $xfer += $output->writeString($this->recommendationBlockId);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_DeleteRecommendationBlock_result {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public $e = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'e',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['e'])) {
+        $this->e = $vals['e'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_DeleteRecommendationBlock_result';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->e = new \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException();
+            $xfer += $this->e->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_DeleteRecommendationBlock_result');
     if ($this->e !== null) {
       $xfer += $output->writeFieldBegin('e', TType::STRUCT, 1);
       $xfer += $this->e->write($output);
