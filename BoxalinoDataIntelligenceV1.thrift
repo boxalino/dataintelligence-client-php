@@ -64,7 +64,10 @@ enum DataIntelligenceServiceExceptionNumber {
 	ALREADY_EXISTING_CONTENT_ID = 10,
 	INVALID_CONTENT_ID = 11,
 	INVALID_CONTENT = 12,
-	INVALID_LANGUAGE = 13
+	INVALID_LANGUAGE = 13,
+	DUPLICATED_FILE_ID = 14,
+	EMPTY_COLUMNS_LIST = 15,
+	NON_EXISTING_FILE = 16
 }
 
 /**
@@ -189,6 +192,30 @@ struct ProcessTask {
 }
 
 /**
+ * This structure defines a data synchronisation process task. It is used to get the data from external systems and process it.
+ *
+ * <dl>
+ * <dt>processTaskId</dt>
+ * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
+ * <dt>inputs</dt>
+ * <dd>list of data sources which should be used to get data from</dd>
+ * <dt>outputs</dt>
+ * <dd>list of data exports which should be used to push the data into</dd>
+ * <dt>dev</dt>
+ * <dd>defines if it is dev version of the task process</dd>
+ * <dt>delta</dt>
+ * <dd>defines if this particular task process is differential</dd>
+ * </dl>
+ */
+struct DataSyncProcessTask {
+	1: required string processTaskId,
+	2: required list<DataSource> inputs,
+	3: required list<DataExport> outputs,
+	4: required bool dev = false,
+	5: required bool delta = false
+}
+
+/**
  * This structure defines a task Scheduling. A scheduling is a collection of process tasks to be executed one after the other by the system.
  *
  * <dl>
@@ -210,6 +237,42 @@ struct Scheduling {
  */
 struct RecommendationBlock {
 	1: required string recommendationBlockId
+}
+
+/**
+ * This structure defines a data source. Data source is used to get the data from external systems into DI.
+ * <dl>
+ * <dt>dataSourceId</dt>
+ * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
+ * </dl>
+ */
+struct DataSource {
+	1: required string dataSourceId
+}
+
+/**
+ * This structure defines a data source type used to get the data from reference csv files defined with the API
+ * <dl>
+ * <dt>dataSourceId</dt>
+ * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
+ * <dt>extendedDataSourceId</dt>
+ * <dd>identifier of the data source which will be extended by this data source</dd>
+ * </dl>
+ */
+struct ReferenceCSVDataSource {
+	1: required string dataSourceId,
+	2: required string extendedDataSourceId
+}
+
+/**
+ * This structure defines a data export type used to push processed data into
+ * <dl>
+ * <dt>dataExportId</dt>
+ * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
+ * </dl>
+ */
+struct DataExport {
+	1: required string dataExportId
 }
 
 enum Language {
@@ -353,17 +416,17 @@ struct ProcessTaskExecutionStatus {
 }
 
 /**
- * This structure defines a process tasks execution parameters. A process task covers any kind of process task to be executed by the system.
+ * This structure defines the execution parameters of a process task
  *
  * <dl>
  * <dt>processTaskId</dt>
  * <dd>the process task id to execute</dd>
  * <dt>development</dt>
- * <dd>should the process task run with development version data</dd>
+ * <dd>should the process run with development data that should not to be published into the production environment</dd>
  * <dt>delta</dt>
- * <dd>is the process task an incremental process (or full)</dd>
+ * <dd>is the process a differential process that adds or updates a part of the existing data, otherwise the new data will replace any existing data completely</dd>
  * <dt>forceStart</dt>
- * <dd>if another similar process is already running, the forceStart will make the new one run, otherwise, the execution will be aborted</dd>
+ * <dd>if another similar process is already running, the forceStart flag will make the new one run, otherwise, the execution will be aborted</dd>
  * </dl>
  */
 struct ProcessTaskExecutionParameters {
@@ -371,6 +434,62 @@ struct ProcessTaskExecutionParameters {
 	2: required bool development,
 	3: required bool delta,
 	4: required bool forceStart
+}
+
+/**
+ * This enumeration defines possible types of columns which can be used in a reference CSV file
+ *
+ * <dl>
+ *
+ * <dt>STRING</dt>
+ * <dd>text string encoded using UTF-8 encoding</dd>
+ * 
+ * <dt>INTEGER</dt>
+ * <dd>64-bit signed integer</dd>
+ * 
+ * <dt>DOUBLE</dt>
+ * <dd>floating point number</dd>
+ * 
+ * <dt>DATETIME</dt>
+ * <dd>textual representation of the date and time</dd>
+ * 
+ * <dt>DATE</dt>
+ * <dd>textual representation of the date</dd>
+ * 
+ * <dt>TIME</dt>
+ * <dd>textual representation of the time</dd>
+ * 
+ * <dt>UNIX_TIMESTAMP</dt>
+ * <dd>numerical representation of the date and time</dd>
+ *
+ * </dl>
+ */
+enum CSVFileColumnType {
+	STRING = 1,
+	INTEGER = 2,
+	DOUBLE = 3,
+	DATETIME = 4,
+	DATE = 5,
+	TIME = 6,
+	UNIX_TIMESTAMP = 7
+}
+
+/**
+ * This structure defines a reference CSV file descriptor with the identifier and schema
+ *
+ * <dl>
+ * <dt>fileId</dt>
+ * <dd>identifier of the csv file, needs to be unique per account</dd>
+ * <dt>fileColumns</dt>
+ * <dd>key-value map of the file columns, where key is a name of the column and value is a column's type</dd>
+ * <dt>fileHash</dt>
+ * <dd>internal hash used for csv file upload - this property is set by the API and cannot be changed</dd>
+ * </dl>
+ */
+struct ReferenceCSVFileDescriptor {
+	1: required string fileId,
+	2: required map<string, CSVFileColumnType> fileColumns,
+	3: optional string fileHash
 }
 
 /**
@@ -554,7 +673,7 @@ service BoxalinoDataIntelligence {
 	map<string, ProcessTask> GetProcessTasks(1: Authentication authentication, 2: ConfigurationVersion configuration) throws (1: DataIntelligenceServiceException e),
 	
 /**
- * this service function creates a new process task. A process task covers any kind of process task to be executed by the system.
+ * this service function creates a new process task 
  *
  * <dl>
  * <dt>@param authenticationToken</dt>
@@ -573,7 +692,7 @@ service BoxalinoDataIntelligence {
 	void CreateProcessTask(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string processTaskId) throws (1: DataIntelligenceServiceException e),
 	
 /**
- * this service function updates a process task. A process task covers any kind of process task to be executed by the system.
+ * this service function updates a process task 
  *
  * <dl>
  * <dt>@param authenticationToken</dt>
@@ -593,7 +712,7 @@ service BoxalinoDataIntelligence {
 	void UpdateProcessTask(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: ProcessTask processTask) throws (1: DataIntelligenceServiceException e),
 	
 /**
- * this service function deletes a process task. A process task covers any kind of process task to be executed by the system.
+ * this service function deletes a process task
  *
  * <dl>
  * <dt>@param authenticationToken</dt>
@@ -611,7 +730,7 @@ service BoxalinoDataIntelligence {
 	void DeleteProcessTask(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string processTaskId) throws (1: DataIntelligenceServiceException e),
 	
 /**
- * this service function executes a process task. A process task covers any kind of process task to be executed by the system.
+ * this service function executes a process task
  *
  * <dl>
  * <dt>@param authenticationToken</dt>
@@ -931,7 +1050,107 @@ service BoxalinoDataIntelligence {
  * </dl>
  */
 	void CloneConfiguration(1: Authentication authentication, 2: ConfigurationVersion configuration) throws (1: DataIntelligenceServiceException e),
-	
+
+/**
+ * This service is responsible for reference csv file creation. It allows to configure csv schema which will be imported as fields in DI.
+ * File should be uploaded as an attachement to the POST HTTP request sent to the following URL:
+ *      http://di1.bx-cloud.com/frontend/dbmind/_/en/dbmind/api/reference/csv/file/upload?iframeAccount={account}&fileHash={ReferenceCSVFileDescriptor.fileHash}
+ * File hash is set by the API internally and cannot be changed.
+ *
+ * <dl>
+ * <dt>@param authentication</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configuration</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param fileDescriptor</dt>
+ * <dd>a ReferenceCSVFileDescriptor object describing the file that we want to create</dd>
+ * <dt>@return</dt>
+ * <dd>updated copy of ReferenceCSVFileDescriptor object describing the created file, with the file hash set</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>DUPLICATED_FILE_ID: if the given file identifier already exists</dd>
+ * <dd>EMPTY_COLUMNS_LIST: if the given columns list is empty</dd>
+ * </dl>
+ */
+	ReferenceCSVFileDescriptor CreateReferenceCSVFile(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: ReferenceCSVFileDescriptor fileDescriptor) throws (1: DataIntelligenceServiceException e),
+
+/**
+ * This service is responsible for updating reference csv file.
+ *
+ * <dl>
+ * <dt>@param authentication</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configuration</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param fileDescriptor</dt>
+ * <dd>an updated ReferenceCSVFileDescriptor object</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN: if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>EMPTY_COLUMNS_LIST: if the given columns list is empty</dd>
+ * <dd>NON_EXISTING_FILE: if the file does not exist</dd>
+ * </dl>
+ */
+	void UpdateReferenceCSVFile(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: ReferenceCSVFileDescriptor fileDescriptor) throws (1: DataIntelligenceServiceException e),
+
+/**
+ * This service is responsible for reference csv file removal.
+ *
+ * <dl>
+ * <dt>@param authentication</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configuration</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param fileDescriptor</dt>
+ * <dd>the ReferenceCSVFileDescriptor object to be removed</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN: if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>NON_EXISTING_FILE: if the file does not exist</dd>
+ * </dl>
+ */
+	void DeleteReferenceCSVFile(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: ReferenceCSVFileDescriptor fileDescriptor) throws (1: DataIntelligenceServiceException e),
+
+
+/**
+ * This service is responsible for reference csv file removal.
+ *
+ * <dl>
+ * <dt>@param authentication</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configuration</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param fileDescriptor</dt>
+ * <dd>the ReferenceCSVFileDescriptor object to be removed</dd>
+ * <dt>@return</dt>
+ * <dd>list of all reference csv files assigned to the current account</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN: if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * </dl>
+ */
+	list<ReferenceCSVFileDescriptor> GetAllReferenceCSVFiles(1: Authentication authentication, 2: ConfigurationVersion configuration) throws (1: DataIntelligenceServiceException e),
+
+
+/**
+ * this service function creates additional fields
+ *
+ * <dl>
+ * <dt>@param authentication</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configuration</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param fieldsConfigurationXML</dt>
+ * <dd>the fields configuration XML must follow the strict XML format and content as defined in the Boxalino documentation. This XML described fields which have to be created by parsing existing reference csv file.</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>INVALID_DATASOURCE_XML:if the provided new data source XML string doesn't match the required format (see documentation of the data source XML format)</dd>
+ * </dl>
+ */
+	void CreateFieldsFromReferenceCSVFile(1: Authentication authentication, 2: ConfigurationVersion configurationVersion, 3: string fieldsConfigurationXML) throws (1: DataIntelligenceServiceException e),
+
 /**
  * this service function returns the map of all the defined schedulings (key = schedulingId, value = Scheduling object).
  *
@@ -1096,5 +1315,30 @@ service BoxalinoDataIntelligence {
  * <dd>NON_EXISTING_CONTENT_ID:if the provided recommendationBlockId id doesn't already exists.</dd>
  * </dl>
  */
-	void DeleteRecommendationBlock(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string recommendationBlockId) throws (1: DataIntelligenceServiceException e)
+	void DeleteRecommendationBlock(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string recommendationBlockId) throws (1: DataIntelligenceServiceException e),
+
+	map<string, DataSource> GetDataSources(1: Authentication authentication, 2: ConfigurationVersion configuration) throws (1: DataIntelligenceServiceException e),
+
+	void CreateDataSource(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string dataSourceId) throws (1: DataIntelligenceServiceException e),
+
+	void UpdateDataSource(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: DataSource dataSource) throws (1: DataIntelligenceServiceException e),
+
+	void DeleteDataSource(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string dataSourceId) throws (1: DataIntelligenceServiceException e),
+
+	map<string, DataExport> GetDataExports(1: Authentication authentication, 2: ConfigurationVersion configuration) throws (1: DataIntelligenceServiceException e),
+
+	void CreateDataExport(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string dataExportId) throws (1: DataIntelligenceServiceException e),
+
+	void UpdateDataExport(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: DataExport dataExport) throws (1: DataIntelligenceServiceException e),
+
+	void DeleteDataExport(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string dataExportId) throws (1: DataIntelligenceServiceException e),
+
+	map<string, ReferenceCSVDataSource> GetReferenceCSVFileDataSources(1: Authentication authentication, 2: ConfigurationVersion configuration) throws (1: DataIntelligenceServiceException e),
+
+	void CreateReferenceCSVDataSource(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string dataSourceId) throws (1: DataIntelligenceServiceException e),
+
+	void UpdateReferenceCSVDataSource(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: ReferenceCSVDataSource dataSource) throws (1: DataIntelligenceServiceException e),
+
+	void DeleteReferenceCSVDataSource(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string dataSourceId) throws (1: DataIntelligenceServiceException e),
+
 }

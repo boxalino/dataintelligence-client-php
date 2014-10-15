@@ -81,6 +81,9 @@ final class DataIntelligenceServiceExceptionNumber {
   const INVALID_CONTENT_ID = 11;
   const INVALID_CONTENT = 12;
   const INVALID_LANGUAGE = 13;
+  const DUPLICATED_FILE_ID = 14;
+  const EMPTY_COLUMNS_LIST = 15;
+  const NON_EXISTING_FILE = 16;
   static public $__names = array(
     1 => 'GENERAL_EXCEPTION',
     2 => 'INVALID_CREDENTIALS',
@@ -95,6 +98,9 @@ final class DataIntelligenceServiceExceptionNumber {
     11 => 'INVALID_CONTENT_ID',
     12 => 'INVALID_CONTENT',
     13 => 'INVALID_LANGUAGE',
+    14 => 'DUPLICATED_FILE_ID',
+    15 => 'EMPTY_COLUMNS_LIST',
+    16 => 'NON_EXISTING_FILE',
   );
 }
 
@@ -204,6 +210,53 @@ final class ProcessTaskExecutionStatusType {
     4 => 'FINISHED_WITH_WARNINGS',
     5 => 'FAILED',
     6 => 'ABORTED',
+  );
+}
+
+/**
+ * This enumeration defines possible types of columns which can be used in a reference CSV file
+ * 
+ * <dl>
+ * 
+ * <dt>STRING</dt>
+ * <dd>text string encoded using UTF-8 encoding</dd>
+ * 
+ * <dt>INTEGER</dt>
+ * <dd>64-bit signed integer</dd>
+ * 
+ * <dt>DOUBLE</dt>
+ * <dd>floating point number</dd>
+ * 
+ * <dt>DATETIME</dt>
+ * <dd>textual representation of the date and time</dd>
+ * 
+ * <dt>DATE</dt>
+ * <dd>textual representation of the date</dd>
+ * 
+ * <dt>TIME</dt>
+ * <dd>textual representation of the time</dd>
+ * 
+ * <dt>UNIX_TIMESTAMP</dt>
+ * <dd>numerical representation of the date and time</dd>
+ * 
+ * </dl>
+ */
+final class CSVFileColumnType {
+  const STRING = 1;
+  const INTEGER = 2;
+  const DOUBLE = 3;
+  const DATETIME = 4;
+  const DATE = 5;
+  const TIME = 6;
+  const UNIX_TIMESTAMP = 7;
+  static public $__names = array(
+    1 => 'STRING',
+    2 => 'INTEGER',
+    3 => 'DOUBLE',
+    4 => 'DATETIME',
+    5 => 'DATE',
+    6 => 'TIME',
+    7 => 'UNIX_TIMESTAMP',
   );
 }
 
@@ -964,6 +1017,245 @@ class ProcessTask {
 }
 
 /**
+ * This structure defines a data synchronisation process task. It is used to get the data from external systems and process it.
+ * 
+ * <dl>
+ * <dt>processTaskId</dt>
+ * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
+ * <dt>inputs</dt>
+ * <dd>list of data sources which should be used to get data from</dd>
+ * <dt>outputs</dt>
+ * <dd>list of data exports which should be used to push the data into</dd>
+ * <dt>dev</dt>
+ * <dd>defines if it is dev version of the task process</dd>
+ * <dt>delta</dt>
+ * <dd>defines if this particular task process is differential</dd>
+ * </dl>
+ */
+class DataSyncProcessTask {
+  static $_TSPEC;
+
+  /**
+   * @var string
+   */
+  public $processTaskId = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\DataSource[]
+   */
+  public $inputs = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\DataExport[]
+   */
+  public $outputs = null;
+  /**
+   * @var bool
+   */
+  public $dev = false;
+  /**
+   * @var bool
+   */
+  public $delta = false;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'processTaskId',
+          'type' => TType::STRING,
+          ),
+        2 => array(
+          'var' => 'inputs',
+          'type' => TType::LST,
+          'etype' => TType::STRUCT,
+          'elem' => array(
+            'type' => TType::STRUCT,
+            'class' => '\com\boxalino\dataintelligence\api\thrift\DataSource',
+            ),
+          ),
+        3 => array(
+          'var' => 'outputs',
+          'type' => TType::LST,
+          'etype' => TType::STRUCT,
+          'elem' => array(
+            'type' => TType::STRUCT,
+            'class' => '\com\boxalino\dataintelligence\api\thrift\DataExport',
+            ),
+          ),
+        4 => array(
+          'var' => 'dev',
+          'type' => TType::BOOL,
+          ),
+        5 => array(
+          'var' => 'delta',
+          'type' => TType::BOOL,
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['processTaskId'])) {
+        $this->processTaskId = $vals['processTaskId'];
+      }
+      if (isset($vals['inputs'])) {
+        $this->inputs = $vals['inputs'];
+      }
+      if (isset($vals['outputs'])) {
+        $this->outputs = $vals['outputs'];
+      }
+      if (isset($vals['dev'])) {
+        $this->dev = $vals['dev'];
+      }
+      if (isset($vals['delta'])) {
+        $this->delta = $vals['delta'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'DataSyncProcessTask';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->processTaskId);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::LST) {
+            $this->inputs = array();
+            $_size0 = 0;
+            $_etype3 = 0;
+            $xfer += $input->readListBegin($_etype3, $_size0);
+            for ($_i4 = 0; $_i4 < $_size0; ++$_i4)
+            {
+              $elem5 = null;
+              $elem5 = new \com\boxalino\dataintelligence\api\thrift\DataSource();
+              $xfer += $elem5->read($input);
+              $this->inputs []= $elem5;
+            }
+            $xfer += $input->readListEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
+          if ($ftype == TType::LST) {
+            $this->outputs = array();
+            $_size6 = 0;
+            $_etype9 = 0;
+            $xfer += $input->readListBegin($_etype9, $_size6);
+            for ($_i10 = 0; $_i10 < $_size6; ++$_i10)
+            {
+              $elem11 = null;
+              $elem11 = new \com\boxalino\dataintelligence\api\thrift\DataExport();
+              $xfer += $elem11->read($input);
+              $this->outputs []= $elem11;
+            }
+            $xfer += $input->readListEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 4:
+          if ($ftype == TType::BOOL) {
+            $xfer += $input->readBool($this->dev);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 5:
+          if ($ftype == TType::BOOL) {
+            $xfer += $input->readBool($this->delta);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('DataSyncProcessTask');
+    if ($this->processTaskId !== null) {
+      $xfer += $output->writeFieldBegin('processTaskId', TType::STRING, 1);
+      $xfer += $output->writeString($this->processTaskId);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->inputs !== null) {
+      if (!is_array($this->inputs)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('inputs', TType::LST, 2);
+      {
+        $output->writeListBegin(TType::STRUCT, count($this->inputs));
+        {
+          foreach ($this->inputs as $iter12)
+          {
+            $xfer += $iter12->write($output);
+          }
+        }
+        $output->writeListEnd();
+      }
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->outputs !== null) {
+      if (!is_array($this->outputs)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('outputs', TType::LST, 3);
+      {
+        $output->writeListBegin(TType::STRUCT, count($this->outputs));
+        {
+          foreach ($this->outputs as $iter13)
+          {
+            $xfer += $iter13->write($output);
+          }
+        }
+        $output->writeListEnd();
+      }
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->dev !== null) {
+      $xfer += $output->writeFieldBegin('dev', TType::BOOL, 4);
+      $xfer += $output->writeBool($this->dev);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->delta !== null) {
+      $xfer += $output->writeFieldBegin('delta', TType::BOOL, 5);
+      $xfer += $output->writeBool($this->delta);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+/**
  * This structure defines a task Scheduling. A scheduling is a collection of process tasks to be executed one after the other by the system.
  * 
  * <dl>
@@ -1120,6 +1412,277 @@ class RecommendationBlock {
     if ($this->recommendationBlockId !== null) {
       $xfer += $output->writeFieldBegin('recommendationBlockId', TType::STRING, 1);
       $xfer += $output->writeString($this->recommendationBlockId);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+/**
+ * This structure defines a data source. Data source is used to get the data from external systems into DI.
+ * <dl>
+ * <dt>dataSourceId</dt>
+ * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
+ * </dl>
+ */
+class DataSource {
+  static $_TSPEC;
+
+  /**
+   * @var string
+   */
+  public $dataSourceId = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'dataSourceId',
+          'type' => TType::STRING,
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['dataSourceId'])) {
+        $this->dataSourceId = $vals['dataSourceId'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'DataSource';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->dataSourceId);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('DataSource');
+    if ($this->dataSourceId !== null) {
+      $xfer += $output->writeFieldBegin('dataSourceId', TType::STRING, 1);
+      $xfer += $output->writeString($this->dataSourceId);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+/**
+ * This structure defines a data source type used to get the data from reference csv files defined with the API
+ * <dl>
+ * <dt>dataSourceId</dt>
+ * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
+ * <dt>extendedDataSourceId</dt>
+ * <dd>identifier of the data source which will be extended by this data source</dd>
+ * </dl>
+ */
+class ReferenceCSVDataSource {
+  static $_TSPEC;
+
+  /**
+   * @var string
+   */
+  public $dataSourceId = null;
+  /**
+   * @var string
+   */
+  public $extendedDataSourceId = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'dataSourceId',
+          'type' => TType::STRING,
+          ),
+        2 => array(
+          'var' => 'extendedDataSourceId',
+          'type' => TType::STRING,
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['dataSourceId'])) {
+        $this->dataSourceId = $vals['dataSourceId'];
+      }
+      if (isset($vals['extendedDataSourceId'])) {
+        $this->extendedDataSourceId = $vals['extendedDataSourceId'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'ReferenceCSVDataSource';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->dataSourceId);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->extendedDataSourceId);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('ReferenceCSVDataSource');
+    if ($this->dataSourceId !== null) {
+      $xfer += $output->writeFieldBegin('dataSourceId', TType::STRING, 1);
+      $xfer += $output->writeString($this->dataSourceId);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->extendedDataSourceId !== null) {
+      $xfer += $output->writeFieldBegin('extendedDataSourceId', TType::STRING, 2);
+      $xfer += $output->writeString($this->extendedDataSourceId);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+/**
+ * This structure defines a data export type used to push processed data into
+ * <dl>
+ * <dt>dataExportId</dt>
+ * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
+ * </dl>
+ */
+class DataExport {
+  static $_TSPEC;
+
+  /**
+   * @var string
+   */
+  public $dataExportId = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'dataExportId',
+          'type' => TType::STRING,
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['dataExportId'])) {
+        $this->dataExportId = $vals['dataExportId'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'DataExport';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->dataExportId);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('DataExport');
+    if ($this->dataExportId !== null) {
+      $xfer += $output->writeFieldBegin('dataExportId', TType::STRING, 1);
+      $xfer += $output->writeString($this->dataExportId);
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();
@@ -1314,46 +1877,6 @@ class EmailCampaign {
         case 4:
           if ($ftype == TType::MAP) {
             $this->baseUrl = array();
-            $_size0 = 0;
-            $_ktype1 = 0;
-            $_vtype2 = 0;
-            $xfer += $input->readMapBegin($_ktype1, $_vtype2, $_size0);
-            for ($_i4 = 0; $_i4 < $_size0; ++$_i4)
-            {
-              $key5 = 0;
-              $val6 = '';
-              $xfer += $input->readI32($key5);
-              $xfer += $input->readString($val6);
-              $this->baseUrl[$key5] = $val6;
-            }
-            $xfer += $input->readMapEnd();
-          } else {
-            $xfer += $input->skip($ftype);
-          }
-          break;
-        case 5:
-          if ($ftype == TType::MAP) {
-            $this->subject = array();
-            $_size7 = 0;
-            $_ktype8 = 0;
-            $_vtype9 = 0;
-            $xfer += $input->readMapBegin($_ktype8, $_vtype9, $_size7);
-            for ($_i11 = 0; $_i11 < $_size7; ++$_i11)
-            {
-              $key12 = 0;
-              $val13 = '';
-              $xfer += $input->readI32($key12);
-              $xfer += $input->readString($val13);
-              $this->subject[$key12] = $val13;
-            }
-            $xfer += $input->readMapEnd();
-          } else {
-            $xfer += $input->skip($ftype);
-          }
-          break;
-        case 6:
-          if ($ftype == TType::MAP) {
-            $this->firstSentence = array();
             $_size14 = 0;
             $_ktype15 = 0;
             $_vtype16 = 0;
@@ -1364,16 +1887,16 @@ class EmailCampaign {
               $val20 = '';
               $xfer += $input->readI32($key19);
               $xfer += $input->readString($val20);
-              $this->firstSentence[$key19] = $val20;
+              $this->baseUrl[$key19] = $val20;
             }
             $xfer += $input->readMapEnd();
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
-        case 7:
+        case 5:
           if ($ftype == TType::MAP) {
-            $this->legals = array();
+            $this->subject = array();
             $_size21 = 0;
             $_ktype22 = 0;
             $_vtype23 = 0;
@@ -1384,7 +1907,47 @@ class EmailCampaign {
               $val27 = '';
               $xfer += $input->readI32($key26);
               $xfer += $input->readString($val27);
-              $this->legals[$key26] = $val27;
+              $this->subject[$key26] = $val27;
+            }
+            $xfer += $input->readMapEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 6:
+          if ($ftype == TType::MAP) {
+            $this->firstSentence = array();
+            $_size28 = 0;
+            $_ktype29 = 0;
+            $_vtype30 = 0;
+            $xfer += $input->readMapBegin($_ktype29, $_vtype30, $_size28);
+            for ($_i32 = 0; $_i32 < $_size28; ++$_i32)
+            {
+              $key33 = 0;
+              $val34 = '';
+              $xfer += $input->readI32($key33);
+              $xfer += $input->readString($val34);
+              $this->firstSentence[$key33] = $val34;
+            }
+            $xfer += $input->readMapEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 7:
+          if ($ftype == TType::MAP) {
+            $this->legals = array();
+            $_size35 = 0;
+            $_ktype36 = 0;
+            $_vtype37 = 0;
+            $xfer += $input->readMapBegin($_ktype36, $_vtype37, $_size35);
+            for ($_i39 = 0; $_i39 < $_size35; ++$_i39)
+            {
+              $key40 = 0;
+              $val41 = '';
+              $xfer += $input->readI32($key40);
+              $xfer += $input->readString($val41);
+              $this->legals[$key40] = $val41;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -1427,10 +1990,10 @@ class EmailCampaign {
       {
         $output->writeMapBegin(TType::I32, TType::STRING, count($this->baseUrl));
         {
-          foreach ($this->baseUrl as $kiter28 => $viter29)
+          foreach ($this->baseUrl as $kiter42 => $viter43)
           {
-            $xfer += $output->writeI32($kiter28);
-            $xfer += $output->writeString($viter29);
+            $xfer += $output->writeI32($kiter42);
+            $xfer += $output->writeString($viter43);
           }
         }
         $output->writeMapEnd();
@@ -1445,10 +2008,10 @@ class EmailCampaign {
       {
         $output->writeMapBegin(TType::I32, TType::STRING, count($this->subject));
         {
-          foreach ($this->subject as $kiter30 => $viter31)
+          foreach ($this->subject as $kiter44 => $viter45)
           {
-            $xfer += $output->writeI32($kiter30);
-            $xfer += $output->writeString($viter31);
+            $xfer += $output->writeI32($kiter44);
+            $xfer += $output->writeString($viter45);
           }
         }
         $output->writeMapEnd();
@@ -1463,10 +2026,10 @@ class EmailCampaign {
       {
         $output->writeMapBegin(TType::I32, TType::STRING, count($this->firstSentence));
         {
-          foreach ($this->firstSentence as $kiter32 => $viter33)
+          foreach ($this->firstSentence as $kiter46 => $viter47)
           {
-            $xfer += $output->writeI32($kiter32);
-            $xfer += $output->writeString($viter33);
+            $xfer += $output->writeI32($kiter46);
+            $xfer += $output->writeString($viter47);
           }
         }
         $output->writeMapEnd();
@@ -1481,10 +2044,10 @@ class EmailCampaign {
       {
         $output->writeMapBegin(TType::I32, TType::STRING, count($this->legals));
         {
-          foreach ($this->legals as $kiter34 => $viter35)
+          foreach ($this->legals as $kiter48 => $viter49)
           {
-            $xfer += $output->writeI32($kiter34);
-            $xfer += $output->writeString($viter35);
+            $xfer += $output->writeI32($kiter48);
+            $xfer += $output->writeString($viter49);
           }
         }
         $output->writeMapEnd();
@@ -1735,14 +2298,14 @@ class ChoiceVariant {
         case 3:
           if ($ftype == TType::LST) {
             $this->tags = array();
-            $_size36 = 0;
-            $_etype39 = 0;
-            $xfer += $input->readListBegin($_etype39, $_size36);
-            for ($_i40 = 0; $_i40 < $_size36; ++$_i40)
+            $_size50 = 0;
+            $_etype53 = 0;
+            $xfer += $input->readListBegin($_etype53, $_size50);
+            for ($_i54 = 0; $_i54 < $_size50; ++$_i54)
             {
-              $elem41 = null;
-              $xfer += $input->readString($elem41);
-              $this->tags []= $elem41;
+              $elem55 = null;
+              $xfer += $input->readString($elem55);
+              $this->tags []= $elem55;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -1752,27 +2315,27 @@ class ChoiceVariant {
         case 4:
           if ($ftype == TType::MAP) {
             $this->simpleParameters = array();
-            $_size42 = 0;
-            $_ktype43 = 0;
-            $_vtype44 = 0;
-            $xfer += $input->readMapBegin($_ktype43, $_vtype44, $_size42);
-            for ($_i46 = 0; $_i46 < $_size42; ++$_i46)
+            $_size56 = 0;
+            $_ktype57 = 0;
+            $_vtype58 = 0;
+            $xfer += $input->readMapBegin($_ktype57, $_vtype58, $_size56);
+            for ($_i60 = 0; $_i60 < $_size56; ++$_i60)
             {
-              $key47 = '';
-              $val48 = array();
-              $xfer += $input->readString($key47);
-              $val48 = array();
-              $_size49 = 0;
-              $_etype52 = 0;
-              $xfer += $input->readListBegin($_etype52, $_size49);
-              for ($_i53 = 0; $_i53 < $_size49; ++$_i53)
+              $key61 = '';
+              $val62 = array();
+              $xfer += $input->readString($key61);
+              $val62 = array();
+              $_size63 = 0;
+              $_etype66 = 0;
+              $xfer += $input->readListBegin($_etype66, $_size63);
+              for ($_i67 = 0; $_i67 < $_size63; ++$_i67)
               {
-                $elem54 = null;
-                $xfer += $input->readString($elem54);
-                $val48 []= $elem54;
+                $elem68 = null;
+                $xfer += $input->readString($elem68);
+                $val62 []= $elem68;
               }
               $xfer += $input->readListEnd();
-              $this->simpleParameters[$key47] = $val48;
+              $this->simpleParameters[$key61] = $val62;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -1782,40 +2345,40 @@ class ChoiceVariant {
         case 5:
           if ($ftype == TType::MAP) {
             $this->localizedParemeters = array();
-            $_size55 = 0;
-            $_ktype56 = 0;
-            $_vtype57 = 0;
-            $xfer += $input->readMapBegin($_ktype56, $_vtype57, $_size55);
-            for ($_i59 = 0; $_i59 < $_size55; ++$_i59)
+            $_size69 = 0;
+            $_ktype70 = 0;
+            $_vtype71 = 0;
+            $xfer += $input->readMapBegin($_ktype70, $_vtype71, $_size69);
+            for ($_i73 = 0; $_i73 < $_size69; ++$_i73)
             {
-              $key60 = '';
-              $val61 = array();
-              $xfer += $input->readString($key60);
-              $val61 = array();
-              $_size62 = 0;
-              $_etype65 = 0;
-              $xfer += $input->readListBegin($_etype65, $_size62);
-              for ($_i66 = 0; $_i66 < $_size62; ++$_i66)
+              $key74 = '';
+              $val75 = array();
+              $xfer += $input->readString($key74);
+              $val75 = array();
+              $_size76 = 0;
+              $_etype79 = 0;
+              $xfer += $input->readListBegin($_etype79, $_size76);
+              for ($_i80 = 0; $_i80 < $_size76; ++$_i80)
               {
-                $elem67 = null;
-                $elem67 = array();
-                $_size68 = 0;
-                $_ktype69 = 0;
-                $_vtype70 = 0;
-                $xfer += $input->readMapBegin($_ktype69, $_vtype70, $_size68);
-                for ($_i72 = 0; $_i72 < $_size68; ++$_i72)
+                $elem81 = null;
+                $elem81 = array();
+                $_size82 = 0;
+                $_ktype83 = 0;
+                $_vtype84 = 0;
+                $xfer += $input->readMapBegin($_ktype83, $_vtype84, $_size82);
+                for ($_i86 = 0; $_i86 < $_size82; ++$_i86)
                 {
-                  $key73 = 0;
-                  $val74 = '';
-                  $xfer += $input->readI32($key73);
-                  $xfer += $input->readString($val74);
-                  $elem67[$key73] = $val74;
+                  $key87 = 0;
+                  $val88 = '';
+                  $xfer += $input->readI32($key87);
+                  $xfer += $input->readString($val88);
+                  $elem81[$key87] = $val88;
                 }
                 $xfer += $input->readMapEnd();
-                $val61 []= $elem67;
+                $val75 []= $elem81;
               }
               $xfer += $input->readListEnd();
-              $this->localizedParemeters[$key60] = $val61;
+              $this->localizedParemeters[$key74] = $val75;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -1853,9 +2416,9 @@ class ChoiceVariant {
       {
         $output->writeListBegin(TType::STRING, count($this->tags));
         {
-          foreach ($this->tags as $iter75)
+          foreach ($this->tags as $iter89)
           {
-            $xfer += $output->writeString($iter75);
+            $xfer += $output->writeString($iter89);
           }
         }
         $output->writeListEnd();
@@ -1870,15 +2433,15 @@ class ChoiceVariant {
       {
         $output->writeMapBegin(TType::STRING, TType::LST, count($this->simpleParameters));
         {
-          foreach ($this->simpleParameters as $kiter76 => $viter77)
+          foreach ($this->simpleParameters as $kiter90 => $viter91)
           {
-            $xfer += $output->writeString($kiter76);
+            $xfer += $output->writeString($kiter90);
             {
-              $output->writeListBegin(TType::STRING, count($viter77));
+              $output->writeListBegin(TType::STRING, count($viter91));
               {
-                foreach ($viter77 as $iter78)
+                foreach ($viter91 as $iter92)
                 {
-                  $xfer += $output->writeString($iter78);
+                  $xfer += $output->writeString($iter92);
                 }
               }
               $output->writeListEnd();
@@ -1897,21 +2460,21 @@ class ChoiceVariant {
       {
         $output->writeMapBegin(TType::STRING, TType::LST, count($this->localizedParemeters));
         {
-          foreach ($this->localizedParemeters as $kiter79 => $viter80)
+          foreach ($this->localizedParemeters as $kiter93 => $viter94)
           {
-            $xfer += $output->writeString($kiter79);
+            $xfer += $output->writeString($kiter93);
             {
-              $output->writeListBegin(TType::MAP, count($viter80));
+              $output->writeListBegin(TType::MAP, count($viter94));
               {
-                foreach ($viter80 as $iter81)
+                foreach ($viter94 as $iter95)
                 {
                   {
-                    $output->writeMapBegin(TType::I32, TType::STRING, count($iter81));
+                    $output->writeMapBegin(TType::I32, TType::STRING, count($iter95));
                     {
-                      foreach ($iter81 as $kiter82 => $viter83)
+                      foreach ($iter95 as $kiter96 => $viter97)
                       {
-                        $xfer += $output->writeI32($kiter82);
-                        $xfer += $output->writeString($viter83);
+                        $xfer += $output->writeI32($kiter96);
+                        $xfer += $output->writeString($viter97);
                       }
                     }
                     $output->writeMapEnd();
@@ -2042,17 +2605,17 @@ class ProcessTaskExecutionStatus {
 }
 
 /**
- * This structure defines a process tasks execution parameters. A process task covers any kind of process task to be executed by the system.
+ * This structure defines the execution parameters of a process task
  * 
  * <dl>
  * <dt>processTaskId</dt>
  * <dd>the process task id to execute</dd>
  * <dt>development</dt>
- * <dd>should the process task run with development version data</dd>
+ * <dd>should the process run with development data that should not to be published into the production environment</dd>
  * <dt>delta</dt>
- * <dd>is the process task an incremental process (or full)</dd>
+ * <dd>is the process a differential process that adds or updates a part of the existing data, otherwise the new data will replace any existing data completely</dd>
  * <dt>forceStart</dt>
- * <dd>if another similar process is already running, the forceStart will make the new one run, otherwise, the execution will be aborted</dd>
+ * <dd>if another similar process is already running, the forceStart flag will make the new one run, otherwise, the execution will be aborted</dd>
  * </dl>
  */
 class ProcessTaskExecutionParameters {
@@ -2190,6 +2753,173 @@ class ProcessTaskExecutionParameters {
     if ($this->forceStart !== null) {
       $xfer += $output->writeFieldBegin('forceStart', TType::BOOL, 4);
       $xfer += $output->writeBool($this->forceStart);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+/**
+ * This structure defines a reference CSV file descriptor with the identifier and schema
+ * 
+ * <dl>
+ * <dt>fileId</dt>
+ * <dd>identifier of the csv file, needs to be unique per account</dd>
+ * <dt>fileColumns</dt>
+ * <dd>key-value map of the file columns, where key is a name of the column and value is a column's type</dd>
+ * <dt>fileHash</dt>
+ * <dd>internal hash used for csv file upload - this property is set by the API and cannot be changed</dd>
+ * </dl>
+ */
+class ReferenceCSVFileDescriptor {
+  static $_TSPEC;
+
+  /**
+   * @var string
+   */
+  public $fileId = null;
+  /**
+   * @var array
+   */
+  public $fileColumns = null;
+  /**
+   * @var string
+   */
+  public $fileHash = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'fileId',
+          'type' => TType::STRING,
+          ),
+        2 => array(
+          'var' => 'fileColumns',
+          'type' => TType::MAP,
+          'ktype' => TType::STRING,
+          'vtype' => TType::I32,
+          'key' => array(
+            'type' => TType::STRING,
+          ),
+          'val' => array(
+            'type' => TType::I32,
+            ),
+          ),
+        3 => array(
+          'var' => 'fileHash',
+          'type' => TType::STRING,
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['fileId'])) {
+        $this->fileId = $vals['fileId'];
+      }
+      if (isset($vals['fileColumns'])) {
+        $this->fileColumns = $vals['fileColumns'];
+      }
+      if (isset($vals['fileHash'])) {
+        $this->fileHash = $vals['fileHash'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'ReferenceCSVFileDescriptor';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->fileId);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::MAP) {
+            $this->fileColumns = array();
+            $_size98 = 0;
+            $_ktype99 = 0;
+            $_vtype100 = 0;
+            $xfer += $input->readMapBegin($_ktype99, $_vtype100, $_size98);
+            for ($_i102 = 0; $_i102 < $_size98; ++$_i102)
+            {
+              $key103 = '';
+              $val104 = 0;
+              $xfer += $input->readString($key103);
+              $xfer += $input->readI32($val104);
+              $this->fileColumns[$key103] = $val104;
+            }
+            $xfer += $input->readMapEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->fileHash);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('ReferenceCSVFileDescriptor');
+    if ($this->fileId !== null) {
+      $xfer += $output->writeFieldBegin('fileId', TType::STRING, 1);
+      $xfer += $output->writeString($this->fileId);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->fileColumns !== null) {
+      if (!is_array($this->fileColumns)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('fileColumns', TType::MAP, 2);
+      {
+        $output->writeMapBegin(TType::STRING, TType::I32, count($this->fileColumns));
+        {
+          foreach ($this->fileColumns as $kiter105 => $viter106)
+          {
+            $xfer += $output->writeString($kiter105);
+            $xfer += $output->writeI32($viter106);
+          }
+        }
+        $output->writeMapEnd();
+      }
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->fileHash !== null) {
+      $xfer += $output->writeFieldBegin('fileHash', TType::STRING, 3);
+      $xfer += $output->writeString($this->fileHash);
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();
