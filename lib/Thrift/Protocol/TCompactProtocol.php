@@ -64,34 +64,34 @@ class TCompactProtocol extends TProtocol {
   const TYPE_SHIFT_AMOUNT = 5;
 
   protected static $ctypes = array(
-    TType::STOP => TCompactProtocol::COMPACT_STOP,
-    TType::BOOL => TCompactProtocol::COMPACT_TRUE, // used for collection
-    TType::BYTE => TCompactProtocol::COMPACT_BYTE,
-    TType::I16 => TCompactProtocol::COMPACT_I16,
-    TType::I32 => TCompactProtocol::COMPACT_I32,
-    TType::I64 => TCompactProtocol::COMPACT_I64,
-    TType::DOUBLE => TCompactProtocol::COMPACT_DOUBLE,
-    TType::STRING => TCompactProtocol::COMPACT_BINARY,
-    TType::STRUCT => TCompactProtocol::COMPACT_STRUCT,
-    TType::LST => TCompactProtocol::COMPACT_LIST,
-    TType::SET => TCompactProtocol::COMPACT_SET,
-    TType::MAP => TCompactProtocol::COMPACT_MAP,
+	TType::STOP => TCompactProtocol::COMPACT_STOP,
+	TType::BOOL => TCompactProtocol::COMPACT_TRUE, // used for collection
+	TType::BYTE => TCompactProtocol::COMPACT_BYTE,
+	TType::I16 => TCompactProtocol::COMPACT_I16,
+	TType::I32 => TCompactProtocol::COMPACT_I32,
+	TType::I64 => TCompactProtocol::COMPACT_I64,
+	TType::DOUBLE => TCompactProtocol::COMPACT_DOUBLE,
+	TType::STRING => TCompactProtocol::COMPACT_BINARY,
+	TType::STRUCT => TCompactProtocol::COMPACT_STRUCT,
+	TType::LST => TCompactProtocol::COMPACT_LIST,
+	TType::SET => TCompactProtocol::COMPACT_SET,
+	TType::MAP => TCompactProtocol::COMPACT_MAP,
   );
 
   protected static $ttypes = array(
-    TCompactProtocol::COMPACT_STOP => TType::STOP ,
-    TCompactProtocol::COMPACT_TRUE => TType::BOOL, // used for collection
-    TCompactProtocol::COMPACT_FALSE => TType::BOOL,
-    TCompactProtocol::COMPACT_BYTE => TType::BYTE,
-    TCompactProtocol::COMPACT_I16 => TType::I16,
-    TCompactProtocol::COMPACT_I32 => TType::I32,
-    TCompactProtocol::COMPACT_I64 => TType::I64,
-    TCompactProtocol::COMPACT_DOUBLE => TType::DOUBLE,
-    TCompactProtocol::COMPACT_BINARY => TType::STRING,
-    TCompactProtocol::COMPACT_STRUCT => TType::STRUCT,
-    TCompactProtocol::COMPACT_LIST => TType::LST,
-    TCompactProtocol::COMPACT_SET => TType::SET,
-    TCompactProtocol::COMPACT_MAP => TType::MAP,
+	TCompactProtocol::COMPACT_STOP => TType::STOP ,
+	TCompactProtocol::COMPACT_TRUE => TType::BOOL, // used for collection
+	TCompactProtocol::COMPACT_FALSE => TType::BOOL,
+	TCompactProtocol::COMPACT_BYTE => TType::BYTE,
+	TCompactProtocol::COMPACT_I16 => TType::I16,
+	TCompactProtocol::COMPACT_I32 => TType::I32,
+	TCompactProtocol::COMPACT_I64 => TType::I64,
+	TCompactProtocol::COMPACT_DOUBLE => TType::DOUBLE,
+	TCompactProtocol::COMPACT_BINARY => TType::STRING,
+	TCompactProtocol::COMPACT_STRUCT => TType::STRUCT,
+	TCompactProtocol::COMPACT_LIST => TType::LST,
+	TCompactProtocol::COMPACT_SET => TType::SET,
+	TCompactProtocol::COMPACT_MAP => TType::MAP,
   );
 
   protected $state = TCompactProtocol::STATE_CLEAR;
@@ -103,406 +103,407 @@ class TCompactProtocol extends TProtocol {
 
   // Some varint / zigzag helper methods
   public function toZigZag($n, $bits) {
-    return ($n << 1) ^ ($n >> ($bits - 1));
+	return ($n << 1) ^ ($n >> ($bits - 1));
   }
 
   public function fromZigZag($n) {
-    return ($n >> 1) ^ -($n & 1);
+	return ($n >> 1) ^ -($n & 1);
   }
 
   public function getVarint($data) {
-    $out = "";
-    while (true) {
-      if (($data & ~0x7f) === 0) {
-        $out .= chr($data);
-        break;
-      } else {
-        $out .= chr(($data & 0xff) | 0x80);
-        $data = $data >> 7;
-      }
-    }
-    return $out;
+	$out = "";
+	while (true) {
+	  if (($data & ~0x7f) === 0) {
+		$out .= chr($data);
+		break;
+	  } else {
+		$out .= chr(($data & 0xff) | 0x80);
+		$data = $data >> 7;
+	  }
+	}
+	return $out;
   }
 
   public function writeVarint($data) {
-    $out = $this->getVarint($data);
-    $result = TStringFuncFactory::create()->strlen($out);
-    $this->trans_->write($out, $result);
-    return $result;
+	$out = $this->getVarint($data);
+	$result = TStringFuncFactory::create()->strlen($out);
+	$this->trans_->write($out, $result);
+	return $result;
   }
 
   public function readVarint(&$result) {
-    $idx = 0;
-    $shift = 0;
-    $result = 0;
-    while (true) {
-      $x = $this->trans_->readAll(1);
-      $arr = unpack('C', $x);
-      $byte = $arr[1];
-      $idx += 1;
-      $result |= ($byte & 0x7f) << $shift;
-      if (($byte >> 7) === 0) {
-        return $idx;
-      }
-      $shift += 7;
-    }
+	$idx = 0;
+	$shift = 0;
+	$result = 0;
+	while (true) {
+	  $x = $this->trans_->readAll(1);
+	  $arr = unpack('C', $x);
+	  $byte = $arr[1];
+	  $idx += 1;
+	  $result |= ($byte & 0x7f) << $shift;
+	  if (($byte >> 7) === 0) {
+		return $idx;
+	  }
+	  $shift += 7;
+	}
 
-    return $idx;
+	return $idx;
   }
 
   public function __construct($trans) {
-    parent::__construct($trans);
+	parent::__construct($trans);
   }
 
   public function writeMessageBegin($name, $type, $seqid) {
-    $written =
-      $this->writeUByte(TCompactProtocol::PROTOCOL_ID) +
-      $this->writeUByte(TCompactProtocol::VERSION |
-                        ($type << TCompactProtocol::TYPE_SHIFT_AMOUNT)) +
-      $this->writeVarint($seqid) +
-      $this->writeString($name);
-    $this->state = TCompactProtocol::STATE_VALUE_WRITE;
-    return $written;
+	$written =
+	  $this->writeUByte(TCompactProtocol::PROTOCOL_ID) +
+	  $this->writeUByte(TCompactProtocol::VERSION |
+						($type << TCompactProtocol::TYPE_SHIFT_AMOUNT)) +
+	  $this->writeVarint($seqid) +
+	  $this->writeString($name);
+	$this->state = TCompactProtocol::STATE_VALUE_WRITE;
+	return $written;
   }
 
   public function writeMessageEnd() {
-    $this->state = TCompactProtocol::STATE_CLEAR;
-    return 0;
+	$this->state = TCompactProtocol::STATE_CLEAR;
+	return 0;
   }
 
   public function writeStructBegin($name) {
-    $this->structs[] = array($this->state, $this->lastFid);
-    $this->state = TCompactProtocol::STATE_FIELD_WRITE;
-    $this->lastFid = 0;
-    return 0;
+	$this->structs[] = array($this->state, $this->lastFid);
+	$this->state = TCompactProtocol::STATE_FIELD_WRITE;
+	$this->lastFid = 0;
+	return 0;
   }
 
   public function writeStructEnd() {
-    $old_values = array_pop($this->structs);
-    $this->state = $old_values[0];
-    $this->lastFid = $old_values[1];
-    return 0;
+	$old_values = array_pop($this->structs);
+	$this->state = $old_values[0];
+	$this->lastFid = $old_values[1];
+	return 0;
   }
 
   public function writeFieldStop() {
-    return $this->writeByte(0);
+	return $this->writeByte(0);
   }
 
   public function writeFieldHeader($type, $fid) {
-    $written = 0;
-    $delta = $fid - $this->lastFid;
-    if (0 < $delta && $delta <= 15) {
-      $written = $this->writeUByte(($delta << 4) | $type);
-    } else {
-      $written = $this->writeByte($type) +
-        $this->writeI16($fid);
-    }
-    $this->lastFid = $fid;
-    return $written;
+	$written = 0;
+	$delta = $fid - $this->lastFid;
+	if (0 < $delta && $delta <= 15) {
+	  $written = $this->writeUByte(($delta << 4) | $type);
+	} else {
+	  $written = $this->writeByte($type) +
+		$this->writeI16($fid);
+	}
+	$this->lastFid = $fid;
+	return $written;
   }
 
   public function writeFieldBegin($field_name, $field_type, $field_id) {
-    if ($field_type == TTYPE::BOOL) {
-      $this->state = TCompactProtocol::STATE_BOOL_WRITE;
-      $this->boolFid = $field_id;
-      return 0;
-    } else {
-      $this->state = TCompactProtocol::STATE_VALUE_WRITE;
-      return $this->writeFieldHeader(self::$ctypes[$field_type], $field_id);
-    }
+	if ($field_type == TTYPE::BOOL) {
+	  $this->state = TCompactProtocol::STATE_BOOL_WRITE;
+	  $this->boolFid = $field_id;
+	  return 0;
+	} else {
+	  $this->state = TCompactProtocol::STATE_VALUE_WRITE;
+	  return $this->writeFieldHeader(self::$ctypes[$field_type], $field_id);
+	}
   }
 
   public function writeFieldEnd() {
-    $this->state = TCompactProtocol::STATE_FIELD_WRITE;
-    return 0;
+	$this->state = TCompactProtocol::STATE_FIELD_WRITE;
+	return 0;
   }
 
   public function writeCollectionBegin($etype, $size) {
-    $written = 0;
-    if ($size <= 14) {
-      $written = $this->writeUByte($size << 4 |
-                                    self::$ctypes[$etype]);
-    } else {
-      $written = $this->writeUByte(0xf0 |
-                                   self::$ctypes[$etype]) +
-        $this->writeVarint($size);
-    }
-    $this->containers[] = $this->state;
-    $this->state = TCompactProtocol::STATE_CONTAINER_WRITE;
+	$written = 0;
+	if ($size <= 14) {
+	  $written = $this->writeUByte($size << 4 |
+									self::$ctypes[$etype]);
+	} else {
+	  $written = $this->writeUByte(0xf0 |
+								   self::$ctypes[$etype]) +
+		$this->writeVarint($size);
+	}
+	$this->containers[] = $this->state;
+	$this->state = TCompactProtocol::STATE_CONTAINER_WRITE;
 
-    return $written;
+	return $written;
   }
 
   public function writeMapBegin($key_type, $val_type, $size) {
-    $written = 0;
-    if ($size == 0) {
-      $written = $this->writeByte(0);
-    } else {
-      $written = $this->writeVarint($size) +
-        $this->writeUByte(self::$ctypes[$key_type] << 4 |
-                          self::$ctypes[$val_type]);
-    }
-    $this->containers[] = $this->state;
-    return $written;
+	$written = 0;
+	if ($size == 0) {
+	  $written = $this->writeByte(0);
+	} else {
+	  $written = $this->writeVarint($size) +
+		$this->writeUByte(self::$ctypes[$key_type] << 4 |
+						  self::$ctypes[$val_type]);
+	}
+	$this->containers[] = $this->state;
+	return $written;
   }
 
   public function writeCollectionEnd() {
-    $this->state = array_pop($this->containers);
-    return 0;
+	$this->state = array_pop($this->containers);
+	return 0;
   }
 
   public function writeMapEnd() {
-    return $this->writeCollectionEnd();
+	return $this->writeCollectionEnd();
   }
 
   public function writeListBegin($elem_type, $size) {
-    return $this->writeCollectionBegin($elem_type, $size);
+	return $this->writeCollectionBegin($elem_type, $size);
   }
 
   public function writeListEnd() {
-    return $this->writeCollectionEnd();
+	return $this->writeCollectionEnd();
   }
 
   public function writeSetBegin($elem_type, $size) {
-    return $this->writeCollectionBegin($elem_type, $size);
+	return $this->writeCollectionBegin($elem_type, $size);
   }
 
   public function writeSetEnd() {
-    return $this->writeCollectionEnd();
+	return $this->writeCollectionEnd();
   }
 
   public function writeBool($value) {
-    if ($this->state == TCompactProtocol::STATE_BOOL_WRITE) {
-      $ctype = TCompactProtocol::COMPACT_FALSE;
-      if ($value) {
-        $ctype = TCompactProtocol::COMPACT_TRUE;
-      }
-      return $this->writeFieldHeader($ctype, $this->boolFid);
-    } else if ($this->state == TCompactProtocol::STATE_CONTAINER_WRITE) {
-      return $this->writeByte($value ? 1 : 0);
-    } else {
-      throw new TProtocolException('Invalid state in compact protocol');
-    }
+	if ($this->state == TCompactProtocol::STATE_BOOL_WRITE) {
+	  $ctype = TCompactProtocol::COMPACT_FALSE;
+	  if ($value) {
+		$ctype = TCompactProtocol::COMPACT_TRUE;
+	  }
+	  return $this->writeFieldHeader($ctype, $this->boolFid);
+	} else if ($this->state == TCompactProtocol::STATE_CONTAINER_WRITE) {
+	  return $this->writeByte($value ? 1 : 0);
+	} else {
+	  throw new TProtocolException('Invalid state in compact protocol');
+	}
   }
 
   public function writeByte($value) {
-    $data = pack('c', $value);
-    $this->trans_->write($data, 1);
-    return 1;
+	$data = pack('c', $value);
+	$this->trans_->write($data, 1);
+	return 1;
   }
 
   public function writeUByte($byte) {
-    $this->trans_->write(pack('C', $byte), 1);
-    return 1;
+	$this->trans_->write(pack('C', $byte), 1);
+	return 1;
   }
 
   public function writeI16($value) {
-    $thing = $this->toZigZag($value, 16);
-    return $this->writeVarint($thing);
+	$thing = $this->toZigZag($value, 16);
+	return $this->writeVarint($thing);
   }
 
   public function writeI32($value) {
-    $thing = $this->toZigZag($value, 32);
-    return $this->writeVarint($thing);
+	$thing = $this->toZigZag($value, 32);
+	return $this->writeVarint($thing);
   }
 
   public function writeDouble($value) {
-    $data = pack('d', $value);
-    $this->trans_->write(strrev($data), 8);
-    return 8;
+	$data = pack('d', $value);
+	$this->trans_->write(strrev($data), 8);
+	return 8;
   }
 
   public function writeString($value) {
-    $len = TStringFuncFactory::create()->strlen($value);
-    $result = $this->writeVarint($len);
-    if ($len) {
-      $this->trans_->write($value, $len);
-    }
-    return $result + $len;
+	$len = TStringFuncFactory::create()->strlen($value);
+	$result = $this->writeVarint($len);
+	if ($len) {
+	  $this->trans_->write($value, $len);
+	}
+	return $result + $len;
   }
 
   public function readFieldBegin(&$name, &$field_type, &$field_id) {
-    $result = $this->readUByte($field_type);
+	$result = $this->readUByte($field_type);
 
-    if (($field_type & 0x0f) == TType::STOP) {
-      $field_id = 0;
-      return $result;
-    }
-    $delta = $field_type >> 4;
-    if ($delta == 0) {
-      $result += $this->readI16($field_id);
-    } else {
-      $field_id = $this->lastFid + $delta;
-    }
-    $this->lastFid = $field_id;
-    $field_type = $this->getTType($field_type & 0x0f);
-    if ($field_type == TCompactProtocol::COMPACT_TRUE) {
-      $this->state = TCompactProtocol::STATE_BOOL_READ;
-      $this->boolValue = true;
-    } else if ($field_type == TCompactProtocol::COMPACT_FALSE) {
-      $this->state = TCompactProtocol::STATE_BOOL_READ;
-      $this->boolValue = false;
-    } else {
-      $this->state = TCompactProtocol::STATE_VALUE_READ;
-    }
-    return $result;
+	if (($field_type & 0x0f) == TType::STOP) {
+	  $field_id = 0;
+	  return $result;
+	}
+	$delta = $field_type >> 4;
+	if ($delta == 0) {
+	  $result += $this->readI16($field_id);
+	} else {
+	  $field_id = $this->lastFid + $delta;
+	}
+	$this->lastFid = $field_id;
+	$field_type &= 0x0f;
+	if ($field_type == TCompactProtocol::COMPACT_TRUE) {
+	  $this->state = TCompactProtocol::STATE_BOOL_READ;
+	  $this->boolValue = true;
+	} else if ($field_type == TCompactProtocol::COMPACT_FALSE) {
+	  $this->state = TCompactProtocol::STATE_BOOL_READ;
+	  $this->boolValue = false;
+	} else {
+	  $this->state = TCompactProtocol::STATE_VALUE_READ;
+	}
+	$field_type = $this->getTType($field_type);
+	return $result;
   }
 
   public function readFieldEnd() {
-    $this->state = TCompactProtocol::STATE_FIELD_READ;
-    return 0;
+	$this->state = TCompactProtocol::STATE_FIELD_READ;
+	return 0;
   }
 
   public function readUByte(&$value) {
-    $data = $this->trans_->readAll(1);
-    $arr = unpack('C', $data);
-    $value = $arr[1];
-    return 1;
+	$data = $this->trans_->readAll(1);
+	$arr = unpack('C', $data);
+	$value = $arr[1];
+	return 1;
   }
 
   public function readByte(&$value) {
-    $data = $this->trans_->readAll(1);
-    $arr = unpack('c', $data);
-    $value = $arr[1];
-    return 1;
+	$data = $this->trans_->readAll(1);
+	$arr = unpack('c', $data);
+	$value = $arr[1];
+	return 1;
   }
 
   public function readZigZag(&$value) {
-    $result = $this->readVarint($value);
-    $value = $this->fromZigZag($value);
-    return $result;
+	$result = $this->readVarint($value);
+	$value = $this->fromZigZag($value);
+	return $result;
   }
 
   public function readMessageBegin(&$name, &$type, &$seqid) {
-    $protoId = 0;
-    $result = $this->readUByte($protoId);
-    if ($protoId != TCompactProtocol::PROTOCOL_ID) {
-      throw new TProtocolException('Bad protocol id in TCompact message');
-    }
-    $verType = 0;
-    $result += $this->readUByte($verType);
-    $type = ($verType & TCompactProtocol::TYPE_MASK) >>
-      TCompactProtocol::TYPE_SHIFT_AMOUNT;
-    $version = $verType & TCompactProtocol::VERSION_MASK;
-    if ($version != TCompactProtocol::VERSION) {
-      throw new TProtocolException('Bad version in TCompact message');
-    }
-    $result += $this->readVarint($seqId);
-    $name += $this->readString($name);
+	$protoId = 0;
+	$result = $this->readUByte($protoId);
+	if ($protoId != TCompactProtocol::PROTOCOL_ID) {
+	  throw new TProtocolException('Bad protocol id in TCompact message');
+	}
+	$verType = 0;
+	$result += $this->readUByte($verType);
+	$type = ($verType & TCompactProtocol::TYPE_MASK) >>
+	  TCompactProtocol::TYPE_SHIFT_AMOUNT;
+	$version = $verType & TCompactProtocol::VERSION_MASK;
+	if ($version != TCompactProtocol::VERSION) {
+	  throw new TProtocolException('Bad version in TCompact message');
+	}
+	$result += $this->readVarint($seqId);
+	$name += $this->readString($name);
 
-    return $result;
+	return $result;
   }
 
   public function readMessageEnd() {
-    return 0;
+	return 0;
   }
 
   public function readStructBegin(&$name) {
-    $name = ''; // unused
-    $this->structs[] = array($this->state, $this->lastFid);
-    $this->state = TCompactProtocol::STATE_FIELD_READ;
-    $this->lastFid = 0;
-    return 0;
+	$name = ''; // unused
+	$this->structs[] = array($this->state, $this->lastFid);
+	$this->state = TCompactProtocol::STATE_FIELD_READ;
+	$this->lastFid = 0;
+	return 0;
   }
 
   public function readStructEnd() {
-    $last = array_pop($this->structs);
-    $this->state = $last[0];
-    $this->lastFid = $last[1];
-    return 0;
+	$last = array_pop($this->structs);
+	$this->state = $last[0];
+	$this->lastFid = $last[1];
+	return 0;
   }
 
   public function readCollectionBegin(&$type, &$size) {
-    $sizeType = 0;
-    $result = $this->readUByte($sizeType);
-    $size = $sizeType >> 4;
-    $type = $this->getTType($sizeType);
-    if ($size == 15) {
-      $result += $this->readVarint($size);
-    }
-    $this->containers[] = $this->state;
-    $this->state = TCompactProtocol::STATE_CONTAINER_READ;
+	$sizeType = 0;
+	$result = $this->readUByte($sizeType);
+	$size = $sizeType >> 4;
+	$type = $this->getTType($sizeType);
+	if ($size == 15) {
+	  $result += $this->readVarint($size);
+	}
+	$this->containers[] = $this->state;
+	$this->state = TCompactProtocol::STATE_CONTAINER_READ;
 
-    return $result;
+	return $result;
   }
 
   public function readMapBegin(&$key_type, &$val_type, &$size) {
-    $result = $this->readVarint($size);
-    $types = 0;
-    if ($size > 0) {
-      $result += $this->readUByte($types);
-    }
-    $val_type = $this->getTType($types);
-    $key_type = $this->getTType($types >> 4);
-    $this->containers[] = $this->state;
-    $this->state = TCompactProtocol::STATE_CONTAINER_READ;
+	$result = $this->readVarint($size);
+	$types = 0;
+	if ($size > 0) {
+	  $result += $this->readUByte($types);
+	}
+	$val_type = $this->getTType($types);
+	$key_type = $this->getTType($types >> 4);
+	$this->containers[] = $this->state;
+	$this->state = TCompactProtocol::STATE_CONTAINER_READ;
 
-    return $result;
+	return $result;
   }
 
   public function readCollectionEnd() {
-    $this->state = array_pop($this->containers);
-    return 0;
+	$this->state = array_pop($this->containers);
+	return 0;
   }
 
   public function readMapEnd() {
-    return $this->readCollectionEnd();
+	return $this->readCollectionEnd();
   }
 
   public function readListBegin(&$elem_type, &$size) {
-    return $this->readCollectionBegin($elem_type, $size);
+	return $this->readCollectionBegin($elem_type, $size);
   }
 
   public function readListEnd() {
-    return $this->readCollectionEnd();
+	return $this->readCollectionEnd();
   }
 
   public function readSetBegin(&$elem_type, &$size) {
-    return $this->readCollectionBegin($elem_type, $size);
+	return $this->readCollectionBegin($elem_type, $size);
   }
 
   public function readSetEnd() {
-    return $this->readCollectionEnd();
+	return $this->readCollectionEnd();
   }
 
   public function readBool(&$value) {
-    if ($this->state == TCompactProtocol::STATE_BOOL_READ) {
-      $value = $this->boolValue;
-      return 0;
-    } else if ($this->state == TCompactProtocol::STATE_CONTAINER_READ) {
-      return $this->readByte($value);
-    } else {
-      throw new TProtocolException('Invalid state in compact protocol');
-    }
+	if ($this->state == TCompactProtocol::STATE_BOOL_READ) {
+	  $value = $this->boolValue;
+	  return 0;
+	} else if ($this->state == TCompactProtocol::STATE_CONTAINER_READ) {
+	  return $this->readByte($value);
+	} else {
+	  throw new TProtocolException('Invalid state in compact protocol');
+	}
   }
 
   public function readI16(&$value) {
-    return $this->readZigZag($value);
+	return $this->readZigZag($value);
   }
 
   public function readI32(&$value) {
-    return $this->readZigZag($value);
+	return $this->readZigZag($value);
   }
 
   public function readDouble(&$value) {
-    $data = strrev($this->trans_->readAll(8));
-    $arr = unpack('d', $data);
-    $value = $arr[1];
-    return 8;
+	$data = strrev($this->trans_->readAll(8));
+	$arr = unpack('d', $data);
+	$value = $arr[1];
+	return 8;
   }
 
   public function readString(&$value) {
-    $result = $this->readVarint($len);
-    if ($len) {
-      $value = $this->trans_->readAll($len);
-    } else {
-      $value = '';
-    }
-    return $result + $len;
+	$result = $this->readVarint($len);
+	if ($len) {
+	  $value = $this->trans_->readAll($len);
+	} else {
+	  $value = '';
+	}
+	return $result + $len;
   }
 
   public function getTType($byte) {
-    return self::$ttypes[$byte & 0x0f];
+	return self::$ttypes[$byte & 0x0f];
   }
 
   // If we are on a 32bit architecture we have to explicitly deal with
@@ -512,158 +513,158 @@ class TCompactProtocol extends TProtocol {
   // Read and write I64 as two 32 bit numbers $hi and $lo
 
   public function readI64(&$value) {
-    // Read varint from wire
-    $hi = 0;
-    $lo = 0;
+	// Read varint from wire
+	$hi = 0;
+	$lo = 0;
 
-    $idx = 0;
-    $shift = 0;
+	$idx = 0;
+	$shift = 0;
 
-    while (true) {
-      $x = $this->trans_->readAll(1);
-      $arr = unpack('C', $x);
-      $byte = $arr[1];
-      $idx += 1;
-      if ($shift < 32) {
-        $lo |= (($byte & 0x7f) << $shift) &
-          0x00000000ffffffff;
-      }
-      // Shift hi and lo together.
-      if ($shift >= 32) {
-        $hi |= (($byte & 0x7f) << ($shift - 32));
-      } else if ($shift > 25) {
-        $hi |= (($byte & 0x7f) >> ($shift - 25));
-      }
-      if (($byte >> 7) === 0) {
-        break;
-      }
-      $shift += 7;
-    }
+	while (true) {
+	  $x = $this->trans_->readAll(1);
+	  $arr = unpack('C', $x);
+	  $byte = $arr[1];
+	  $idx += 1;
+	  if ($shift < 32) {
+		$lo |= (($byte & 0x7f) << $shift) &
+		  0x00000000ffffffff;
+	  }
+	  // Shift hi and lo together.
+	  if ($shift >= 32) {
+		$hi |= (($byte & 0x7f) << ($shift - 32));
+	  } else if ($shift > 25) {
+		$hi |= (($byte & 0x7f) >> ($shift - 25));
+	  }
+	  if (($byte >> 7) === 0) {
+		break;
+	  }
+	  $shift += 7;
+	}
 
-    // Now, unzig it.
-    $xorer = 0;
-    if ($lo & 1) {
-      $xorer = 0xffffffff;
-    }
-    $lo = ($lo >> 1) & 0x7fffffff;
-    $lo = $lo | (($hi & 1) << 31);
-    $hi = ($hi >> 1) ^ $xorer;
-    $lo = $lo ^ $xorer;
+	// Now, unzig it.
+	$xorer = 0;
+	if ($lo & 1) {
+	  $xorer = 0xffffffff;
+	}
+	$lo = ($lo >> 1) & 0x7fffffff;
+	$lo = $lo | (($hi & 1) << 31);
+	$hi = ($hi >> 1) ^ $xorer;
+	$lo = $lo ^ $xorer;
 
-    // Now put $hi and $lo back together
-    if (true) {
-      $isNeg = $hi  < 0;
+	// Now put $hi and $lo back together
+	if (true) {
+	  $isNeg = $hi  < 0;
 
-      // Check for a negative
-      if ($isNeg) {
-        $hi = ~$hi & (int)0xffffffff;
-        $lo = ~$lo & (int)0xffffffff;
+	  // Check for a negative
+	  if ($isNeg) {
+		$hi = ~$hi & (int)0xffffffff;
+		$lo = ~$lo & (int)0xffffffff;
 
-        if ($lo == (int)0xffffffff) {
-          $hi++;
-          $lo = 0;
-        } else {
-          $lo++;
-        }
-      }
+		if ($lo == (int)0xffffffff) {
+		  $hi++;
+		  $lo = 0;
+		} else {
+		  $lo++;
+		}
+	  }
 
-      // Force 32bit words in excess of 2G to be positive - we deal with sign
-      // explicitly below
+	  // Force 32bit words in excess of 2G to be positive - we deal with sign
+	  // explicitly below
 
-      if ($hi & (int)0x80000000) {
-        $hi &= (int)0x7fffffff;
-        $hi += 0x80000000;
-      }
+	  if ($hi & (int)0x80000000) {
+		$hi &= (int)0x7fffffff;
+		$hi += 0x80000000;
+	  }
 
-      if ($lo & (int)0x80000000) {
-        $lo &= (int)0x7fffffff;
-        $lo += 0x80000000;
-      }
+	  if ($lo & (int)0x80000000) {
+		$lo &= (int)0x7fffffff;
+		$lo += 0x80000000;
+	  }
 
-      $value = $hi * 4294967296 + $lo;
+	  $value = $hi * 4294967296 + $lo;
 
-      if ($isNeg) {
-        $value = 0 - $value;
-      }
-    } else {
+	  if ($isNeg) {
+		$value = 0 - $value;
+	  }
+	} else {
 
-      // Upcast negatives in LSB bit
-      if ($arr[2] & 0x80000000) {
-        $arr[2] = $arr[2] & 0xffffffff;
-      }
+	  // Upcast negatives in LSB bit
+	  if ($arr[2] & 0x80000000) {
+		$arr[2] = $arr[2] & 0xffffffff;
+	  }
 
-      // Check for a negative
-      if ($arr[1] & 0x80000000) {
-        $arr[1] = $arr[1] & 0xffffffff;
-        $arr[1] = $arr[1] ^ 0xffffffff;
-        $arr[2] = $arr[2] ^ 0xffffffff;
-        $value = 0 - $arr[1] * 4294967296 - $arr[2] - 1;
-      } else {
-        $value = $arr[1] * 4294967296 + $arr[2];
-      }
-    }
+	  // Check for a negative
+	  if ($arr[1] & 0x80000000) {
+		$arr[1] = $arr[1] & 0xffffffff;
+		$arr[1] = $arr[1] ^ 0xffffffff;
+		$arr[2] = $arr[2] ^ 0xffffffff;
+		$value = 0 - $arr[1] * 4294967296 - $arr[2] - 1;
+	  } else {
+		$value = $arr[1] * 4294967296 + $arr[2];
+	  }
+	}
 
-    return $idx;
+	return $idx;
   }
 
   public function writeI64($value) {
-    // If we are in an I32 range, use the easy method below.
-    if (($value > 4294967296) || ($value < -4294967296)) {
-      // Convert $value to $hi and $lo
-      $neg = $value < 0;
+	// If we are in an I32 range, use the easy method below.
+	if (($value > 4294967296) || ($value < -4294967296)) {
+	  // Convert $value to $hi and $lo
+	  $neg = $value < 0;
 
-      if ($neg) {
-        $value *= -1;
-      }
+	  if ($neg) {
+		$value *= -1;
+	  }
 
-      $hi = (int)$value >> 32;
-      $lo = (int)$value & 0xffffffff;
+	  $hi = (int)$value >> 32;
+	  $lo = (int)$value & 0xffffffff;
 
-      if ($neg) {
-        $hi = ~$hi;
-        $lo = ~$lo;
-        if (($lo & (int)0xffffffff) == (int)0xffffffff) {
-          $lo = 0;
-          $hi++;
-        } else {
-          $lo++;
-        }
-      }
+	  if ($neg) {
+		$hi = ~$hi;
+		$lo = ~$lo;
+		if (($lo & (int)0xffffffff) == (int)0xffffffff) {
+		  $lo = 0;
+		  $hi++;
+		} else {
+		  $lo++;
+		}
+	  }
 
-      // Now do the zigging and zagging.
-      $xorer = 0;
-      if ($neg) {
-        $xorer = 0xffffffff;
-      }
-      $lowbit = ($lo >> 31) & 1;
-      $hi = ($hi << 1) | $lowbit;
-      $lo = ($lo << 1);
-      $lo = ($lo ^ $xorer) & 0xffffffff;
-      $hi = ($hi ^ $xorer) & 0xffffffff;
+	  // Now do the zigging and zagging.
+	  $xorer = 0;
+	  if ($neg) {
+		$xorer = 0xffffffff;
+	  }
+	  $lowbit = ($lo >> 31) & 1;
+	  $hi = ($hi << 1) | $lowbit;
+	  $lo = ($lo << 1);
+	  $lo = ($lo ^ $xorer) & 0xffffffff;
+	  $hi = ($hi ^ $xorer) & 0xffffffff;
 
-      // now write out the varint, ensuring we shift both hi and lo
-      $out = "";
-      while (true) {
-        if (($lo & ~0x7f) === 0 &&
-           $hi === 0) {
-          $out .= chr($lo);
-          break;
-        } else {
-          $out .= chr(($lo & 0xff) | 0x80);
-          $lo = $lo >> 7;
-          $lo = $lo | ($hi << 25);
-          $hi = $hi >> 7;
-          // Right shift carries sign, but we don't want it to.
-          $hi = $hi & (127 << 25);
-        }
-      }
+	  // now write out the varint, ensuring we shift both hi and lo
+	  $out = "";
+	  while (true) {
+		if (($lo & ~0x7f) === 0 &&
+		   $hi === 0) {
+		  $out .= chr($lo);
+		  break;
+		} else {
+		  $out .= chr(($lo & 0xff) | 0x80);
+		  $lo = $lo >> 7;
+		  $lo = $lo | ($hi << 25);
+		  $hi = $hi >> 7;
+		  // Right shift carries sign, but we don't want it to.
+		  $hi = $hi & (127 << 25);
+		}
+	  }
 
-      $ret = TStringFuncFactory::create()->strlen($out);
-      $this->trans_->write($out, $ret);
+	  $ret = TStringFuncFactory::create()->strlen($out);
+	  $this->trans_->write($out, $ret);
 
-      return $ret;
-    } else {
-      return $this->writeVarint($this->toZigZag($value, 64));
-    }
+	  return $ret;
+	} else {
+	  return $this->writeVarint($this->toZigZag($value, 64));
+	}
   }
 }
