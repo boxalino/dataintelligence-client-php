@@ -19,67 +19,59 @@ use Thrift\Exception\TApplicationException;
 
 /**
  * This enumeration defines the possible exception states returned by Boxalino Data Intelligence Thrift API
- * 
- * <dl>
- * <dt>GENERAL_EXCEPTION</dt>
- * <dd>general case of exception (no special detailed provided)</dd>
- * 
- * <dt>INVALID_CREDENTIALS</dt>
- * <dd>the provided credentials to retrieve an authentication token are not valid (wrong username, password or both)</dd>
- * 
- * <dt>BLOCKED_USER</dt>
- * <dd>your user has been blocked (but it doesn't necessarily mean your account has been blocked)</dd>
- * 
- * <dt>BLOCKED_ACCOUNT</dt>
- * <dd>your account has been blocked, you must contact Boxalino (<a href="mailto:support@boxalino.com">support@boxalino.com</a>) to know the reasons of this blocking.</dd>
- * 
- * <dt>INVALID_AUTHENTICATION_TOKEN</dt>
- * <dd>the provided authentication token is invalid (wrong, or no more valid), you should get a new one by calling the GetAuthentication service.</dd>
- * 
- * <dt>INVALID_NEW_PASSWORD</dt>
- * <dd>specific to the service function UpdatePassword: means that the new password is not correct (should be at least 8 characters long and not contain any punctuation)</dd>
- * 
- * <dt>INVALID_CONFIGURATION_VERSION</dt>
- * <dd>the provided configuration object contains a configuration version number which doesn't exists or cannot be accessed</dd>
- * </dl>
- * 
- * <dt>INVALID_DATASOURCE</dt>
- * <dd>the provided XML data source is not correct (see documentation of the data source XML format)</dd>
- * </dl>
- * 
- * <dt>NON_EXISTING_CONTENT_ID</dt>
- * <dd>the provided content to be changed (updated, deleted, etc.) is defined with a content id which doesn't exists</dd>
- * </dl>
- * 
- * <dt>ALREADY_EXISTING_CONTENT_ID</dt>
- * <dd>the provided content id to be created already exists</dd>
- * </dl>
- * 
- * <dt>INVALID_CONTENT_ID</dt>
- * <dd>the provided content id doesn't not match the requested format (less than 50 alphanumeric characters without any punctuation or accent)</dd>
- * </dl>
- * 
- * <dt>INVALID_CONTENT</dt>
- * <dd>the provided content data are not correctly set</dd>
- * </dl>
- * 
- * <dt>INVALID_LANGUAGE</dt>
- * <dd>one of the provided languages has not been defined for this account</dd>
- * </dl>
  */
 final class DataIntelligenceServiceExceptionNumber {
+  /**
+   * general case of exception (no special detailed provided)
+   */
   const GENERAL_EXCEPTION = 1;
+  /**
+   * the provided credentials to retrieve an authentication token are not valid (wrong username, password or both)
+   */
   const INVALID_CREDENTIALS = 2;
+  /**
+   * your user has been blocked (but it doesn't necessarily mean your account has been blocked)
+   */
   const BLOCKED_USER = 3;
+  /**
+   * your account has been blocked, you must contact Boxalino (<a href="mailto:support@boxalino.com">support@boxalino.com</a>) to know the reasons of this blocking.
+   */
   const BLOCKED_ACCOUNT = 4;
+  /**
+   * the provided authentication token is invalid (wrong, or no more valid), you should get a new one by calling the GetAuthentication service.
+   */
   const INVALID_AUTHENTICATION_TOKEN = 5;
+  /**
+   * specific to the service function UpdatePassword: means that the new password is not correct (should be at least 8 characters long and not contain any punctuation)
+   */
   const INVALID_NEW_PASSWORD = 6;
+  /**
+   * the provided configuration object contains a configuration version number which doesn't exists or cannot be accessed
+   */
   const INVALID_CONFIGURATION_VERSION = 7;
+  /**
+   * the provided XML data source is not correct (see documentation of the data source XML format)
+   */
   const INVALID_DATASOURCE = 8;
+  /**
+   * the provided content to be changed (updated, deleted, etc.) is defined with a content id which doesn't exists
+   */
   const NON_EXISTING_CONTENT_ID = 9;
+  /**
+   * the provided content id to be created already exists
+   */
   const ALREADY_EXISTING_CONTENT_ID = 10;
+  /**
+   * the provided content id doesn't not match the requested format (less than 50 alphanumeric characters without any punctuation or accent)
+   */
   const INVALID_CONTENT_ID = 11;
+  /**
+   * the provided content data are not correctly set
+   */
   const INVALID_CONTENT = 12;
+  /**
+   * one of the provided languages has not been defined for this account
+   */
   const INVALID_LANGUAGE = 13;
   const DUPLICATED_FILE_ID = 14;
   const EMPTY_COLUMNS_LIST = 15;
@@ -108,17 +100,15 @@ final class DataIntelligenceServiceExceptionNumber {
 
 /**
  * This enumeration defines the version type. All contents are versioned, normally, you want to change the current development version and then, when finished, publish it (so it becomes the new production version and a new development version is created), but it is also possible to access the production version directly
- * 
- * <dl>
- * <dt>CURRENT_DEVELOPMENT_VERSION</dt>
- * <dd>this is the normal case, as you want to retrieve the current dev version of your account configuration and not touch the production one</dd>
- * 
- * <dt>CURRENT_PRODUCTION_VERSION</dt>
- * <dd>this should only be used in rare cases where you want to recuperate information from the production configuration, but be careful in changing this version as it will immediately affect your production processes!</dd>
- * </dl>
  */
 final class ConfigurationVersionType {
+  /**
+   * this is the normal case, as you want to retrieve the current dev version of your account configuration and not touch the production one
+   */
   const CURRENT_DEVELOPMENT_VERSION = 1;
+  /**
+   * this should only be used in rare cases where you want to recuperate information from the production configuration, but be careful in changing this version as it will immediately affect your production processes!
+   */
   const CURRENT_PRODUCTION_VERSION = 2;
   static public $__names = array(
     1 => 'CURRENT_DEVELOPMENT_VERSION',
@@ -169,41 +159,31 @@ final class Language {
 
 /**
  * This enumeration defines the possible process task execution statuses type (to check the completion of an execution of  process task and its result)
- * 
- * <dl>
- * <dt>WAITING</dt>
- * <dd>The process was not started yet</dd>
- * 
- * <dt>STARTED</dt>
- * <dd>The process has started and is currently running</dd>
- * </dl>
- * 
- * <dt>STARTED</dt>
- * <dd>The process has started and is currently running</dd>
- * </dl>
- * 
- * <dt>FINISHED_SUCCESS</dt>
- * <dd>The process has finished successfully</dd>
- * </dl>
- * 
- * <dt>FINISHED_WITH_WARNINGS</dt>
- * <dd>The process has finished, but with some warnings</dd>
- * </dl>
- * 
- * <dt>FAILED</dt>
- * <dd>The process has failed</dd>
- * </dl>
- * 
- * <dt>ABORTED</dt>
- * <dd>The process has been aborted</dd>
- * </dl>
  */
 final class ProcessTaskExecutionStatusType {
+  /**
+   * The process was not started yet
+   */
   const WAITING = 1;
+  /**
+   * The process has started and is currently running
+   */
   const STARTED = 2;
+  /**
+   * The process has finished successfully
+   */
   const FINISHED_SUCCESS = 3;
+  /**
+   * The process has finished, but with some warnings
+   */
   const FINISHED_WITH_WARNINGS = 4;
+  /**
+   * The process has failed
+   */
   const FAILED = 5;
+  /**
+   * The process has been aborted
+   */
   const ABORTED = 6;
   static public $__names = array(
     1 => 'WAITING',
@@ -217,39 +197,35 @@ final class ProcessTaskExecutionStatusType {
 
 /**
  * This enumeration defines possible types of columns which can be used in a reference CSV file
- * 
- * <dl>
- * 
- * <dt>STRING</dt>
- * <dd>text string encoded using UTF-8 encoding</dd>
- * 
- * <dt>INTEGER</dt>
- * <dd>64-bit signed integer</dd>
- * 
- * <dt>DOUBLE</dt>
- * <dd>floating point number</dd>
- * 
- * <dt>DATETIME</dt>
- * <dd>textual representation of the date and time</dd>
- * 
- * <dt>DATE</dt>
- * <dd>textual representation of the date</dd>
- * 
- * <dt>TIME</dt>
- * <dd>textual representation of the time</dd>
- * 
- * <dt>UNIX_TIMESTAMP</dt>
- * <dd>numerical representation of the date and time</dd>
- * 
- * </dl>
  */
 final class CSVFileColumnType {
+  /**
+   * text string encoded using UTF-8 encoding
+   */
   const STRING = 1;
+  /**
+   * signed 64-bit integer
+   */
   const INTEGER = 2;
+  /**
+   * floating point number
+   */
   const DOUBLE = 3;
+  /**
+   * textual representation of the date and time in the format YYYY-MM-DD HH:MM:SS
+   */
   const DATETIME = 4;
+  /**
+   * textual representation of the date in the format YYYY-MM-DD
+   */
   const DATE = 5;
+  /**
+   * textual representation of the time in the format HH:MM:SS
+   */
   const TIME = 6;
+  /**
+   * numerical representation of the date and time as an unsigned 32-bit integer, counting the seconds since the start of the UNIX epoch
+   */
   const UNIX_TIMESTAMP = 7;
   static public $__names = array(
     1 => 'STRING',
@@ -264,19 +240,19 @@ final class CSVFileColumnType {
 
 /**
  * This enumeration defines possible granularities used in time ranges
- * 
- * <dl>
- * <dt>DAY</dt>
- * <dd>daily precision</dd>
- * <dt>WEEK</dt>
- * <dd>weekly precision</dd>
- * <dt>MONTH</dt>
- * <dd>monthly precision</dd>
- * </dl>
  */
 final class TimeRangePrecision {
+  /**
+   * daily precision
+   */
   const DAY = 1;
+  /**
+   * weekly precision
+   */
   const WEEK = 2;
+  /**
+   * monthly precision
+   */
   const MONTH = 3;
   static public $__names = array(
     1 => 'DAY',
@@ -287,22 +263,19 @@ final class TimeRangePrecision {
 
 /**
  * This exception is raised by all the BoxalinoDataIntelligence service function in case of a problem
- * 
- * <dl>
- * <dt>exceptionNumber</dt>
- * <dd>indicate the exception number based on the enumeration DataIntelligenceServiceExceptionNumber</dd>
- * <dt>message</dt>
- * <dd>a textual message to explain the error conditions more in details</dd>
- * </dl>
  */
 class DataIntelligenceServiceException extends TException {
   static $_TSPEC;
 
   /**
+   * indicate the exception number based on the enumeration DataIntelligenceServiceExceptionNumber
+   * 
    * @var int
    */
   public $exceptionNumber = null;
   /**
+   * a textual message to explain the error conditions more in details
+   * 
    * @var string
    */
   public $message = null;
@@ -395,28 +368,25 @@ class DataIntelligenceServiceException extends TException {
 
 /**
  * This structure defines the parameters to be send to receive an authentication token (required by all the other services)
- * 
- * <dl>
- * <dt>account</dt>
- * <dd>	the name of your account (as provided to you by Boxalino team, if you don't have an account, contact <a href="mailto:support@boxalino.com">support@boxalino.com</a>)</dd>
- * <dt>username</dt>
- * <dd>	usually the same value as account (but can be different for users with smaller rights, if you don't have a username, contact <a href="mailto:support@boxalino.com">support@boxalino.com</a>)</dd>
- * <dt>password</dt>
- * <dd>	as provided by Boxalino, or according to the last password update you have set. If you lost your password, contact <a href="mailto:support@boxalino.com">support@boxalino.com</a>)</dd>
- * </dl>
  */
 class AuthenticationRequest {
   static $_TSPEC;
 
   /**
+   * the name of your account (as provided to you by Boxalino team, if you don't have an account, contact <a href="mailto:support@boxalino.com">support@boxalino.com</a>)
+   * 
    * @var string
    */
   public $account = null;
   /**
+   * usually the same value as account (but can be different for users with smaller rights, if you don't have a username, contact <a href="mailto:support@boxalino.com">support@boxalino.com</a>)
+   * 
    * @var string
    */
   public $username = null;
   /**
+   * as provided by Boxalino, or according to the last password update you have set. If you lost your password, contact <a href="mailto:support@boxalino.com">support@boxalino.com</a>)
+   * 
    * @var string
    */
   public $password = null;
@@ -528,16 +498,13 @@ class AuthenticationRequest {
 
 /**
  * This structure defines the authentication object (to pass as authentication proof to all function and services)
- * 
- * <dl>
- * <dt>authenticationToken</dt>
- * <dd>the return authentication token is a string valid for one hour</dd>
- * </dl>
  */
 class Authentication {
   static $_TSPEC;
 
   /**
+   * the return authentication token is a string valid for one hour
+   * 
    * @var string
    */
   public $authenticationToken = null;
@@ -611,16 +578,13 @@ class Authentication {
 
 /**
  * This structure defines a configuration version of your account. It must be provided to all functions accessing / updating or removing information from your account configuration
- * 
- * <dl>
- * <dt>configurationVersionNumber</dt>
- * <dd>an internal number identifying the configuration version</dd>
- * </dl>
  */
 class ConfigurationVersion {
   static $_TSPEC;
 
   /**
+   * an internal number identifying the configuration version
+   * 
    * @var int
    */
   public $configurationVersionNumber = null;
@@ -694,40 +658,37 @@ class ConfigurationVersion {
 
 /**
  * This structure defines a configuration difference (somethin which has changed between two configuration versions)
- * 
- * <dl>
- * <dt>contentType</dt>
- * <dd>the type of content which has changed (e.g.: 'field')</dd>
- * <dt>contentId</dt>
- * <dd>the content id which has changed (e.g: a field id)</dd>
- * <dt>parameterName</dt>
- * <dd>the content parameter which has changed (e.g.: a field type)</dd>
- * <dt>contentSource</dt>
- * <dd>the string encoded value of the content parameter value of the source configuration</dd>
- * <dt>contentDestination</dt>
- * <dd>the string encoded value of the content parameter value of the destination configuration</dd>
- * </dl>
  */
 class ConfigurationDifference {
   static $_TSPEC;
 
   /**
+   * the type of content which has changed (e.g.: 'field')
+   * 
    * @var string
    */
   public $contentType = null;
   /**
+   * the content id which has changed (e.g: a field id)
+   * 
    * @var string
    */
   public $contentId = null;
   /**
+   * the content parameter which has changed (e.g.: a field type)
+   * 
    * @var string
    */
   public $parameterName = null;
   /**
+   * the string encoded value of the content parameter value of the source configuration
+   * 
    * @var string
    */
   public $contentSource = null;
   /**
+   * the string encoded value of the content parameter value of the destination configuration
+   * 
    * @var string
    */
   public $contentDestination = null;
@@ -877,16 +838,13 @@ class ConfigurationDifference {
 
 /**
  * This structure defines a data Field. A field covers any type of data property (customer property, product properties, etc.). Fields are global for all data sources, but can be used only for special data sources and ignored for others. This grants that the properties are always ready to unify values from different sources, but they don't have to.
- * 
- * <dl>
- * <dt>fieldId</dt>
- * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
- * </dl>
  */
 class Field {
   static $_TSPEC;
 
   /**
+   * a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters
+   * 
    * @var string
    */
   public $fieldId = null;
@@ -960,16 +918,13 @@ class Field {
 
 /**
  * This structure defines a data ProcessTask. A process task covers any kind of process task to be executed by the system.
- * 
- * <dl>
- * <dt>processTaskId</dt>
- * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
- * </dl>
  */
 class ProcessTask {
   static $_TSPEC;
 
   /**
+   * a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters
+   * 
    * @var string
    */
   public $processTaskId = null;
@@ -1043,40 +998,37 @@ class ProcessTask {
 
 /**
  * This structure defines a data synchronisation process task. It is used to get the data from external systems and process it.
- * 
- * <dl>
- * <dt>processTaskId</dt>
- * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
- * <dt>inputs</dt>
- * <dd>list of data sources which should be used to get data from</dd>
- * <dt>outputs</dt>
- * <dd>list of data exports which should be used to push the data into</dd>
- * <dt>dev</dt>
- * <dd>defines if it is dev version of the task process</dd>
- * <dt>delta</dt>
- * <dd>defines if this particular task process is differential</dd>
- * </dl>
  */
 class DataSyncProcessTask {
   static $_TSPEC;
 
   /**
+   * a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters
+   * 
    * @var string
    */
   public $processTaskId = null;
   /**
+   * list of data sources which should be used to get data from
+   * 
    * @var \com\boxalino\dataintelligence\api\thrift\DataSource[]
    */
   public $inputs = null;
   /**
+   * list of data exports which should be used to push the data into
+   * 
    * @var \com\boxalino\dataintelligence\api\thrift\DataExport[]
    */
   public $outputs = null;
   /**
+   * defines if it is dev version of the task process
+   * 
    * @var bool
    */
   public $dev = false;
   /**
+   * defines if this particular task process is differential
+   * 
    * @var bool
    */
   public $delta = false;
@@ -1282,16 +1234,13 @@ class DataSyncProcessTask {
 
 /**
  * This structure defines a task Scheduling. A scheduling is a collection of process tasks to be executed one after the other by the system.
- * 
- * <dl>
- * <dt>schedulingId</dt>
- * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
- * </dl>
  */
 class Scheduling {
   static $_TSPEC;
 
   /**
+   * a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters
+   * 
    * @var string
    */
   public $schedulingId = null;
@@ -1365,16 +1314,13 @@ class Scheduling {
 
 /**
  * This structure defines a task RecommendationBlock. A RecommendationBlock is a visual block of recommendation for one page of your web-site (product detail page, basket page, etc.) you can have several recommendation blocks on the same page.
- * 
- * <dl>
- * <dt>recommendationBlockId</dt>
- * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
- * </dl>
  */
 class RecommendationBlock {
   static $_TSPEC;
 
   /**
+   * a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters
+   * 
    * @var string
    */
   public $recommendationBlockId = null;
@@ -1448,15 +1394,13 @@ class RecommendationBlock {
 
 /**
  * This structure defines a data source. Data source is used to get the data from external systems into DI.
- * <dl>
- * <dt>dataSourceId</dt>
- * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
- * </dl>
  */
 class DataSource {
   static $_TSPEC;
 
   /**
+   * a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters
+   * 
    * @var string
    */
   public $dataSourceId = null;
@@ -1530,21 +1474,19 @@ class DataSource {
 
 /**
  * This structure defines a data source type used to get the data from reference csv files defined with the API
- * <dl>
- * <dt>dataSourceId</dt>
- * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
- * <dt>extendedDataSourceId</dt>
- * <dd>identifier of the data source which will be extended by this data source</dd>
- * </dl>
  */
 class ReferenceCSVDataSource {
   static $_TSPEC;
 
   /**
+   * a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters
+   * 
    * @var string
    */
   public $dataSourceId = null;
   /**
+   * identifier of the data source which will be extended by this data source
+   * 
    * @var string
    */
   public $extendedDataSourceId = null;
@@ -1637,15 +1579,13 @@ class ReferenceCSVDataSource {
 
 /**
  * This structure defines a data export type used to push processed data into
- * <dl>
- * <dt>dataExportId</dt>
- * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
- * </dl>
  */
 class DataExport {
   static $_TSPEC;
 
   /**
+   * a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters
+   * 
    * @var string
    */
   public $dataExportId = null;
@@ -1718,53 +1658,50 @@ class DataExport {
 }
 
 /**
- * This structure defines a data EmailCampaign. A campaign is a parameter holder for a campaign execution. It should not change at each sending, but the parameters (especially cmpid) can be
- * (should) be changed before any new campaign sending (if new campid applies). For the case of trigger campaigns, the cmpid (and other parameters) usually don't change, but for the case of newsletter campaigns, very often each sending has a different id. In this case, the cmpid must be updated (and the dev configuration should be published) every time.
- * <dl>
- * <dt>campaignId</dt>
- * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
- * <dt>cmpid</dt>
- * <dd>the running campaign id which is often specific to the running of a specific newsletter e-mail (should be changed every time before sending a blast e-mail with the new value (don't forget to publish the dev configuration)</dd>
- * <dt>dateTime</dt>
- * <dd>the dateTime at which the campaign will be sent (cannot be in the past when the campaign is ran, an exception will be then raised). must have the format (Y-m-d H:i:s)</dd>
- * <dt>baseUrl</dt>
- * <dd>a localized value of the base url to use for e-mail links</dd>
- * <dt>subject</dt>
- * <dd>a localized value of the subject line of the e-mail (default, can be overwritten by a specific choice variant localized parameters with parameter name 'subject')</dd>
- * <dt>firstSentence</dt>
- * <dd>a localized value of the first sentence of the e-mail (default, can be overwritten by a specific choice variant localized parameters with parameter name 'firstSentence')</dd>
- * <dt>legals</dt>
- * <dd>a localized value of the legal notices to be included in the e-mail (default, can be extended by a specific choice variant localized parameters with parameter name 'legals')</dd>
- * </dl>
+ * This structure defines a data EmailCampaign. A campaign is a parameter holder for a campaign execution. It should not change at each sending, but the parameters (especially cmpid) can and should be changed before any new campaign sending (if new campid applies). For the case of trigger campaigns, the cmpid (and other parameters) usually don't change, but for the case of newsletter campaigns, very often each sending has a different id. In this case, the cmpid must be updated (and the dev configuration should be published) every time.
  */
 class EmailCampaign {
   static $_TSPEC;
 
   /**
+   * a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters
+   * 
    * @var string
    */
   public $emailCampaignId = null;
   /**
+   * the running campaign id which is often specific to the running of a specific newsletter e-mail (should be changed every time before sending a blast e-mail with the new value (don't forget to publish the dev configuration)
+   * 
    * @var string
    */
   public $cmpid = null;
   /**
+   * the dateTime at which the campaign will be sent (cannot be in the past when the campaign is ran, an exception will be then raised). Must have the format YYYY-MM-DD HH:MM:SS
+   * 
    * @var string
    */
   public $dateTime = null;
   /**
+   * a localized value of the base url to use for e-mail links
+   * 
    * @var array
    */
   public $baseUrl = null;
   /**
+   * a localized value of the subject line of the e-mail (default, can be overwritten by a specific choice variant localized parameters with parameter name 'subject')
+   * 
    * @var array
    */
   public $subject = null;
   /**
+   * a localized value of the first sentence of the e-mail (default, can be overwritten by a specific choice variant localized parameters with parameter name 'firstSentence')
+   * 
    * @var array
    */
   public $firstSentence = null;
   /**
+   * a localized value of the legal notices to be included in the e-mail (default, can be extended by a specific choice variant localized parameters with parameter name 'legals')
+   * 
    * @var array
    */
   public $legals = null;
@@ -2088,15 +2025,13 @@ class EmailCampaign {
 
 /**
  * This structure defines a data Choice.
- * <dl>
- * <dt>choiceId</dt>
- * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
- * </dl>
  */
 class Choice {
   static $_TSPEC;
 
   /**
+   * a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters
+   * 
    * @var string
    */
   public $choiceId = null;
@@ -2170,39 +2105,37 @@ class Choice {
 
 /**
  * This structure defines a data Choice variant
- * <dl>
- * <dt>choiceVariantId</dt>
- * <dd>a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters</dd>
- * <dt>choiceId</dt>
- * <dd>the choice id of the choice which this variant is associated to</dd>
- * <dt>tags</dt>
- * <dd>a list of tags this variant is connected to</dd>
- * <dt>simpleParameters</dt>
- * <dd>a list of non-localized parameters this variant is connected to (for example, to overwrite the campaign properties, keys should have the same name as the campaign parameter name)</dd>
- * <dt>localizedParemeters</dt>
- * <dd>a list of localized parameters this variant is connected to (for example, to overwrite the campaign properties, keys should have the same name as the campaign parameter name)</dd>
- * </dl>
  */
 class ChoiceVariant {
   static $_TSPEC;
 
   /**
+   * a unique id which should not contain any punctuation, only non-accentuated alphabetic and numeric characters and should not be longer than 50 characters
+   * 
    * @var string
    */
   public $choiceVariantId = null;
   /**
+   * the choice id of the choice which this variant is associated to
+   * 
    * @var string
    */
   public $choiceId = null;
   /**
+   * a list of tags this variant is connected to
+   * 
    * @var string[]
    */
   public $tags = null;
   /**
+   * a list of non-localized parameters this variant is connected to (for example, to overwrite the campaign properties, keys should have the same name as the campaign parameter name)
+   * 
    * @var array
    */
   public $simpleParameters = null;
   /**
+   * a list of localized parameters this variant is connected to (for example, to overwrite the campaign properties, keys should have the same name as the campaign parameter name)
+   * 
    * @var array
    */
   public $localizedParemeters = null;
@@ -2523,22 +2456,19 @@ class ChoiceVariant {
 
 /**
  * This structure defines a process task execution status (the status of execution of a process task) with its type and a textual message
- * 
- * <dl>
- * <dt>statusType</dt>
- * <dd>the status type of this execution of the process task</dd>
- * <dt>information</dt>
- * <dd>some additonal information about the type (can be empty, used to explain errors and warnings)</dd>
- * </dl>
  */
 class ProcessTaskExecutionStatus {
   static $_TSPEC;
 
   /**
+   * the status type of this execution of the process task
+   * 
    * @var int
    */
   public $statusType = null;
   /**
+   * some additonal information about the type (can be empty, used to explain errors and warnings)
+   * 
    * @var string
    */
   public $information = null;
@@ -2631,34 +2561,31 @@ class ProcessTaskExecutionStatus {
 
 /**
  * This structure defines the execution parameters of a process task
- * 
- * <dl>
- * <dt>processTaskId</dt>
- * <dd>the process task id to execute</dd>
- * <dt>development</dt>
- * <dd>should the process run with development data that should not to be published into the production environment</dd>
- * <dt>delta</dt>
- * <dd>is the process a differential process that adds or updates a part of the existing data, otherwise the new data will replace any existing data completely</dd>
- * <dt>forceStart</dt>
- * <dd>if another similar process is already running, the forceStart flag will make the new one run, otherwise, the execution will be aborted</dd>
- * </dl>
  */
 class ProcessTaskExecutionParameters {
   static $_TSPEC;
 
   /**
+   * the process task id to execute
+   * 
    * @var string
    */
   public $processTaskId = null;
   /**
+   * should the process run with development data that should not to be published into the production environment
+   * 
    * @var bool
    */
   public $development = null;
   /**
+   * is the process a differential process that adds or updates a part of the existing data, otherwise the new data will replace any existing data completely
+   * 
    * @var bool
    */
   public $delta = null;
   /**
+   * if another similar process is already running, the forceStart flag will make the new one run, otherwise, the execution will be aborted
+   * 
    * @var bool
    */
   public $forceStart = null;
@@ -2789,28 +2716,25 @@ class ProcessTaskExecutionParameters {
 
 /**
  * This structure defines a reference CSV file descriptor with the identifier and schema
- * 
- * <dl>
- * <dt>fileId</dt>
- * <dd>identifier of the csv file, needs to be unique per account</dd>
- * <dt>fileColumns</dt>
- * <dd>key-value map of the file columns, where key is a name of the column and value is a column's type</dd>
- * <dt>fileHash</dt>
- * <dd>internal hash used for csv file upload - this property is set by the API and cannot be changed</dd>
- * </dl>
  */
 class ReferenceCSVFileDescriptor {
   static $_TSPEC;
 
   /**
+   * identifier of the csv file, needs to be unique per account
+   * 
    * @var string
    */
   public $fileId = null;
   /**
+   * key-value map of the file columns, where key is a name of the column and value is a column's type
+   * 
    * @var array
    */
   public $fileColumns = null;
   /**
+   * internal hash used for csv file upload - this property is set by the API and cannot be changed
+   * 
    * @var string
    */
   public $fileHash = null;
@@ -2956,34 +2880,31 @@ class ReferenceCSVFileDescriptor {
 
 /**
  * This structure defines a schedulings execution parameters. A scheduling is a collection of process tasks to be executed one after the other by the system.
- * 
- * <dl>
- * <dt>schedulingId</dt>
- * <dd>the scheduling id to execute</dd>
- * <dt>development</dt>
- * <dd>should the process tasks run with development version data</dd>
- * <dt>delta</dt>
- * <dd>are the process tasks incremental processes (or full)</dd>
- * <dt>forceStart</dt>
- * <dd>if similar process tasks are already running, the forceStart will make the new ones run, otherwise, the execution will be aborted</dd>
- * </dl>
  */
 class SchedulingExecutionParameters {
   static $_TSPEC;
 
   /**
+   * the scheduling id to execute
+   * 
    * @var string
    */
   public $schedulingId = null;
   /**
+   * should the process tasks run with development version data
+   * 
    * @var bool
    */
   public $development = null;
   /**
+   * are the process tasks incremental processes (or full)
+   * 
    * @var bool
    */
   public $delta = null;
   /**
+   * if similar process tasks are already running, the forceStart will make the new ones run, otherwise, the execution will be aborted
+   * 
    * @var bool
    */
   public $forceStart = null;
@@ -3114,22 +3035,19 @@ class SchedulingExecutionParameters {
 
 /**
  * This structure defines a time range
- * 
- * <dl>
- * <dt>from</dt>
- * <dd>UNIX timestamp of a lower boundary of the range</dd>
- * <dt>to</dt>
- * <dd>UNIX timestamp of a upper boundary of the range</dd>
- * </dl>
  */
 class TimeRange {
   static $_TSPEC;
 
   /**
+   * UNIX timestamp of a lower boundary of the range
+   * 
    * @var int
    */
   public $from = null;
   /**
+   * UNIX timestamp of a upper boundary of the range
+   * 
    * @var int
    */
   public $to = null;
@@ -3222,22 +3140,19 @@ class TimeRange {
 
 /**
  * This structure defines a time range value of the KPI
- * 
- * <dl>
- * <dt>range</dt>
- * <dd>used time range</dd>
- * <dt>value</dt>
- * <dd>KPI value for this particular range</dd>
- * </dl>
  */
 class TimeRangeValue {
   static $_TSPEC;
 
   /**
+   * used time range
+   * 
    * @var \com\boxalino\dataintelligence\api\thrift\TimeRange
    */
   public $range = null;
   /**
+   * KPI value for this particular range
+   * 
    * @var double
    */
   public $value = null;

@@ -34,11 +34,6 @@ interface BoxalinoDataIntelligenceIf {
    * @param \com\boxalino\dataintelligence\api\thrift\AuthenticationRequest $authentication
    * @return \com\boxalino\dataintelligence\api\thrift\Authentication This structure defines the authentication object (to pass as authentication proof to all function and services)
    * 
-   * <dl>
-   * <dt>authenticationToken</dt>
-   * <dd>the return authentication token is a string valid for one hour</dd>
-   * </dl>
-   * 
    * @throws \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
    */
   public function GetAuthentication(\com\boxalino\dataintelligence\api\thrift\AuthenticationRequest $authentication);
@@ -76,11 +71,6 @@ interface BoxalinoDataIntelligenceIf {
    * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
    * @param int $versionType
    * @return \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion This structure defines a configuration version of your account. It must be provided to all functions accessing / updating or removing information from your account configuration
-   * 
-   * <dl>
-   * <dt>configurationVersionNumber</dt>
-   * <dd>an internal number identifying the configuration version</dd>
-   * </dl>
    * 
    * @throws \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
    */
@@ -631,13 +621,6 @@ interface BoxalinoDataIntelligenceIf {
    * @param string $processTaskExecutionId
    * @return \com\boxalino\dataintelligence\api\thrift\ProcessTaskExecutionStatus This structure defines a process task execution status (the status of execution of a process task) with its type and a textual message
    * 
-   * <dl>
-   * <dt>statusType</dt>
-   * <dd>the status type of this execution of the process task</dd>
-   * <dt>information</dt>
-   * <dd>some additonal information about the type (can be empty, used to explain errors and warnings)</dd>
-   * </dl>
-   * 
    * @throws \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
    */
   public function GetProcessStatus(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $processTaskExecutionId);
@@ -725,15 +708,6 @@ interface BoxalinoDataIntelligenceIf {
    * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
    * @param \com\boxalino\dataintelligence\api\thrift\ReferenceCSVFileDescriptor $fileDescriptor
    * @return \com\boxalino\dataintelligence\api\thrift\ReferenceCSVFileDescriptor This structure defines a reference CSV file descriptor with the identifier and schema
-   * 
-   * <dl>
-   * <dt>fileId</dt>
-   * <dd>identifier of the csv file, needs to be unique per account</dd>
-   * <dt>fileColumns</dt>
-   * <dd>key-value map of the file columns, where key is a name of the column and value is a column's type</dd>
-   * <dt>fileHash</dt>
-   * <dd>internal hash used for csv file upload - this property is set by the API and cannot be changed</dd>
-   * </dl>
    * 
    * @throws \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
    */
