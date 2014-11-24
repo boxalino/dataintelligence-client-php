@@ -84,6 +84,7 @@ final class DataIntelligenceServiceExceptionNumber {
   const DUPLICATED_FILE_ID = 14;
   const EMPTY_COLUMNS_LIST = 15;
   const NON_EXISTING_FILE = 16;
+  const INVALID_RANGE = 17;
   static public $__names = array(
     1 => 'GENERAL_EXCEPTION',
     2 => 'INVALID_CREDENTIALS',
@@ -101,6 +102,7 @@ final class DataIntelligenceServiceExceptionNumber {
     14 => 'DUPLICATED_FILE_ID',
     15 => 'EMPTY_COLUMNS_LIST',
     16 => 'NON_EXISTING_FILE',
+    17 => 'INVALID_RANGE',
   );
 }
 
@@ -257,6 +259,29 @@ final class CSVFileColumnType {
     5 => 'DATE',
     6 => 'TIME',
     7 => 'UNIX_TIMESTAMP',
+  );
+}
+
+/**
+ * This enumeration defines possible granularities used in time ranges
+ * 
+ * <dl>
+ * <dt>DAY</dt>
+ * <dd>daily precision</dd>
+ * <dt>WEEK</dt>
+ * <dd>weekly precision</dd>
+ * <dt>MONTH</dt>
+ * <dd>monthly precision</dd>
+ * </dl>
+ */
+final class TimeRangePrecision {
+  const DAY = 1;
+  const WEEK = 2;
+  const MONTH = 3;
+  static public $__names = array(
+    1 => 'DAY',
+    2 => 'WEEK',
+    3 => 'MONTH',
   );
 }
 
@@ -3078,6 +3103,227 @@ class SchedulingExecutionParameters {
     if ($this->forceStart !== null) {
       $xfer += $output->writeFieldBegin('forceStart', TType::BOOL, 4);
       $xfer += $output->writeBool($this->forceStart);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+/**
+ * This structure defines a time range
+ * 
+ * <dl>
+ * <dt>from</dt>
+ * <dd>UNIX timestamp of a lower boundary of the range</dd>
+ * <dt>to</dt>
+ * <dd>UNIX timestamp of a upper boundary of the range</dd>
+ * </dl>
+ */
+class TimeRange {
+  static $_TSPEC;
+
+  /**
+   * @var int
+   */
+  public $from = null;
+  /**
+   * @var int
+   */
+  public $to = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'from',
+          'type' => TType::I64,
+          ),
+        2 => array(
+          'var' => 'to',
+          'type' => TType::I64,
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['from'])) {
+        $this->from = $vals['from'];
+      }
+      if (isset($vals['to'])) {
+        $this->to = $vals['to'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'TimeRange';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::I64) {
+            $xfer += $input->readI64($this->from);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::I64) {
+            $xfer += $input->readI64($this->to);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('TimeRange');
+    if ($this->from !== null) {
+      $xfer += $output->writeFieldBegin('from', TType::I64, 1);
+      $xfer += $output->writeI64($this->from);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->to !== null) {
+      $xfer += $output->writeFieldBegin('to', TType::I64, 2);
+      $xfer += $output->writeI64($this->to);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+/**
+ * This structure defines a time range value of the KPI
+ * 
+ * <dl>
+ * <dt>range</dt>
+ * <dd>used time range</dd>
+ * <dt>value</dt>
+ * <dd>KPI value for this particular range</dd>
+ * </dl>
+ */
+class TimeRangeValue {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\TimeRange
+   */
+  public $range = null;
+  /**
+   * @var double
+   */
+  public $value = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'range',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\TimeRange',
+          ),
+        2 => array(
+          'var' => 'value',
+          'type' => TType::DOUBLE,
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['range'])) {
+        $this->range = $vals['range'];
+      }
+      if (isset($vals['value'])) {
+        $this->value = $vals['value'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'TimeRangeValue';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->range = new \com\boxalino\dataintelligence\api\thrift\TimeRange();
+            $xfer += $this->range->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::DOUBLE) {
+            $xfer += $input->readDouble($this->value);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('TimeRangeValue');
+    if ($this->range !== null) {
+      if (!is_object($this->range)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('range', TType::STRUCT, 1);
+      $xfer += $this->range->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->value !== null) {
+      $xfer += $output->writeFieldBegin('value', TType::DOUBLE, 2);
+      $xfer += $output->writeDouble($this->value);
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();

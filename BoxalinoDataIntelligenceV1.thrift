@@ -67,7 +67,8 @@ enum DataIntelligenceServiceExceptionNumber {
 	INVALID_LANGUAGE = 13,
 	DUPLICATED_FILE_ID = 14,
 	EMPTY_COLUMNS_LIST = 15,
-	NON_EXISTING_FILE = 16
+	NON_EXISTING_FILE = 16,
+        INVALID_RANGE = 17
 }
 
 /**
@@ -511,6 +512,54 @@ struct SchedulingExecutionParameters {
 	2: required bool development,
 	3: required bool delta,
 	4: required bool forceStart
+}
+
+/**
+ * This structure defines a time range
+ *
+ * <dl>
+ * <dt>from</dt>
+ * <dd>UNIX timestamp of a lower boundary of the range</dd>
+ * <dt>to</dt>
+ * <dd>UNIX timestamp of a upper boundary of the range</dd>
+ * </dl>
+ */
+struct TimeRange {
+	1: required i64 from,
+	2: required i64 to
+}
+
+/**
+ * This enumeration defines possible granularities used in time ranges
+ *
+ * <dl>
+ * <dt>DAY</dt>
+ * <dd>daily precision</dd>
+ * <dt>WEEK</dt>
+ * <dd>weekly precision</dd>
+ * <dt>MONTH</dt>
+ * <dd>monthly precision</dd>
+ * </dl>
+ */
+enum TimeRangePrecision {
+	DAY = 1,
+	WEEK = 2,
+	MONTH = 3
+}
+
+/**
+ * This structure defines a time range value of the KPI
+ * 
+ * <dl>
+ * <dt>range</dt>
+ * <dd>used time range</dd>
+ * <dt>value</dt>
+ * <dd>KPI value for this particular range</dd>
+ * </dl>
+ */
+struct TimeRangeValue {
+	1: required TimeRange range,
+	2: required double value
 }
 
 service BoxalinoDataIntelligence {
@@ -1340,5 +1389,42 @@ service BoxalinoDataIntelligence {
 	void UpdateReferenceCSVDataSource(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: ReferenceCSVDataSource dataSource) throws (1: DataIntelligenceServiceException e),
 
 	void DeleteReferenceCSVDataSource(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string dataSourceId) throws (1: DataIntelligenceServiceException e),
+	
+/**
+ * This service function gets an identifier of last imported transaction. It can be useful for differential data synchronization.
+ *
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@returns string</dt>
+ * <dd>an identifier of the last transaction</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * </dl>
+ */
+        string GetLastTransactionID(1: Authentication authentication, 2: ConfigurationVersion configuration) throws (1: DataIntelligenceServiceException e),
+
+/**
+ * This service function retrieves number of visits for each time range with selected precision.
+ * 
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param range</dt>
+ * <dd>a time range of generated reports</dd>
+ * <dt>@param precision</dt>
+ * <dd>a level of granularity</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>INVALID_RANGE: if the given time range is incorrect</dd>
+ * </dl>
+ */
+	list<TimeRangeValue> GetPageViews(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: TimeRange range, 4: TimeRangePrecision precision) throws (1: DataIntelligenceServiceException e),
 
 }
