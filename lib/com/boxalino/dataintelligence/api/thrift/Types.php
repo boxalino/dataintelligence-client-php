@@ -73,9 +73,21 @@ final class DataIntelligenceServiceExceptionNumber {
    * one of the provided languages has not been defined for this account
    */
   const INVALID_LANGUAGE = 13;
+  /**
+   * the provided file identifier has been already used
+   */
   const DUPLICATED_FILE_ID = 14;
+  /**
+   * the provided list of columns is empty
+   */
   const EMPTY_COLUMNS_LIST = 15;
+  /**
+   * the provided file identifier was not found
+   */
   const NON_EXISTING_FILE = 16;
+  /**
+   * the provided time range is incorrect (start timestamp is higher than the end one)
+   */
   const INVALID_RANGE = 17;
   static public $__names = array(
     1 => 'GENERAL_EXCEPTION',

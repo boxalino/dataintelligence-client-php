@@ -758,15 +758,13 @@ interface BoxalinoDataIntelligenceIf {
    */
   public function DeleteReferenceCSVFile(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\ReferenceCSVFileDescriptor $fileDescriptor);
   /**
-   * This service is responsible for reference csv file removal.
+   * This service is responsible for getting all registered csv files.
    * 
    * <dl>
    * <dt>@param authentication</dt>
    * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
    * <dt>@param configuration</dt>
    * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
-   * <dt>@param fileDescriptor</dt>
-   * <dd>the ReferenceCSVFileDescriptor object to be removed</dd>
    * <dt>@return</dt>
    * <dd>list of all reference csv files assigned to the current account</dd>
    * <dt>@throws DataIntelligenceServiceException</dt>
@@ -1005,6 +1003,18 @@ interface BoxalinoDataIntelligenceIf {
    */
   public function DeleteRecommendationBlock(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $recommendationBlockId);
   /**
+   * this service function gets all data sources defined for the account
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * </dl>
+   * 
    * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
    * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
    * @return array
@@ -1012,6 +1022,19 @@ interface BoxalinoDataIntelligenceIf {
    */
   public function GetDataSources(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration);
   /**
+   * this service function creates a new data source
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dd>ALREADY_EXISTING_CONTENT_ID: if the provided dataSourceId already exists.</dd>
+   * </dl>
+   * 
    * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
    * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
    * @param string $dataSourceId
@@ -1019,6 +1042,22 @@ interface BoxalinoDataIntelligenceIf {
    */
   public function CreateDataSource(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $dataSourceId);
   /**
+   * this service function updates a DataSource
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@param dataSource</dt>
+   * <dd>a DataSource object to be updated (the content of the object will be updated on the content id provided)</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dd>NON_EXISTING_CONTENT_ID:if the provided DataSource id doesn't already exists.</dd>
+   * <dd>The </dd>
+   * </dl>
+   * 
    * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
    * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
    * @param \com\boxalino\dataintelligence\api\thrift\DataSource $dataSource
@@ -1026,6 +1065,21 @@ interface BoxalinoDataIntelligenceIf {
    */
   public function UpdateDataSource(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\DataSource $dataSource);
   /**
+   * this service function removes provided data source
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@param dataSourceId</dt>
+   * <dd>the identifier of the data source to be deleted</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dd>NON_EXISTING_CONTENT_ID:if the provided dataSourceId id doesn't already exists.</dd>
+   * </dl>
+   * 
    * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
    * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
    * @param string $dataSourceId
@@ -1033,6 +1087,18 @@ interface BoxalinoDataIntelligenceIf {
    */
   public function DeleteDataSource(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $dataSourceId);
   /**
+   * this service function gets all data exports defined for the account
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * </dl>
+   * 
    * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
    * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
    * @return array
@@ -1040,6 +1106,21 @@ interface BoxalinoDataIntelligenceIf {
    */
   public function GetDataExports(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration);
   /**
+   * this service function creates new data export
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@param dataExportId</dt>
+   * <dd>the identifier of the data export to be deleted</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dd>ALREADY_EXISTING_CONTENT_ID: if the provided dataExportId already exists.</dd>
+   * </dl>
+   * 
    * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
    * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
    * @param string $dataExportId
@@ -1047,6 +1128,22 @@ interface BoxalinoDataIntelligenceIf {
    */
   public function CreateDataExport(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $dataExportId);
   /**
+   * this service function updates a DataExport
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@param dataExport</dt>
+   * <dd>a DataExport object to be updated (the content of the object will be updated on the content id provided)</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dd>NON_EXISTING_CONTENT_ID:if the provided DataExport id doesn't already exists.</dd>
+   * <dd>The </dd>
+   * </dl>
+   * 
    * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
    * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
    * @param \com\boxalino\dataintelligence\api\thrift\DataExport $dataExport
@@ -1054,6 +1151,21 @@ interface BoxalinoDataIntelligenceIf {
    */
   public function UpdateDataExport(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\DataExport $dataExport);
   /**
+   * this service function removes provided data export
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@param dataExportId</dt>
+   * <dd>the identifier of the data export to be deleted</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dd>NON_EXISTING_CONTENT_ID:if the provided dataSourceId id doesn't already exists.</dd>
+   * </dl>
+   * 
    * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
    * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
    * @param string $dataExportId
@@ -1061,6 +1173,18 @@ interface BoxalinoDataIntelligenceIf {
    */
   public function DeleteDataExport(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $dataExportId);
   /**
+   * this service function gets all data source defined for the account, but only these ones which use reference CSV files to retrieve the data
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * </dl>
+   * 
    * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
    * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
    * @return array
@@ -1068,6 +1192,21 @@ interface BoxalinoDataIntelligenceIf {
    */
   public function GetReferenceCSVFileDataSources(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration);
   /**
+   * this service function creates new reference csv data source
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@param dataExportId</dt>
+   * <dd>the identifier of the data export to be deleted</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dd>ALREADY_EXISTING_CONTENT_ID: if the provided dataSourceId already exists.</dd>
+   * </dl>
+   * 
    * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
    * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
    * @param string $dataSourceId
@@ -1075,6 +1214,22 @@ interface BoxalinoDataIntelligenceIf {
    */
   public function CreateReferenceCSVDataSource(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, $dataSourceId);
   /**
+   * this service function updates a reference CSV data source
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@param dataSource</dt>
+   * <dd>a ReferenceCSVDataSource object to be updated (the content of the object will be updated on the content id provided)</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dd>NON_EXISTING_CONTENT_ID:if the provided ReferenceCSVDataSource id doesn't already exists.</dd>
+   * <dd>The </dd>
+   * </dl>
+   * 
    * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
    * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
    * @param \com\boxalino\dataintelligence\api\thrift\ReferenceCSVDataSource $dataSource
@@ -1082,6 +1237,21 @@ interface BoxalinoDataIntelligenceIf {
    */
   public function UpdateReferenceCSVDataSource(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\ReferenceCSVDataSource $dataSource);
   /**
+   * this service function removes provided reference CSV data source
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@param dataSourceId</dt>
+   * <dd>the identifier of the data source to be deleted</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dd>NON_EXISTING_CONTENT_ID:if the provided dataSourceId id doesn't already exists.</dd>
+   * </dl>
+   * 
    * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
    * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
    * @param string $dataSourceId

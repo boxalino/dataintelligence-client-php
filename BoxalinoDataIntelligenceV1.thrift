@@ -57,9 +57,21 @@ enum DataIntelligenceServiceExceptionNumber {
 	 * one of the provided languages has not been defined for this account
 	 */
 	INVALID_LANGUAGE = 13,
+        /**
+         * the provided file identifier has been already used
+         */
 	DUPLICATED_FILE_ID = 14,
+        /**
+         * the provided list of columns is empty
+         */
 	EMPTY_COLUMNS_LIST = 15,
+        /**
+         * the provided file identifier was not found
+         */
 	NON_EXISTING_FILE = 16,
+        /**
+         * the provided time range is incorrect (start timestamp is higher than the end one)
+         */
 	INVALID_RANGE = 17
 }
 
@@ -1133,15 +1145,13 @@ service BoxalinoDataIntelligence {
 
 
 /**
- * This service is responsible for reference csv file removal.
+ * This service is responsible for getting all registered csv files.
  *
  * <dl>
  * <dt>@param authentication</dt>
  * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
  * <dt>@param configuration</dt>
  * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
- * <dt>@param fileDescriptor</dt>
- * <dd>the ReferenceCSVFileDescriptor object to be removed</dd>
  * <dt>@return</dt>
  * <dd>list of all reference csv files assigned to the current account</dd>
  * <dt>@throws DataIntelligenceServiceException</dt>
@@ -1336,28 +1346,212 @@ service BoxalinoDataIntelligence {
  */
 	void DeleteRecommendationBlock(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string recommendationBlockId) throws (1: DataIntelligenceServiceException e),
 
+/**
+ * this service function gets all data sources defined for the account
+ *
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * </dl>
+ */
 	map<string, DataSource> GetDataSources(1: Authentication authentication, 2: ConfigurationVersion configuration) throws (1: DataIntelligenceServiceException e),
 
+/**
+ * this service function creates a new data source
+ *
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>ALREADY_EXISTING_CONTENT_ID: if the provided dataSourceId already exists.</dd>
+ * </dl>
+ */
 	void CreateDataSource(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string dataSourceId) throws (1: DataIntelligenceServiceException e),
 
+/**
+ * this service function updates a DataSource
+ * 
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param dataSource</dt>
+ * <dd>a DataSource object to be updated (the content of the object will be updated on the content id provided)</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>NON_EXISTING_CONTENT_ID:if the provided DataSource id doesn't already exists.</dd>
+ * <dd>The </dd>
+ * </dl>
+ */
 	void UpdateDataSource(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: DataSource dataSource) throws (1: DataIntelligenceServiceException e),
 
+/**
+ * this service function removes provided data source
+ *
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param dataSourceId</dt>
+ * <dd>the identifier of the data source to be deleted</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>NON_EXISTING_CONTENT_ID:if the provided dataSourceId id doesn't already exists.</dd>
+ * </dl>
+ */
 	void DeleteDataSource(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string dataSourceId) throws (1: DataIntelligenceServiceException e),
 
+/**
+ * this service function gets all data exports defined for the account
+ *
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * </dl>
+ */
 	map<string, DataExport> GetDataExports(1: Authentication authentication, 2: ConfigurationVersion configuration) throws (1: DataIntelligenceServiceException e),
 
+/**
+ * this service function creates new data export
+ *
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param dataExportId</dt>
+ * <dd>the identifier of the data export to be deleted</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>ALREADY_EXISTING_CONTENT_ID: if the provided dataExportId already exists.</dd>
+ * </dl>
+ */
 	void CreateDataExport(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string dataExportId) throws (1: DataIntelligenceServiceException e),
 
+/**
+ * this service function updates a DataExport
+ * 
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param dataExport</dt>
+ * <dd>a DataExport object to be updated (the content of the object will be updated on the content id provided)</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>NON_EXISTING_CONTENT_ID:if the provided DataExport id doesn't already exists.</dd>
+ * <dd>The </dd>
+ * </dl>
+ */
 	void UpdateDataExport(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: DataExport dataExport) throws (1: DataIntelligenceServiceException e),
 
+/**
+ * this service function removes provided data export
+ *
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param dataExportId</dt>
+ * <dd>the identifier of the data export to be deleted</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>NON_EXISTING_CONTENT_ID:if the provided dataSourceId id doesn't already exists.</dd>
+ * </dl>
+ */
 	void DeleteDataExport(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string dataExportId) throws (1: DataIntelligenceServiceException e),
 
+/**
+ * this service function gets all data source defined for the account, but only these ones which use reference CSV files to retrieve the data
+ *
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * </dl>
+ */
 	map<string, ReferenceCSVDataSource> GetReferenceCSVFileDataSources(1: Authentication authentication, 2: ConfigurationVersion configuration) throws (1: DataIntelligenceServiceException e),
 
+/**
+ * this service function creates new reference csv data source
+ *
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param dataExportId</dt>
+ * <dd>the identifier of the data export to be deleted</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>ALREADY_EXISTING_CONTENT_ID: if the provided dataSourceId already exists.</dd>
+ * </dl>
+ */
 	void CreateReferenceCSVDataSource(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string dataSourceId) throws (1: DataIntelligenceServiceException e),
 
+/**
+ * this service function updates a reference CSV data source
+ * 
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param dataSource</dt>
+ * <dd>a ReferenceCSVDataSource object to be updated (the content of the object will be updated on the content id provided)</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>NON_EXISTING_CONTENT_ID:if the provided ReferenceCSVDataSource id doesn't already exists.</dd>
+ * <dd>The </dd>
+ * </dl>
+ */
 	void UpdateReferenceCSVDataSource(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: ReferenceCSVDataSource dataSource) throws (1: DataIntelligenceServiceException e),
 
+/**
+ * this service function removes provided reference CSV data source
+ *
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param dataSourceId</dt>
+ * <dd>the identifier of the data source to be deleted</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>NON_EXISTING_CONTENT_ID:if the provided dataSourceId id doesn't already exists.</dd>
+ * </dl>
+ */
 	void DeleteReferenceCSVDataSource(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: string dataSourceId) throws (1: DataIntelligenceServiceException e),
 	
 /**

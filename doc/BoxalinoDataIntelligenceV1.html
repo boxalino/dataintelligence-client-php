@@ -145,13 +145,17 @@ the provided content data are not correctly set
 one of the provided languages has not been defined for this account
 <br/></td></tr>
 <tr><td><code>DUPLICATED_FILE_ID</code></td><td><code>14</code></td><td>
-</td></tr>
+the provided file identifier has been already used
+<br/></td></tr>
 <tr><td><code>EMPTY_COLUMNS_LIST</code></td><td><code>15</code></td><td>
-</td></tr>
+the provided list of columns is empty
+<br/></td></tr>
 <tr><td><code>NON_EXISTING_FILE</code></td><td><code>16</code></td><td>
-</td></tr>
+the provided file identifier was not found
+<br/></td></tr>
 <tr><td><code>INVALID_RANGE</code></td><td><code>17</code></td><td>
-</td></tr>
+the provided time range is incorrect (start timestamp is higher than the end one)
+<br/></td></tr>
 </table></div>
 <div class="definition"><h3 id="Enum_ConfigurationVersionType">Enumeration: ConfigurationVersionType</h3>
 This enumeration defines the version type. All contents are versioned, normally, you want to change the current development version and then, when finished, publish it (so it becomes the new production version and a new development version is created), but it is also possible to access the production version directly
@@ -1074,15 +1078,13 @@ File hash is set by the API internally and cannot be changed.
 <pre><code>list&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReferenceCSVFileDescriptor">ReferenceCSVFileDescriptor</a></code>&gt;</code> GetAllReferenceCSVFiles(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
                                                          <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration)
     throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
-</pre>This service is responsible for reference csv file removal.
+</pre>This service is responsible for getting all registered csv files.
 
 <dl>
 <dt>@param authentication</dt>
 <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
 <dt>@param configuration</dt>
 <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
-<dt>@param fileDescriptor</dt>
-<dd>the ReferenceCSVFileDescriptor object to be removed</dd>
 <dt>@return</dt>
 <dd>list of all reference csv files assigned to the current account</dd>
 <dt>@throws DataIntelligenceServiceException</dt>
@@ -1285,60 +1287,220 @@ File hash is set by the API internally and cannot be changed.
 <pre><code>map&lt;<code>string</code>, <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataSource">DataSource</a></code>&gt;</code> GetDataSources(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
                                      <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration)
     throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
-</pre></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_CreateDataSource">Function: BoxalinoDataIntelligence.CreateDataSource</h4>
+</pre>this service function gets all data sources defined for the account
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_CreateDataSource">Function: BoxalinoDataIntelligence.CreateDataSource</h4>
 <pre><code>void</code> CreateDataSource(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
                       <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
                       <code>string</code> dataSourceId)
     throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
-</pre></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_UpdateDataSource">Function: BoxalinoDataIntelligence.UpdateDataSource</h4>
+</pre>this service function creates a new data source
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dd>ALREADY_EXISTING_CONTENT_ID: if the provided dataSourceId already exists.</dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_UpdateDataSource">Function: BoxalinoDataIntelligence.UpdateDataSource</h4>
 <pre><code>void</code> UpdateDataSource(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
                       <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
                       <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataSource">DataSource</a></code> dataSource)
     throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
-</pre></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_DeleteDataSource">Function: BoxalinoDataIntelligence.DeleteDataSource</h4>
+</pre>this service function updates a DataSource
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@param dataSource</dt>
+<dd>a DataSource object to be updated (the content of the object will be updated on the content id provided)</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dd>NON_EXISTING_CONTENT_ID:if the provided DataSource id doesn't already exists.</dd>
+<dd>The </dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_DeleteDataSource">Function: BoxalinoDataIntelligence.DeleteDataSource</h4>
 <pre><code>void</code> DeleteDataSource(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
                       <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
                       <code>string</code> dataSourceId)
     throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
-</pre></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_GetDataExports">Function: BoxalinoDataIntelligence.GetDataExports</h4>
+</pre>this service function removes provided data source
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@param dataSourceId</dt>
+<dd>the identifier of the data source to be deleted</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dd>NON_EXISTING_CONTENT_ID:if the provided dataSourceId id doesn't already exists.</dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_GetDataExports">Function: BoxalinoDataIntelligence.GetDataExports</h4>
 <pre><code>map&lt;<code>string</code>, <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataExport">DataExport</a></code>&gt;</code> GetDataExports(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
                                      <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration)
     throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
-</pre></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_CreateDataExport">Function: BoxalinoDataIntelligence.CreateDataExport</h4>
+</pre>this service function gets all data exports defined for the account
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_CreateDataExport">Function: BoxalinoDataIntelligence.CreateDataExport</h4>
 <pre><code>void</code> CreateDataExport(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
                       <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
                       <code>string</code> dataExportId)
     throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
-</pre></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_UpdateDataExport">Function: BoxalinoDataIntelligence.UpdateDataExport</h4>
+</pre>this service function creates new data export
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@param dataExportId</dt>
+<dd>the identifier of the data export to be deleted</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dd>ALREADY_EXISTING_CONTENT_ID: if the provided dataExportId already exists.</dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_UpdateDataExport">Function: BoxalinoDataIntelligence.UpdateDataExport</h4>
 <pre><code>void</code> UpdateDataExport(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
                       <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
                       <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataExport">DataExport</a></code> dataExport)
     throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
-</pre></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_DeleteDataExport">Function: BoxalinoDataIntelligence.DeleteDataExport</h4>
+</pre>this service function updates a DataExport
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@param dataExport</dt>
+<dd>a DataExport object to be updated (the content of the object will be updated on the content id provided)</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dd>NON_EXISTING_CONTENT_ID:if the provided DataExport id doesn't already exists.</dd>
+<dd>The </dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_DeleteDataExport">Function: BoxalinoDataIntelligence.DeleteDataExport</h4>
 <pre><code>void</code> DeleteDataExport(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
                       <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
                       <code>string</code> dataExportId)
     throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
-</pre></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_GetReferenceCSVFileDataSources">Function: BoxalinoDataIntelligence.GetReferenceCSVFileDataSources</h4>
+</pre>this service function removes provided data export
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@param dataExportId</dt>
+<dd>the identifier of the data export to be deleted</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dd>NON_EXISTING_CONTENT_ID:if the provided dataSourceId id doesn't already exists.</dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_GetReferenceCSVFileDataSources">Function: BoxalinoDataIntelligence.GetReferenceCSVFileDataSources</h4>
 <pre><code>map&lt;<code>string</code>, <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReferenceCSVDataSource">ReferenceCSVDataSource</a></code>&gt;</code> GetReferenceCSVFileDataSources(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
                                                                  <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration)
     throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
-</pre></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_CreateReferenceCSVDataSource">Function: BoxalinoDataIntelligence.CreateReferenceCSVDataSource</h4>
+</pre>this service function gets all data source defined for the account, but only these ones which use reference CSV files to retrieve the data
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_CreateReferenceCSVDataSource">Function: BoxalinoDataIntelligence.CreateReferenceCSVDataSource</h4>
 <pre><code>void</code> CreateReferenceCSVDataSource(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
                                   <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
                                   <code>string</code> dataSourceId)
     throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
-</pre></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_UpdateReferenceCSVDataSource">Function: BoxalinoDataIntelligence.UpdateReferenceCSVDataSource</h4>
+</pre>this service function creates new reference csv data source
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@param dataExportId</dt>
+<dd>the identifier of the data export to be deleted</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dd>ALREADY_EXISTING_CONTENT_ID: if the provided dataSourceId already exists.</dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_UpdateReferenceCSVDataSource">Function: BoxalinoDataIntelligence.UpdateReferenceCSVDataSource</h4>
 <pre><code>void</code> UpdateReferenceCSVDataSource(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
                                   <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
                                   <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReferenceCSVDataSource">ReferenceCSVDataSource</a></code> dataSource)
     throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
-</pre></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_DeleteReferenceCSVDataSource">Function: BoxalinoDataIntelligence.DeleteReferenceCSVDataSource</h4>
+</pre>this service function updates a reference CSV data source
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@param dataSource</dt>
+<dd>a ReferenceCSVDataSource object to be updated (the content of the object will be updated on the content id provided)</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dd>NON_EXISTING_CONTENT_ID:if the provided ReferenceCSVDataSource id doesn't already exists.</dd>
+<dd>The </dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_DeleteReferenceCSVDataSource">Function: BoxalinoDataIntelligence.DeleteReferenceCSVDataSource</h4>
 <pre><code>void</code> DeleteReferenceCSVDataSource(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
                                   <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
                                   <code>string</code> dataSourceId)
     throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
-</pre></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_GetLastTransactionID">Function: BoxalinoDataIntelligence.GetLastTransactionID</h4>
+</pre>this service function removes provided reference CSV data source
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@param dataSourceId</dt>
+<dd>the identifier of the data source to be deleted</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dd>NON_EXISTING_CONTENT_ID:if the provided dataSourceId id doesn't already exists.</dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_GetLastTransactionID">Function: BoxalinoDataIntelligence.GetLastTransactionID</h4>
 <pre><code>string</code> GetLastTransactionID(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
                             <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration)
     throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
