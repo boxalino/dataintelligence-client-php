@@ -1280,6 +1280,7 @@ interface BoxalinoDataIntelligenceIf {
    */
   public function GetLastTransactionID(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration);
   /**
+   * DEPRECITATED: USE GetChoiceReport service instead with ReportMetric: PAGE_VIEWS
    * This service function retrieves number of visits for each time range with selected precision.
    * 
    * <dl>
@@ -1305,6 +1306,81 @@ interface BoxalinoDataIntelligenceIf {
    * @throws \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
    */
   public function GetPageViews(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\TimeRange $range, $precision);
+  /**
+   * This service function provides an choice statistical report.
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@param request</dt>
+   * <dd>The statistical report request indicating the parameters of the requested report: dimension, metrics, etc.</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dd>INVALID_REPORT_REQUEST: if the provided report request is not valid.</dd>
+   * </dl>
+   * 
+   * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
+   * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
+   * @param \com\boxalino\dataintelligence\api\thrift\ChoiceReportRequest $request
+   * @return \com\boxalino\dataintelligence\api\thrift\ChoiceReport This structure defines an optimization report returned
+   * This object is specific to ChoiceReportRequest but is similar to all other type of report responses, as the only difference usually is the key object of the result variable (in this case: ChoiceReportResult)
+   * 
+   * @throws \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public function GetChoiceReport(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\ChoiceReportRequest $request);
+  /**
+   * This service function provides an transaction statistical report.
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@param request</dt>
+   * <dd>The statistical report request indicating the parameters of the requested report: dimension, metrics, etc.</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dd>INVALID_REPORT_REQUEST: if the provided report request is not valid.</dd>
+   * </dl>
+   * 
+   * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
+   * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
+   * @param \com\boxalino\dataintelligence\api\thrift\TransactionReportRequest $request
+   * @return \com\boxalino\dataintelligence\api\thrift\TransactionReport This structure defines a transaction report returned
+   * This object is specific to TransactionReportRequest but is similar to all other type of report responses, as the only difference usually is the key object of the result variable (in this case: TransactionReportResult)
+   * 
+   * @throws \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public function GetTransactionReport(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\TransactionReportRequest $request);
+  /**
+   * This service function provides an behavior statistical report.
+   * 
+   * <dl>
+   * <dt>@param authenticationToken</dt>
+   * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+   * <dt>@param configurationVersion</dt>
+   * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+   * <dt>@param request</dt>
+   * <dd>The statistical report request indicating the parameters of the requested report: dimension, metrics, etc.</dd>
+   * <dt>@throws DataIntelligenceServiceException</dt>
+   * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+   * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+   * <dd>INVALID_REPORT_REQUEST: if the provided report request is not valid.</dd>
+   * </dl>
+   * 
+   * @param \com\boxalino\dataintelligence\api\thrift\Authentication $authentication
+   * @param \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration
+   * @param \com\boxalino\dataintelligence\api\thrift\BehaviorReportRequest $request
+   * @return \com\boxalino\dataintelligence\api\thrift\BehaviorReport This structure defines a behavior report returned
+   * This object is specific to BehaviorReportRequest but is similar to all other type of report responses, as the only difference usually is the key object of the result variable (in this case: BehaviorReportResult)
+   * 
+   * @throws \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public function GetBehaviorReport(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\BehaviorReportRequest $request);
 }
 
 class BoxalinoDataIntelligenceClient implements \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligenceIf {
@@ -4390,6 +4466,174 @@ class BoxalinoDataIntelligenceClient implements \com\boxalino\dataintelligence\a
     throw new \Exception("GetPageViews failed: unknown result");
   }
 
+  public function GetChoiceReport(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\ChoiceReportRequest $request)
+  {
+    $this->send_GetChoiceReport($authentication, $configuration, $request);
+    return $this->recv_GetChoiceReport();
+  }
+
+  public function send_GetChoiceReport(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\ChoiceReportRequest $request)
+  {
+    $args = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_GetChoiceReport_args();
+    $args->authentication = $authentication;
+    $args->configuration = $configuration;
+    $args->request = $request;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'GetChoiceReport', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('GetChoiceReport', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_GetChoiceReport()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_GetChoiceReport_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_GetChoiceReport_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->success !== null) {
+      return $result->success;
+    }
+    if ($result->e !== null) {
+      throw $result->e;
+    }
+    throw new \Exception("GetChoiceReport failed: unknown result");
+  }
+
+  public function GetTransactionReport(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\TransactionReportRequest $request)
+  {
+    $this->send_GetTransactionReport($authentication, $configuration, $request);
+    return $this->recv_GetTransactionReport();
+  }
+
+  public function send_GetTransactionReport(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\TransactionReportRequest $request)
+  {
+    $args = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_GetTransactionReport_args();
+    $args->authentication = $authentication;
+    $args->configuration = $configuration;
+    $args->request = $request;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'GetTransactionReport', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('GetTransactionReport', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_GetTransactionReport()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_GetTransactionReport_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_GetTransactionReport_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->success !== null) {
+      return $result->success;
+    }
+    if ($result->e !== null) {
+      throw $result->e;
+    }
+    throw new \Exception("GetTransactionReport failed: unknown result");
+  }
+
+  public function GetBehaviorReport(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\BehaviorReportRequest $request)
+  {
+    $this->send_GetBehaviorReport($authentication, $configuration, $request);
+    return $this->recv_GetBehaviorReport();
+  }
+
+  public function send_GetBehaviorReport(\com\boxalino\dataintelligence\api\thrift\Authentication $authentication, \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion $configuration, \com\boxalino\dataintelligence\api\thrift\BehaviorReportRequest $request)
+  {
+    $args = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_GetBehaviorReport_args();
+    $args->authentication = $authentication;
+    $args->configuration = $configuration;
+    $args->request = $request;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'GetBehaviorReport', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('GetBehaviorReport', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_GetBehaviorReport()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_GetBehaviorReport_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \com\boxalino\dataintelligence\api\thrift\BoxalinoDataIntelligence_GetBehaviorReport_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->success !== null) {
+      return $result->success;
+    }
+    if ($result->e !== null) {
+      throw $result->e;
+    }
+    throw new \Exception("GetBehaviorReport failed: unknown result");
+  }
+
 }
 
 // HELPER FUNCTIONS AND STRUCTURES
@@ -5350,18 +5594,18 @@ class BoxalinoDataIntelligence_GetFields_result {
         case 0:
           if ($ftype == TType::MAP) {
             $this->success = array();
-            $_size107 = 0;
-            $_ktype108 = 0;
-            $_vtype109 = 0;
-            $xfer += $input->readMapBegin($_ktype108, $_vtype109, $_size107);
-            for ($_i111 = 0; $_i111 < $_size107; ++$_i111)
+            $_size272 = 0;
+            $_ktype273 = 0;
+            $_vtype274 = 0;
+            $xfer += $input->readMapBegin($_ktype273, $_vtype274, $_size272);
+            for ($_i276 = 0; $_i276 < $_size272; ++$_i276)
             {
-              $key112 = '';
-              $val113 = new \com\boxalino\dataintelligence\api\thrift\Field();
-              $xfer += $input->readString($key112);
-              $val113 = new \com\boxalino\dataintelligence\api\thrift\Field();
-              $xfer += $val113->read($input);
-              $this->success[$key112] = $val113;
+              $key277 = '';
+              $val278 = new \com\boxalino\dataintelligence\api\thrift\Field();
+              $xfer += $input->readString($key277);
+              $val278 = new \com\boxalino\dataintelligence\api\thrift\Field();
+              $xfer += $val278->read($input);
+              $this->success[$key277] = $val278;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -5397,10 +5641,10 @@ class BoxalinoDataIntelligence_GetFields_result {
       {
         $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $kiter114 => $viter115)
+          foreach ($this->success as $kiter279 => $viter280)
           {
-            $xfer += $output->writeString($kiter114);
-            $xfer += $viter115->write($output);
+            $xfer += $output->writeString($kiter279);
+            $xfer += $viter280->write($output);
           }
         }
         $output->writeMapEnd();
@@ -6223,18 +6467,18 @@ class BoxalinoDataIntelligence_GetProcessTasks_result {
         case 0:
           if ($ftype == TType::MAP) {
             $this->success = array();
-            $_size116 = 0;
-            $_ktype117 = 0;
-            $_vtype118 = 0;
-            $xfer += $input->readMapBegin($_ktype117, $_vtype118, $_size116);
-            for ($_i120 = 0; $_i120 < $_size116; ++$_i120)
+            $_size281 = 0;
+            $_ktype282 = 0;
+            $_vtype283 = 0;
+            $xfer += $input->readMapBegin($_ktype282, $_vtype283, $_size281);
+            for ($_i285 = 0; $_i285 < $_size281; ++$_i285)
             {
-              $key121 = '';
-              $val122 = new \com\boxalino\dataintelligence\api\thrift\ProcessTask();
-              $xfer += $input->readString($key121);
-              $val122 = new \com\boxalino\dataintelligence\api\thrift\ProcessTask();
-              $xfer += $val122->read($input);
-              $this->success[$key121] = $val122;
+              $key286 = '';
+              $val287 = new \com\boxalino\dataintelligence\api\thrift\ProcessTask();
+              $xfer += $input->readString($key286);
+              $val287 = new \com\boxalino\dataintelligence\api\thrift\ProcessTask();
+              $xfer += $val287->read($input);
+              $this->success[$key286] = $val287;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -6270,10 +6514,10 @@ class BoxalinoDataIntelligence_GetProcessTasks_result {
       {
         $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $kiter123 => $viter124)
+          foreach ($this->success as $kiter288 => $viter289)
           {
-            $xfer += $output->writeString($kiter123);
-            $xfer += $viter124->write($output);
+            $xfer += $output->writeString($kiter288);
+            $xfer += $viter289->write($output);
           }
         }
         $output->writeMapEnd();
@@ -7332,18 +7576,18 @@ class BoxalinoDataIntelligence_GetEmailCampaigns_result {
         case 0:
           if ($ftype == TType::MAP) {
             $this->success = array();
-            $_size125 = 0;
-            $_ktype126 = 0;
-            $_vtype127 = 0;
-            $xfer += $input->readMapBegin($_ktype126, $_vtype127, $_size125);
-            for ($_i129 = 0; $_i129 < $_size125; ++$_i129)
+            $_size290 = 0;
+            $_ktype291 = 0;
+            $_vtype292 = 0;
+            $xfer += $input->readMapBegin($_ktype291, $_vtype292, $_size290);
+            for ($_i294 = 0; $_i294 < $_size290; ++$_i294)
             {
-              $key130 = '';
-              $val131 = new \com\boxalino\dataintelligence\api\thrift\EmailCampaign();
-              $xfer += $input->readString($key130);
-              $val131 = new \com\boxalino\dataintelligence\api\thrift\EmailCampaign();
-              $xfer += $val131->read($input);
-              $this->success[$key130] = $val131;
+              $key295 = '';
+              $val296 = new \com\boxalino\dataintelligence\api\thrift\EmailCampaign();
+              $xfer += $input->readString($key295);
+              $val296 = new \com\boxalino\dataintelligence\api\thrift\EmailCampaign();
+              $xfer += $val296->read($input);
+              $this->success[$key295] = $val296;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -7379,10 +7623,10 @@ class BoxalinoDataIntelligence_GetEmailCampaigns_result {
       {
         $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $kiter132 => $viter133)
+          foreach ($this->success as $kiter297 => $viter298)
           {
-            $xfer += $output->writeString($kiter132);
-            $xfer += $viter133->write($output);
+            $xfer += $output->writeString($kiter297);
+            $xfer += $viter298->write($output);
           }
         }
         $output->writeMapEnd();
@@ -8228,18 +8472,18 @@ class BoxalinoDataIntelligence_GetChoices_result {
         case 0:
           if ($ftype == TType::MAP) {
             $this->success = array();
-            $_size134 = 0;
-            $_ktype135 = 0;
-            $_vtype136 = 0;
-            $xfer += $input->readMapBegin($_ktype135, $_vtype136, $_size134);
-            for ($_i138 = 0; $_i138 < $_size134; ++$_i138)
+            $_size299 = 0;
+            $_ktype300 = 0;
+            $_vtype301 = 0;
+            $xfer += $input->readMapBegin($_ktype300, $_vtype301, $_size299);
+            for ($_i303 = 0; $_i303 < $_size299; ++$_i303)
             {
-              $key139 = '';
-              $val140 = new \com\boxalino\dataintelligence\api\thrift\Choice();
-              $xfer += $input->readString($key139);
-              $val140 = new \com\boxalino\dataintelligence\api\thrift\Choice();
-              $xfer += $val140->read($input);
-              $this->success[$key139] = $val140;
+              $key304 = '';
+              $val305 = new \com\boxalino\dataintelligence\api\thrift\Choice();
+              $xfer += $input->readString($key304);
+              $val305 = new \com\boxalino\dataintelligence\api\thrift\Choice();
+              $xfer += $val305->read($input);
+              $this->success[$key304] = $val305;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -8275,10 +8519,10 @@ class BoxalinoDataIntelligence_GetChoices_result {
       {
         $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $kiter141 => $viter142)
+          foreach ($this->success as $kiter306 => $viter307)
           {
-            $xfer += $output->writeString($kiter141);
-            $xfer += $viter142->write($output);
+            $xfer += $output->writeString($kiter306);
+            $xfer += $viter307->write($output);
           }
         }
         $output->writeMapEnd();
@@ -9216,18 +9460,18 @@ class BoxalinoDataIntelligence_GetChoiceVariants_result {
         case 0:
           if ($ftype == TType::MAP) {
             $this->success = array();
-            $_size143 = 0;
-            $_ktype144 = 0;
-            $_vtype145 = 0;
-            $xfer += $input->readMapBegin($_ktype144, $_vtype145, $_size143);
-            for ($_i147 = 0; $_i147 < $_size143; ++$_i147)
+            $_size308 = 0;
+            $_ktype309 = 0;
+            $_vtype310 = 0;
+            $xfer += $input->readMapBegin($_ktype309, $_vtype310, $_size308);
+            for ($_i312 = 0; $_i312 < $_size308; ++$_i312)
             {
-              $key148 = '';
-              $val149 = new \com\boxalino\dataintelligence\api\thrift\ChoiceVariant();
-              $xfer += $input->readString($key148);
-              $val149 = new \com\boxalino\dataintelligence\api\thrift\ChoiceVariant();
-              $xfer += $val149->read($input);
-              $this->success[$key148] = $val149;
+              $key313 = '';
+              $val314 = new \com\boxalino\dataintelligence\api\thrift\ChoiceVariant();
+              $xfer += $input->readString($key313);
+              $val314 = new \com\boxalino\dataintelligence\api\thrift\ChoiceVariant();
+              $xfer += $val314->read($input);
+              $this->success[$key313] = $val314;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -9263,10 +9507,10 @@ class BoxalinoDataIntelligence_GetChoiceVariants_result {
       {
         $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $kiter150 => $viter151)
+          foreach ($this->success as $kiter315 => $viter316)
           {
-            $xfer += $output->writeString($kiter150);
-            $xfer += $viter151->write($output);
+            $xfer += $output->writeString($kiter315);
+            $xfer += $viter316->write($output);
           }
         }
         $output->writeMapEnd();
@@ -10464,15 +10708,15 @@ class BoxalinoDataIntelligence_GetConfigurationDifferences_result {
         case 0:
           if ($ftype == TType::LST) {
             $this->success = array();
-            $_size152 = 0;
-            $_etype155 = 0;
-            $xfer += $input->readListBegin($_etype155, $_size152);
-            for ($_i156 = 0; $_i156 < $_size152; ++$_i156)
+            $_size317 = 0;
+            $_etype320 = 0;
+            $xfer += $input->readListBegin($_etype320, $_size317);
+            for ($_i321 = 0; $_i321 < $_size317; ++$_i321)
             {
-              $elem157 = null;
-              $elem157 = new \com\boxalino\dataintelligence\api\thrift\ConfigurationDifference();
-              $xfer += $elem157->read($input);
-              $this->success []= $elem157;
+              $elem322 = null;
+              $elem322 = new \com\boxalino\dataintelligence\api\thrift\ConfigurationDifference();
+              $xfer += $elem322->read($input);
+              $this->success []= $elem322;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -10508,9 +10752,9 @@ class BoxalinoDataIntelligence_GetConfigurationDifferences_result {
       {
         $output->writeListBegin(TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $iter158)
+          foreach ($this->success as $iter323)
           {
-            $xfer += $iter158->write($output);
+            $xfer += $iter323->write($output);
           }
         }
         $output->writeListEnd();
@@ -11737,15 +11981,15 @@ class BoxalinoDataIntelligence_GetAllReferenceCSVFiles_result {
         case 0:
           if ($ftype == TType::LST) {
             $this->success = array();
-            $_size159 = 0;
-            $_etype162 = 0;
-            $xfer += $input->readListBegin($_etype162, $_size159);
-            for ($_i163 = 0; $_i163 < $_size159; ++$_i163)
+            $_size324 = 0;
+            $_etype327 = 0;
+            $xfer += $input->readListBegin($_etype327, $_size324);
+            for ($_i328 = 0; $_i328 < $_size324; ++$_i328)
             {
-              $elem164 = null;
-              $elem164 = new \com\boxalino\dataintelligence\api\thrift\ReferenceCSVFileDescriptor();
-              $xfer += $elem164->read($input);
-              $this->success []= $elem164;
+              $elem329 = null;
+              $elem329 = new \com\boxalino\dataintelligence\api\thrift\ReferenceCSVFileDescriptor();
+              $xfer += $elem329->read($input);
+              $this->success []= $elem329;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -11781,9 +12025,9 @@ class BoxalinoDataIntelligence_GetAllReferenceCSVFiles_result {
       {
         $output->writeListBegin(TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $iter165)
+          foreach ($this->success as $iter330)
           {
-            $xfer += $iter165->write($output);
+            $xfer += $iter330->write($output);
           }
         }
         $output->writeListEnd();
@@ -12185,18 +12429,18 @@ class BoxalinoDataIntelligence_GetSchedulings_result {
         case 0:
           if ($ftype == TType::MAP) {
             $this->success = array();
-            $_size166 = 0;
-            $_ktype167 = 0;
-            $_vtype168 = 0;
-            $xfer += $input->readMapBegin($_ktype167, $_vtype168, $_size166);
-            for ($_i170 = 0; $_i170 < $_size166; ++$_i170)
+            $_size331 = 0;
+            $_ktype332 = 0;
+            $_vtype333 = 0;
+            $xfer += $input->readMapBegin($_ktype332, $_vtype333, $_size331);
+            for ($_i335 = 0; $_i335 < $_size331; ++$_i335)
             {
-              $key171 = '';
-              $val172 = new \com\boxalino\dataintelligence\api\thrift\Scheduling();
-              $xfer += $input->readString($key171);
-              $val172 = new \com\boxalino\dataintelligence\api\thrift\Scheduling();
-              $xfer += $val172->read($input);
-              $this->success[$key171] = $val172;
+              $key336 = '';
+              $val337 = new \com\boxalino\dataintelligence\api\thrift\Scheduling();
+              $xfer += $input->readString($key336);
+              $val337 = new \com\boxalino\dataintelligence\api\thrift\Scheduling();
+              $xfer += $val337->read($input);
+              $this->success[$key336] = $val337;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -12232,10 +12476,10 @@ class BoxalinoDataIntelligence_GetSchedulings_result {
       {
         $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $kiter173 => $viter174)
+          foreach ($this->success as $kiter338 => $viter339)
           {
-            $xfer += $output->writeString($kiter173);
-            $xfer += $viter174->write($output);
+            $xfer += $output->writeString($kiter338);
+            $xfer += $viter339->write($output);
           }
         }
         $output->writeMapEnd();
@@ -13271,18 +13515,18 @@ class BoxalinoDataIntelligence_GetRecommendationBlocks_result {
         case 0:
           if ($ftype == TType::MAP) {
             $this->success = array();
-            $_size175 = 0;
-            $_ktype176 = 0;
-            $_vtype177 = 0;
-            $xfer += $input->readMapBegin($_ktype176, $_vtype177, $_size175);
-            for ($_i179 = 0; $_i179 < $_size175; ++$_i179)
+            $_size340 = 0;
+            $_ktype341 = 0;
+            $_vtype342 = 0;
+            $xfer += $input->readMapBegin($_ktype341, $_vtype342, $_size340);
+            for ($_i344 = 0; $_i344 < $_size340; ++$_i344)
             {
-              $key180 = '';
-              $val181 = new \com\boxalino\dataintelligence\api\thrift\RecommendationBlock();
-              $xfer += $input->readString($key180);
-              $val181 = new \com\boxalino\dataintelligence\api\thrift\RecommendationBlock();
-              $xfer += $val181->read($input);
-              $this->success[$key180] = $val181;
+              $key345 = '';
+              $val346 = new \com\boxalino\dataintelligence\api\thrift\RecommendationBlock();
+              $xfer += $input->readString($key345);
+              $val346 = new \com\boxalino\dataintelligence\api\thrift\RecommendationBlock();
+              $xfer += $val346->read($input);
+              $this->success[$key345] = $val346;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -13318,10 +13562,10 @@ class BoxalinoDataIntelligence_GetRecommendationBlocks_result {
       {
         $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $kiter182 => $viter183)
+          foreach ($this->success as $kiter347 => $viter348)
           {
-            $xfer += $output->writeString($kiter182);
-            $xfer += $viter183->write($output);
+            $xfer += $output->writeString($kiter347);
+            $xfer += $viter348->write($output);
           }
         }
         $output->writeMapEnd();
@@ -14144,18 +14388,18 @@ class BoxalinoDataIntelligence_GetDataSources_result {
         case 0:
           if ($ftype == TType::MAP) {
             $this->success = array();
-            $_size184 = 0;
-            $_ktype185 = 0;
-            $_vtype186 = 0;
-            $xfer += $input->readMapBegin($_ktype185, $_vtype186, $_size184);
-            for ($_i188 = 0; $_i188 < $_size184; ++$_i188)
+            $_size349 = 0;
+            $_ktype350 = 0;
+            $_vtype351 = 0;
+            $xfer += $input->readMapBegin($_ktype350, $_vtype351, $_size349);
+            for ($_i353 = 0; $_i353 < $_size349; ++$_i353)
             {
-              $key189 = '';
-              $val190 = new \com\boxalino\dataintelligence\api\thrift\DataSource();
-              $xfer += $input->readString($key189);
-              $val190 = new \com\boxalino\dataintelligence\api\thrift\DataSource();
-              $xfer += $val190->read($input);
-              $this->success[$key189] = $val190;
+              $key354 = '';
+              $val355 = new \com\boxalino\dataintelligence\api\thrift\DataSource();
+              $xfer += $input->readString($key354);
+              $val355 = new \com\boxalino\dataintelligence\api\thrift\DataSource();
+              $xfer += $val355->read($input);
+              $this->success[$key354] = $val355;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -14191,10 +14435,10 @@ class BoxalinoDataIntelligence_GetDataSources_result {
       {
         $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $kiter191 => $viter192)
+          foreach ($this->success as $kiter356 => $viter357)
           {
-            $xfer += $output->writeString($kiter191);
-            $xfer += $viter192->write($output);
+            $xfer += $output->writeString($kiter356);
+            $xfer += $viter357->write($output);
           }
         }
         $output->writeMapEnd();
@@ -15017,18 +15261,18 @@ class BoxalinoDataIntelligence_GetDataExports_result {
         case 0:
           if ($ftype == TType::MAP) {
             $this->success = array();
-            $_size193 = 0;
-            $_ktype194 = 0;
-            $_vtype195 = 0;
-            $xfer += $input->readMapBegin($_ktype194, $_vtype195, $_size193);
-            for ($_i197 = 0; $_i197 < $_size193; ++$_i197)
+            $_size358 = 0;
+            $_ktype359 = 0;
+            $_vtype360 = 0;
+            $xfer += $input->readMapBegin($_ktype359, $_vtype360, $_size358);
+            for ($_i362 = 0; $_i362 < $_size358; ++$_i362)
             {
-              $key198 = '';
-              $val199 = new \com\boxalino\dataintelligence\api\thrift\DataExport();
-              $xfer += $input->readString($key198);
-              $val199 = new \com\boxalino\dataintelligence\api\thrift\DataExport();
-              $xfer += $val199->read($input);
-              $this->success[$key198] = $val199;
+              $key363 = '';
+              $val364 = new \com\boxalino\dataintelligence\api\thrift\DataExport();
+              $xfer += $input->readString($key363);
+              $val364 = new \com\boxalino\dataintelligence\api\thrift\DataExport();
+              $xfer += $val364->read($input);
+              $this->success[$key363] = $val364;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -15064,10 +15308,10 @@ class BoxalinoDataIntelligence_GetDataExports_result {
       {
         $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $kiter200 => $viter201)
+          foreach ($this->success as $kiter365 => $viter366)
           {
-            $xfer += $output->writeString($kiter200);
-            $xfer += $viter201->write($output);
+            $xfer += $output->writeString($kiter365);
+            $xfer += $viter366->write($output);
           }
         }
         $output->writeMapEnd();
@@ -15890,18 +16134,18 @@ class BoxalinoDataIntelligence_GetReferenceCSVFileDataSources_result {
         case 0:
           if ($ftype == TType::MAP) {
             $this->success = array();
-            $_size202 = 0;
-            $_ktype203 = 0;
-            $_vtype204 = 0;
-            $xfer += $input->readMapBegin($_ktype203, $_vtype204, $_size202);
-            for ($_i206 = 0; $_i206 < $_size202; ++$_i206)
+            $_size367 = 0;
+            $_ktype368 = 0;
+            $_vtype369 = 0;
+            $xfer += $input->readMapBegin($_ktype368, $_vtype369, $_size367);
+            for ($_i371 = 0; $_i371 < $_size367; ++$_i371)
             {
-              $key207 = '';
-              $val208 = new \com\boxalino\dataintelligence\api\thrift\ReferenceCSVDataSource();
-              $xfer += $input->readString($key207);
-              $val208 = new \com\boxalino\dataintelligence\api\thrift\ReferenceCSVDataSource();
-              $xfer += $val208->read($input);
-              $this->success[$key207] = $val208;
+              $key372 = '';
+              $val373 = new \com\boxalino\dataintelligence\api\thrift\ReferenceCSVDataSource();
+              $xfer += $input->readString($key372);
+              $val373 = new \com\boxalino\dataintelligence\api\thrift\ReferenceCSVDataSource();
+              $xfer += $val373->read($input);
+              $this->success[$key372] = $val373;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -15937,10 +16181,10 @@ class BoxalinoDataIntelligence_GetReferenceCSVFileDataSources_result {
       {
         $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $kiter209 => $viter210)
+          foreach ($this->success as $kiter374 => $viter375)
           {
-            $xfer += $output->writeString($kiter209);
-            $xfer += $viter210->write($output);
+            $xfer += $output->writeString($kiter374);
+            $xfer += $viter375->write($output);
           }
         }
         $output->writeMapEnd();
@@ -17018,15 +17262,15 @@ class BoxalinoDataIntelligence_GetPageViews_result {
         case 0:
           if ($ftype == TType::LST) {
             $this->success = array();
-            $_size211 = 0;
-            $_etype214 = 0;
-            $xfer += $input->readListBegin($_etype214, $_size211);
-            for ($_i215 = 0; $_i215 < $_size211; ++$_i215)
+            $_size376 = 0;
+            $_etype379 = 0;
+            $xfer += $input->readListBegin($_etype379, $_size376);
+            for ($_i380 = 0; $_i380 < $_size376; ++$_i380)
             {
-              $elem216 = null;
-              $elem216 = new \com\boxalino\dataintelligence\api\thrift\TimeRangeValue();
-              $xfer += $elem216->read($input);
-              $this->success []= $elem216;
+              $elem381 = null;
+              $elem381 = new \com\boxalino\dataintelligence\api\thrift\TimeRangeValue();
+              $xfer += $elem381->read($input);
+              $this->success []= $elem381;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -17062,13 +17306,736 @@ class BoxalinoDataIntelligence_GetPageViews_result {
       {
         $output->writeListBegin(TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $iter217)
+          foreach ($this->success as $iter382)
           {
-            $xfer += $iter217->write($output);
+            $xfer += $iter382->write($output);
           }
         }
         $output->writeListEnd();
       }
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->e !== null) {
+      $xfer += $output->writeFieldBegin('e', TType::STRUCT, 1);
+      $xfer += $this->e->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_GetChoiceReport_args {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\Authentication
+   */
+  public $authentication = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion
+   */
+  public $configuration = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\ChoiceReportRequest
+   */
+  public $request = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'authentication',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\Authentication',
+          ),
+        2 => array(
+          'var' => 'configuration',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ConfigurationVersion',
+          ),
+        3 => array(
+          'var' => 'request',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ChoiceReportRequest',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['authentication'])) {
+        $this->authentication = $vals['authentication'];
+      }
+      if (isset($vals['configuration'])) {
+        $this->configuration = $vals['configuration'];
+      }
+      if (isset($vals['request'])) {
+        $this->request = $vals['request'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_GetChoiceReport_args';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->authentication = new \com\boxalino\dataintelligence\api\thrift\Authentication();
+            $xfer += $this->authentication->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRUCT) {
+            $this->configuration = new \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion();
+            $xfer += $this->configuration->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
+          if ($ftype == TType::STRUCT) {
+            $this->request = new \com\boxalino\dataintelligence\api\thrift\ChoiceReportRequest();
+            $xfer += $this->request->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_GetChoiceReport_args');
+    if ($this->authentication !== null) {
+      if (!is_object($this->authentication)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('authentication', TType::STRUCT, 1);
+      $xfer += $this->authentication->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->configuration !== null) {
+      if (!is_object($this->configuration)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('configuration', TType::STRUCT, 2);
+      $xfer += $this->configuration->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->request !== null) {
+      if (!is_object($this->request)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('request', TType::STRUCT, 3);
+      $xfer += $this->request->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_GetChoiceReport_result {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\ChoiceReport
+   */
+  public $success = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public $e = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        0 => array(
+          'var' => 'success',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ChoiceReport',
+          ),
+        1 => array(
+          'var' => 'e',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['success'])) {
+        $this->success = $vals['success'];
+      }
+      if (isset($vals['e'])) {
+        $this->e = $vals['e'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_GetChoiceReport_result';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 0:
+          if ($ftype == TType::STRUCT) {
+            $this->success = new \com\boxalino\dataintelligence\api\thrift\ChoiceReport();
+            $xfer += $this->success->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->e = new \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException();
+            $xfer += $this->e->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_GetChoiceReport_result');
+    if ($this->success !== null) {
+      if (!is_object($this->success)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('success', TType::STRUCT, 0);
+      $xfer += $this->success->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->e !== null) {
+      $xfer += $output->writeFieldBegin('e', TType::STRUCT, 1);
+      $xfer += $this->e->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_GetTransactionReport_args {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\Authentication
+   */
+  public $authentication = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion
+   */
+  public $configuration = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\TransactionReportRequest
+   */
+  public $request = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'authentication',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\Authentication',
+          ),
+        2 => array(
+          'var' => 'configuration',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ConfigurationVersion',
+          ),
+        3 => array(
+          'var' => 'request',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\TransactionReportRequest',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['authentication'])) {
+        $this->authentication = $vals['authentication'];
+      }
+      if (isset($vals['configuration'])) {
+        $this->configuration = $vals['configuration'];
+      }
+      if (isset($vals['request'])) {
+        $this->request = $vals['request'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_GetTransactionReport_args';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->authentication = new \com\boxalino\dataintelligence\api\thrift\Authentication();
+            $xfer += $this->authentication->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRUCT) {
+            $this->configuration = new \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion();
+            $xfer += $this->configuration->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
+          if ($ftype == TType::STRUCT) {
+            $this->request = new \com\boxalino\dataintelligence\api\thrift\TransactionReportRequest();
+            $xfer += $this->request->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_GetTransactionReport_args');
+    if ($this->authentication !== null) {
+      if (!is_object($this->authentication)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('authentication', TType::STRUCT, 1);
+      $xfer += $this->authentication->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->configuration !== null) {
+      if (!is_object($this->configuration)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('configuration', TType::STRUCT, 2);
+      $xfer += $this->configuration->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->request !== null) {
+      if (!is_object($this->request)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('request', TType::STRUCT, 3);
+      $xfer += $this->request->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_GetTransactionReport_result {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\TransactionReport
+   */
+  public $success = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public $e = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        0 => array(
+          'var' => 'success',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\TransactionReport',
+          ),
+        1 => array(
+          'var' => 'e',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['success'])) {
+        $this->success = $vals['success'];
+      }
+      if (isset($vals['e'])) {
+        $this->e = $vals['e'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_GetTransactionReport_result';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 0:
+          if ($ftype == TType::STRUCT) {
+            $this->success = new \com\boxalino\dataintelligence\api\thrift\TransactionReport();
+            $xfer += $this->success->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->e = new \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException();
+            $xfer += $this->e->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_GetTransactionReport_result');
+    if ($this->success !== null) {
+      if (!is_object($this->success)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('success', TType::STRUCT, 0);
+      $xfer += $this->success->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->e !== null) {
+      $xfer += $output->writeFieldBegin('e', TType::STRUCT, 1);
+      $xfer += $this->e->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_GetBehaviorReport_args {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\Authentication
+   */
+  public $authentication = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion
+   */
+  public $configuration = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\BehaviorReportRequest
+   */
+  public $request = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'authentication',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\Authentication',
+          ),
+        2 => array(
+          'var' => 'configuration',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ConfigurationVersion',
+          ),
+        3 => array(
+          'var' => 'request',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\BehaviorReportRequest',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['authentication'])) {
+        $this->authentication = $vals['authentication'];
+      }
+      if (isset($vals['configuration'])) {
+        $this->configuration = $vals['configuration'];
+      }
+      if (isset($vals['request'])) {
+        $this->request = $vals['request'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_GetBehaviorReport_args';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->authentication = new \com\boxalino\dataintelligence\api\thrift\Authentication();
+            $xfer += $this->authentication->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRUCT) {
+            $this->configuration = new \com\boxalino\dataintelligence\api\thrift\ConfigurationVersion();
+            $xfer += $this->configuration->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
+          if ($ftype == TType::STRUCT) {
+            $this->request = new \com\boxalino\dataintelligence\api\thrift\BehaviorReportRequest();
+            $xfer += $this->request->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_GetBehaviorReport_args');
+    if ($this->authentication !== null) {
+      if (!is_object($this->authentication)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('authentication', TType::STRUCT, 1);
+      $xfer += $this->authentication->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->configuration !== null) {
+      if (!is_object($this->configuration)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('configuration', TType::STRUCT, 2);
+      $xfer += $this->configuration->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->request !== null) {
+      if (!is_object($this->request)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('request', TType::STRUCT, 3);
+      $xfer += $this->request->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class BoxalinoDataIntelligence_GetBehaviorReport_result {
+  static $_TSPEC;
+
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\BehaviorReport
+   */
+  public $success = null;
+  /**
+   * @var \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException
+   */
+  public $e = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        0 => array(
+          'var' => 'success',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\BehaviorReport',
+          ),
+        1 => array(
+          'var' => 'e',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['success'])) {
+        $this->success = $vals['success'];
+      }
+      if (isset($vals['e'])) {
+        $this->e = $vals['e'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'BoxalinoDataIntelligence_GetBehaviorReport_result';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 0:
+          if ($ftype == TType::STRUCT) {
+            $this->success = new \com\boxalino\dataintelligence\api\thrift\BehaviorReport();
+            $xfer += $this->success->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->e = new \com\boxalino\dataintelligence\api\thrift\DataIntelligenceServiceException();
+            $xfer += $this->e->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('BoxalinoDataIntelligence_GetBehaviorReport_result');
+    if ($this->success !== null) {
+      if (!is_object($this->success)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('success', TType::STRUCT, 0);
+      $xfer += $this->success->write($output);
       $xfer += $output->writeFieldEnd();
     }
     if ($this->e !== null) {

@@ -37,6 +37,8 @@
 <li><a href="#Fn_BoxalinoDataIntelligence_DeleteScheduling">DeleteScheduling</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_GetAllReferenceCSVFiles">GetAllReferenceCSVFiles</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_GetAuthentication">GetAuthentication</a></li>
+<li><a href="#Fn_BoxalinoDataIntelligence_GetBehaviorReport">GetBehaviorReport</a></li>
+<li><a href="#Fn_BoxalinoDataIntelligence_GetChoiceReport">GetChoiceReport</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_GetChoiceVariants">GetChoiceVariants</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_GetChoices">GetChoices</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_GetConfigurationDifferences">GetConfigurationDifferences</a></li>
@@ -52,6 +54,7 @@
 <li><a href="#Fn_BoxalinoDataIntelligence_GetRecommendationBlocks">GetRecommendationBlocks</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_GetReferenceCSVFileDataSources">GetReferenceCSVFileDataSources</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_GetSchedulings">GetSchedulings</a></li>
+<li><a href="#Fn_BoxalinoDataIntelligence_GetTransactionReport">GetTransactionReport</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_PublishConfiguration">PublishConfiguration</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_RunProcessTask">RunProcessTask</a></li>
 <li><a href="#Fn_BoxalinoDataIntelligence_RunScheduling">RunScheduling</a></li>
@@ -72,9 +75,17 @@
 </td>
 <td><a href="#Struct_Authentication">Authentication</a><br/>
 <a href="#Struct_AuthenticationRequest">AuthenticationRequest</a><br/>
+<a href="#Struct_BehaviorReport">BehaviorReport</a><br/>
+<a href="#Struct_BehaviorReportRequest">BehaviorReportRequest</a><br/>
+<a href="#Struct_BehaviorReportResult">BehaviorReportResult</a><br/>
 <a href="#Enum_CSVFileColumnType">CSVFileColumnType</a><br/>
 <a href="#Struct_Choice">Choice</a><br/>
+<a href="#Struct_ChoiceReport">ChoiceReport</a><br/>
+<a href="#Struct_ChoiceReportRequest">ChoiceReportRequest</a><br/>
+<a href="#Struct_ChoiceReportResult">ChoiceReportResult</a><br/>
 <a href="#Struct_ChoiceVariant">ChoiceVariant</a><br/>
+<a href="#Enum_ConditionOperator">ConditionOperator</a><br/>
+<a href="#Struct_ConditionTarget">ConditionTarget</a><br/>
 <a href="#Struct_ConfigurationDifference">ConfigurationDifference</a><br/>
 <a href="#Struct_ConfigurationVersion">ConfigurationVersion</a><br/>
 <a href="#Enum_ConfigurationVersionType">ConfigurationVersionType</a><br/>
@@ -93,11 +104,21 @@
 <a href="#Struct_RecommendationBlock">RecommendationBlock</a><br/>
 <a href="#Struct_ReferenceCSVDataSource">ReferenceCSVDataSource</a><br/>
 <a href="#Struct_ReferenceCSVFileDescriptor">ReferenceCSVFileDescriptor</a><br/>
+<a href="#Struct_ReportDimension">ReportDimension</a><br/>
+<a href="#Enum_ReportDimensionType">ReportDimensionType</a><br/>
+<a href="#Struct_ReportFilter">ReportFilter</a><br/>
+<a href="#Struct_ReportMetric">ReportMetric</a><br/>
+<a href="#Enum_ReportMetricType">ReportMetricType</a><br/>
+<a href="#Enum_ReportResultTimeRangeType">ReportResultTimeRangeType</a><br/>
+<a href="#Struct_ReportResultValues">ReportResultValues</a><br/>
 <a href="#Struct_Scheduling">Scheduling</a><br/>
 <a href="#Struct_SchedulingExecutionParameters">SchedulingExecutionParameters</a><br/>
 <a href="#Struct_TimeRange">TimeRange</a><br/>
 <a href="#Enum_TimeRangePrecision">TimeRangePrecision</a><br/>
 <a href="#Struct_TimeRangeValue">TimeRangeValue</a><br/>
+<a href="#Struct_TransactionReport">TransactionReport</a><br/>
+<a href="#Struct_TransactionReportRequest">TransactionReportRequest</a><br/>
+<a href="#Struct_TransactionReportResult">TransactionReportResult</a><br/>
 </td>
 <td></code></td>
 </tr></table>
@@ -155,6 +176,9 @@ the provided file identifier was not found
 <br/></td></tr>
 <tr><td><code>INVALID_RANGE</code></td><td><code>17</code></td><td>
 the provided time range is incorrect (start timestamp is higher than the end one)
+<br/></td></tr>
+<tr><td><code>INVALID_REPORT_REQUEST</code></td><td><code>18</code></td><td>
+the provided report request contains some invalid parameters settings (missing settings, conflicting settings, etc.)
 <br/></td></tr>
 </table></div>
 <div class="definition"><h3 id="Enum_ConfigurationVersionType">Enumeration: ConfigurationVersionType</h3>
@@ -264,6 +288,212 @@ weekly precision
 <br/></td></tr>
 <tr><td><code>MONTH</code></td><td><code>3</code></td><td>
 monthly precision
+<br/></td></tr>
+<tr><td><code>QUARTER</code></td><td><code>4</code></td><td>
+quarterly precision
+<br/></td></tr>
+<tr><td><code>YEAR</code></td><td><code>5</code></td><td>
+yearly precision
+<br/></td></tr>
+<tr><td><code>ALL</code></td><td><code>6</code></td><td>
+return all data for provided date range as one
+<br/></td></tr>
+</table></div>
+<div class="definition"><h3 id="Enum_ReportMetricType">Enumeration: ReportMetricType</h3>
+This enumeration defines possible report metric types
+<br/><br/><table class="table-bordered table-striped table-condensed">
+<tr><td><code>VISITORS</code></td><td><code>1</code></td><td>
+number of unique visitors (or user)
+<br/></td></tr>
+<tr><td><code>VISITS</code></td><td><code>2</code></td><td>
+number of visits (or session)
+<br/></td></tr>
+<tr><td><code>BOUNCES</code></td><td><code>3</code></td><td>
+number of landing page bounces
+<br/></td></tr>
+<tr><td><code>BOUNCE_RATE</code></td><td><code>4</code></td><td>
+BOUNCES / VISITS
+<br/></td></tr>
+<tr><td><code>PAGE_VIEWS</code></td><td><code>5</code></td><td>
+number of page views
+<br/></td></tr>
+<tr><td><code>PAGE_VIEWS_PER_VISIT</code></td><td><code>6</code></td><td>
+PAGE_VIEWS / VISITS
+<br/></td></tr>
+<tr><td><code>AVERAGE_TIME_ON_SITE</code></td><td><code>7</code></td><td>
+average time of visits
+<br/></td></tr>
+<tr><td><code>PRODUCT_VIEWS</code></td><td><code>8</code></td><td>
+number of product views
+<br/></td></tr>
+<tr><td><code>PRODUCT_VIEWS_PER_VISIT</code></td><td><code>9</code></td><td>
+PRODUCT_VIEWS / VISITS
+<br/></td></tr>
+<tr><td><code>VISITS_WITH_PRODUCT_VIEWS</code></td><td><code>10</code></td><td>
+number of visits having at least one product view
+<br/></td></tr>
+<tr><td><code>VISITS_WITH_PRODUCT_VIEWS_RATE</code></td><td><code>11</code></td><td>
+VISITS_WITH_PRODUCT_VIEWS / VISITS
+<br/></td></tr>
+<tr><td><code>SEARCHES</code></td><td><code>12</code></td><td>
+number of in-site searches
+<br/></td></tr>
+<tr><td><code>SEARCHES_PER_VISIT</code></td><td><code>13</code></td><td>
+SEARCHES / VISITS
+<br/></td></tr>
+<tr><td><code>VISITS_WITH_SEARCHES</code></td><td><code>14</code></td><td>
+number of visits having at least one search
+<br/></td></tr>
+<tr><td><code>VISITS_WITH_SEARCHES_RATE</code></td><td><code>15</code></td><td>
+VISITS_WITH_SEARCHES / VISITS
+<br/></td></tr>
+<tr><td><code>GOALS</code></td><td><code>16</code></td><td>
+number of goals (require identifier to be provided with the choice identifier)
+<br/></td></tr>
+<tr><td><code>GOALS_PER_VISIT</code></td><td><code>17</code></td><td>
+GOALS / VISITS (require identifier to be provided with the choice identifier)
+<br/></td></tr>
+<tr><td><code>VISITS_WITH_GOALS</code></td><td><code>18</code></td><td>
+number of visits having at least one goal (require identifier to be provided with the choice identifier)
+<br/></td></tr>
+<tr><td><code>VISITS_WITH_GOALS_RATE</code></td><td><code>19</code></td><td>
+VISITS_WITH_GOALS / VISITS (require identifier to be provided with the choice identifier)
+<br/></td></tr>
+<tr><td><code>TRANSACTIONS</code></td><td><code>20</code></td><td>
+number of transactions
+<br/></td></tr>
+<tr><td><code>TRANSACTIONS_PER_VISIT</code></td><td><code>21</code></td><td>
+TRANSACTIONS / VISITS
+<br/></td></tr>
+<tr><td><code>VISITS_WITH_TRANSACTIONS</code></td><td><code>22</code></td><td>
+number of visits having at least one transaction
+<br/></td></tr>
+<tr><td><code>VISITS_WITH_TRANSACTIONS_RATE</code></td><td><code>23</code></td><td>
+VISITS_WITH_TRANSACTIONS / VISITS
+<br/></td></tr>
+<tr><td><code>TRANSACTIONS_TURNOVER</code></td><td><code>28</code></td><td>
+transaction turnover
+N.B.: will return zero for all cases which cannot be mapped to any transaction
+<br/></td></tr>
+<tr><td><code>TRANSACTIONS_PARAMETER_SUM</code></td><td><code>29</code></td><td>
+sum of the transaction parameter values (require identifier to be provided with the transaction parameter name)
+N.B.: will return zero for all cases which cannot be mapped to any transaction
+<br/></td></tr>
+<tr><td><code>ADD_TO_BASKETS</code></td><td><code>24</code></td><td>
+number of add-to-basket events
+<br/></td></tr>
+<tr><td><code>ADD_TO_BASKETS_PER_VISIT</code></td><td><code>25</code></td><td>
+ADD_TO_BASKET / VISITS
+<br/></td></tr>
+<tr><td><code>VISITS_WITH_ADD_TO_BASKETS</code></td><td><code>26</code></td><td>
+number of visits having at least one add to basket event
+<br/></td></tr>
+<tr><td><code>VISITS_WITH_ADD_TO_BASKETS_RATE</code></td><td><code>27</code></td><td>
+VISITS_WITH_ADD_TO_BASKETS / VISITS
+<br/></td></tr>
+</table></div>
+<div class="definition"><h3 id="Enum_ReportDimensionType">Enumeration: ReportDimensionType</h3>
+This enumeration defines possible report dimension types
+<br/><br/><table class="table-bordered table-striped table-condensed">
+<tr><td><code>NEW_VISITOR</code></td><td><code>1</code></td><td>
+is the visitor a new visitor or a returning visitor
+<br/></td></tr>
+<tr><td><code>GEO_COUNTRY</code></td><td><code>2</code></td><td>
+the detected country of the visitor (NULL if none detected)
+<br/></td></tr>
+<tr><td><code>GEO_ZIP</code></td><td><code>3</code></td><td>
+the detected zip code of the visitor (NULL if none detected)
+<br/></td></tr>
+<tr><td><code>GEO_SUBDIVISION</code></td><td><code>4</code></td><td>
+the detected subdivision (Kanton for Switzerland) of the visitor (NULL if none detected)
+<br/></td></tr>
+<tr><td><code>GEO_CITY</code></td><td><code>4</code></td><td>
+the detected city of the visitor (NULL if none detected)
+<br/></td></tr>
+<tr><td><code>BROWSER_NAME</code></td><td><code>5</code></td><td>
+the user agent name (most common values: IE,Mobile Safari,Chrome,Firefox,Safari,Android browser,Chrome Mobile,Java,IE Mobile,Opera,Mobile Firefox)
+<br/></td></tr>
+<tr><td><code>BROWSER_VERSION</code></td><td><code>5</code></td><td>
+the user agent version
+<br/></td></tr>
+<tr><td><code>OPERATING_SYSTEM</code></td><td><code>6</code></td><td>
+the user agent operating system (most common values: Windows 7,iOS 7,Windows 8.1,iOS 8,Android 4.4 KitKat,OS X 10.9 Mavericks,Windows 8,Windows XP,Windows Vista,Android 4.2 Jelly Bean)
+<br/></td></tr>
+<tr><td><code>DEVICE_CATEGORY</code></td><td><code>7</code></td><td>
+the user agent device category (most common values: Personal computer,Smartphone,Tablet,Other)
+<br/></td></tr>
+<tr><td><code>ADWORDS_CREATIVE</code></td><td><code>8</code></td><td>
+the AdWords Creative (requires that the AdWords ValueTrack is passed on the url parameter as "&creative={creative}"
+<br/></td></tr>
+<tr><td><code>ADWORDS_KEYWORD</code></td><td><code>9</code></td><td>
+the AdWords Keyword (requires that the AdWords ValueTrack is passed on the url parameter as "&keyword={keyword}"
+<br/></td></tr>
+<tr><td><code>URL_PARAMETER</code></td><td><code>50</code></td><td>
+the different values of a URL parameter (require identifier to be provided with url parameter name)
+<br/></td></tr>
+<tr><td><code>TRANSACTION_PROPERTY</code></td><td><code>100</code></td><td>
+the different values of a transaction property (require identifier to be provided with the transaction property name)
+N.B.: a connection to the transaction property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a transaction)
+<br/></td></tr>
+<tr><td><code>CUSTOMER_PROPERTY</code></td><td><code>150</code></td><td>
+the different values of a customer property (require identifier to be provided with the customer property name)
+N.B.: a connection to the transaction property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a login or other ways to link the customer id to the visitor id)
+<br/></td></tr>
+<tr><td><code>PURCHASED_PRODUCT_PROPERTY</code></td><td><code>200</code></td><td>
+the different values of a product property (require identifier to be provided with the product property name)
+N.B.: a connection to the transaction property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a product purchased)
+<br/></td></tr>
+</table></div>
+<div class="definition"><h3 id="Enum_ConditionOperator">Enumeration: ConditionOperator</h3>
+the possible condition operators to be used in a condition target
+<br/><br/><table class="table-bordered table-striped table-condensed">
+<tr><td><code>IS</code></td><td><code>1</code></td><td>
+when cast as a String, does the substring provided in the ConditionTarget value match exactly the source string?
+<br/></td></tr>
+<tr><td><code>IS_NOT</code></td><td><code>2</code></td><td>
+when cast as a String, does the substring provided in the ConditionTarget value NOT match exactly the source string?
+<br/></td></tr>
+<tr><td><code>IS_GREATER</code></td><td><code>3</code></td><td>
+when cast as a number, is the number provided in the source number greater (but not equal or smaller) than the ConditionTarget value?
+<br/></td></tr>
+<tr><td><code>IS_GREATER_OR_EQUAL</code></td><td><code>4</code></td><td>
+when cast as a number, is the number provided in the source number greater or equal (but not smaller) than the ConditionTarget value?
+<br/></td></tr>
+<tr><td><code>IS_SMALLER</code></td><td><code>5</code></td><td>
+when cast as a number, is the number provided in the source number smaller (but not equal or greater) than the ConditionTarget value?
+<br/></td></tr>
+<tr><td><code>IS_SMALLER_OR_EQUAL</code></td><td><code>6</code></td><td>
+when cast as a number, is the number provided in the source number smaller or equal (but not greater) than the ConditionTarget value?
+<br/></td></tr>
+<tr><td><code>CONTAINS</code></td><td><code>7</code></td><td>
+when cast as a String, is the substring provided in the ConditionTarget value contained in the source string?
+<br/></td></tr>
+<tr><td><code>DOES_NOT_CONTAIN</code></td><td><code>8</code></td><td>
+when cast as a String, is the substring provided in the ConditionTarget value NOT contained in the source string?
+<br/></td></tr>
+<tr><td><code>STARTS_WITH</code></td><td><code>9</code></td><td>
+when cast as a String, does the substring provided in the ConditionTarget value match the first characters of the source string?
+<br/></td></tr>
+<tr><td><code>DOES_NOT_START_WITH</code></td><td><code>10</code></td><td>
+when cast as a String, does the substring provided in the ConditionTarget value NOT match the first characters of the source string?
+<br/></td></tr>
+<tr><td><code>ENDS_WITH</code></td><td><code>11</code></td><td>
+when cast as a String, does the substring provided in the ConditionTarget value match the last characters of the source string?
+<br/></td></tr>
+<tr><td><code>DOES_NOT_END_WITH</code></td><td><code>12</code></td><td>
+when cast as a String, does the substring provided in the ConditionTarget value NOT match the last characters of the source string?
+<br/></td></tr>
+</table></div>
+<div class="definition"><h3 id="Enum_ReportResultTimeRangeType">Enumeration: ReportResultTimeRangeType</h3>
+This enumeration defines possible report result value key types.
+For each report result groups, the system returns a map of ReportResultValues object (i.e.:a map of report metric (kpi) with their values) for each time range.
+These time ranges can be of different types (absolute defining exactly form a specific moment to another, or relative, starting at 0 for the first key, for cohort analysis).
+<br/><br/><table class="table-bordered table-striped table-condensed">
+<tr><td><code>REAL_TIME</code></td><td><code>1</code></td><td>
+an absolute time range (defines the datetime start and end of the reporting values for this key)
+<br/></td></tr>
+<tr><td><code>COHORT</code></td><td><code>2</code></td><td>
+returns the start and end date time based on timestamp 0 being the beginning of the report (if cohort per day: first value: 0-&gt;3600*24, second value: 3600*24-&gt;3600*24*2, ...)
 <br/></td></tr>
 </table></div>
 <hr/><h2 id="Structs">Data structures</h2>
@@ -443,6 +673,161 @@ monthly precision
 <tr><td>2</td><td>value</td><td><code>double</code></td><td>KPI value for this particular range
 </td><td>required</td><td></td></tr>
 </table><br/>This structure defines a time range value of the KPI
+<br/></div><div class="definition"><h3 id="Struct_ReportMetric">Struct: ReportMetric</h3>
+<table class="table-bordered table-striped table-condensed"><thead><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></thead>
+<tr><td>1</td><td>type</td><td><code><a href="BoxalinoDataIntelligenceV1.html#Enum_ReportMetricType">ReportMetricType</a></code></td><td>the type of metric
+</td><td>required</td><td></td></tr>
+<tr><td>2</td><td>identifier</td><td><code>string</code></td><td>optional, for the ReportMetricType requiring it (e.g.: goal) the identifier the metric
+</td><td>optional</td><td></td></tr>
+</table><br/>This structure defines a report metric (kpi) which can be standard or custom wiht an identifier (e.g.: for goals)
+<br/></div><div class="definition"><h3 id="Struct_ReportDimension">Struct: ReportDimension</h3>
+<table class="table-bordered table-striped table-condensed"><thead><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></thead>
+<tr><td>1</td><td>type</td><td><code><a href="BoxalinoDataIntelligenceV1.html#Enum_ReportDimensionType">ReportDimensionType</a></code></td><td>the type of metric
+</td><td>required</td><td></td></tr>
+<tr><td>2</td><td>identifier</td><td><code>string</code></td><td>optional, for the ReportDimensionType requiring it (e.g.: goal) the identifier the metric
+</td><td>optional</td><td></td></tr>
+</table><br/>This structure defines a report dimension (segmentation) which can be standard or custom with an identifier (e.g.: for url parameters)
+<br/></div><div class="definition"><h3 id="Struct_ConditionTarget">Struct: ConditionTarget</h3>
+<table class="table-bordered table-striped table-condensed"><thead><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></thead>
+<tr><td>1</td><td>operator</td><td><code><a href="BoxalinoDataIntelligenceV1.html#Enum_ConditionOperator">ConditionOperator</a></code></td><td>the condition target operator ("is", "is not", "greater than", ...)
+</td><td>required</td><td></td></tr>
+<tr><td>2</td><td>value</td><td><code>string</code></td><td>the condition value (will be cast in the proper format, so "123" == 123)
+</td><td>required</td><td></td></tr>
+</table><br/>this structure defines the operator and values required for a condition to be true
+(example: condition "is", value : "123"
+<br/></div><div class="definition"><h3 id="Struct_ReportFilter">Struct: ReportFilter</h3>
+<table class="table-bordered table-striped table-condensed"><thead><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></thead>
+<tr><td>1</td><td>dimensionConditions</td><td><code>map&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportDimension">ReportDimension</a></code>, <code>list&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConditionTarget">ConditionTarget</a></code>&gt;</code>&gt;</code></td><td>the dimension filters
+</td><td>required</td><td></td></tr>
+<tr><td>2</td><td>metricConditions</td><td><code>map&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportMetric">ReportMetric</a></code>, <code>list&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConditionTarget">ConditionTarget</a></code>&gt;</code>&gt;</code></td><td>the metric filters
+</td><td>required</td><td></td></tr>
+</table><br/>this structure defines a report filter (set of and clauses), all of which must be true
+<br/></div><div class="definition"><h3 id="Struct_ChoiceReportRequest">Struct: ChoiceReportRequest</h3>
+<table class="table-bordered table-striped table-condensed"><thead><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></thead>
+<tr><td>1</td><td>choice</td><td><code><a href="BoxalinoDataIntelligenceV1.html#Struct_Choice">Choice</a></code></td><td>the choice to analyse (e.g.: each landing page is a choice and has several variant potentially, even if only one)
+</td><td>required</td><td></td></tr>
+<tr><td>2</td><td>metrics</td><td><code>list&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportMetric">ReportMetric</a></code>&gt;</code></td><td>the metrics to evaluate report (e.g.: kpis to return)
+</td><td>required</td><td></td></tr>
+<tr><td>3</td><td>choiceVariants</td><td><code>list&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_ChoiceVariant">ChoiceVariant</a></code>&gt;</code></td><td>an optional choice variants to use as filters (only return the results for these choicevariants)
+</td><td>optional</td><td></td></tr>
+<tr><td>4</td><td>returnRecommendationStrategies</td><td><code>bool</code></td><td>an optional flag to indicate that the results should display not only the choice variant, but which recommendation strategies have been used for each choice variant (only applicable if the choice is a recommendation choice)
+</td><td>optional</td><td></td></tr>
+<tr><td>5</td><td>dimension</td><td><code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportDimension">ReportDimension</a></code></td><td>an optional dimension for the report (for segmentation), while groups are different for each type of reporting, the dimension are normally standard (visitor country, device, ...)
+</td><td>optional</td><td></td></tr>
+<tr><td>6</td><td>funnelMetrics</td><td><code>list&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportMetric">ReportMetric</a></code>&gt;</code></td><td>an optional list of metrics to limit the report to only the cases where at least one of the metrics of the list was reached (e.g.: if focusedMetrics are goal-X and goal-Y, then the Metric Transactions will not be returned for all the visits, but only for the visits who did reach goal-X or goal-Y at least once)
+</td><td>optional</td><td></td></tr>
+<tr><td>7</td><td>sortBys</td><td><code>list&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportMetric">ReportMetric</a></code>&gt;</code></td><td>the metrics to use for sorting the results
+</td><td>optional</td><td></td></tr>
+<tr><td>8</td><td>range</td><td><code><a href="BoxalinoDataIntelligenceV1.html#Struct_TimeRange">TimeRange</a></code></td><td>a required date range for the reporting response (precision is only managed per day)
+</td><td>required</td><td></td></tr>
+<tr><td>9</td><td>precision</td><td><code><a href="BoxalinoDataIntelligenceV1.html#Enum_TimeRangePrecision">TimeRangePrecision</a></code></td><td>a required date range precision if the results should be aggregated per week or month, overall or return for each day
+</td><td>required</td><td></td></tr>
+<tr><td>10</td><td>startIndex</td><td><code>i16</code></td><td>an optional starting index (e.g.: if the maximum number of results was exceeded and a second page needs to be displayed). First index is 0.
+</td><td>optional</td><td></td></tr>
+<tr><td>11</td><td>maxResults</td><td><code>i16</code></td><td>an required number of maximum number of results (one result is one source of date rage data in of values for all kpis)
+</td><td>required</td><td></td></tr>
+</table><br/>This structure defines an optimization report request
+<br/></div><div class="definition"><h3 id="Struct_ChoiceReportResult">Struct: ChoiceReportResult</h3>
+<table class="table-bordered table-striped table-condensed"><thead><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></thead>
+<tr><td>1</td><td>choiceVariant</td><td><code><a href="BoxalinoDataIntelligenceV1.html#Struct_ChoiceVariant">ChoiceVariant</a></code></td><td>the choice variant of the choice
+</td><td>optional</td><td></td></tr>
+<tr><td>2</td><td>recommendationStrategy</td><td><code>string</code></td><td>optional: indicate a specific recommendation strategy which provided the result (only returned for recommendation choices when the flag returnRecommendationStrategies is true)
+</td><td>optional</td><td></td></tr>
+<tr><td>3</td><td>dimensionValue</td><td><code>string</code></td><td>an optional dimension value (in case a dimension has been requested for segmentation)
+</td><td>optional</td><td></td></tr>
+</table><br/>This structure defines a map key (signature) of a choice report result (indication about what this result is about)
+The ChoiceReport object contains a map with the results. For each key (i.e.: result group) the system returns a list of report metrics (kpis) and value for each date range requested.
+These keys are, in the case of a ChoiceReport defined by the choice variant and, possibly a specific dimension value of the choice variant.
+It is possible that there is no value for the dimension, but then there must be a value for the choiceVariant.
+It is possible that there is no value for the choiceVariant, but then there must be a value for the choiceVariant.
+It is only possibly that the recommendationStrategy has a value if a choiceVariant value is also provided.
+It is possible that the 3 variables (choiceVariant, recommendationStrategy and dimensionValue) are all set.
+Even if allowed by the fact that all of the variables are optional, it is not possible that none of the variables are set.
+<br/></div><div class="definition"><h3 id="Struct_ReportResultValues">Struct: ReportResultValues</h3>
+<table class="table-bordered table-striped table-condensed"><thead><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></thead>
+<tr><td>1</td><td>type</td><td><code><a href="BoxalinoDataIntelligenceV1.html#Enum_ReportResultTimeRangeType">ReportResultTimeRangeType</a></code></td><td>the type of report result value time ranges
+For each report result groups, the system returns a map of ReportResultValues object (i.e.:a map of report metric (kpi) with their values) for each time range.
+These time ranges can be of different types (absolute defining exactly form a specific moment to another, or relative, starting at 0 for the first key, for cohort analysis).
+</td><td>required</td><td></td></tr>
+<tr><td>2</td><td>values</td><td><code>map&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_TimeRange">TimeRange</a></code>, <code>map&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportMetric">ReportMetric</a></code>, <code>double</code>&gt;</code>&gt;</code></td><td>a map with a key for each time range (each day, each week, each month, ... depending on its meaning provided by the ReportResultTimeRangeType type) providing for each case a map of metric values
+</td><td>required</td><td></td></tr>
+</table><br/>This structure defines the result values (map of metric and values for each requested time ranges)
+<br/></div><div class="definition"><h3 id="Struct_ChoiceReport">Struct: ChoiceReport</h3>
+<table class="table-bordered table-striped table-condensed"><thead><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></thead>
+<tr><td>1</td><td>results</td><td><code>map&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_ChoiceReportResult">ChoiceReportResult</a></code>, <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportResultValues">ReportResultValues</a></code>&gt;</code></td><td>the map of reporting results (one result per ChoiceReportResult: indicating choice variant, dimension value, etc.)
+</td><td>required</td><td></td></tr>
+<tr><td>2</td><td>sumResult</td><td><code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportResultValues">ReportResultValues</a></code></td><td>the sum result
+</td><td>required</td><td></td></tr>
+</table><br/>This structure defines an optimization report returned
+This object is specific to ChoiceReportRequest but is similar to all other type of report responses, as the only difference usually is the key object of the result variable (in this case: ChoiceReportResult)
+<br/></div><div class="definition"><h3 id="Struct_TransactionReportRequest">Struct: TransactionReportRequest</h3>
+<table class="table-bordered table-striped table-condensed"><thead><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></thead>
+<tr><td>1</td><td>metrics</td><td><code>list&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportMetric">ReportMetric</a></code>&gt;</code></td><td>the metrics to evaluate report (e.g.: kpis to return)
+</td><td>required</td><td></td></tr>
+<tr><td>2</td><td>dimensions</td><td><code>list&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportDimension">ReportDimension</a></code>&gt;</code></td><td>an optional list of dimensions for the report (for segmentation), while groups are different for each type of reporting, the dimension are normally standard (visitor country, device, ...)
+</td><td>optional</td><td></td></tr>
+<tr><td>3</td><td>filter</td><td><code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportFilter">ReportFilter</a></code></td><td>the report filter to use
+</td><td>optional</td><td></td></tr>
+<tr><td>4</td><td>sortBys</td><td><code>list&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportMetric">ReportMetric</a></code>&gt;</code></td><td>the metrics to use for sorting the results
+</td><td>optional</td><td></td></tr>
+<tr><td>5</td><td>range</td><td><code><a href="BoxalinoDataIntelligenceV1.html#Struct_TimeRange">TimeRange</a></code></td><td>a required date range for the reporting response (precision is only managed per day)
+</td><td>required</td><td></td></tr>
+<tr><td>6</td><td>precision</td><td><code><a href="BoxalinoDataIntelligenceV1.html#Enum_TimeRangePrecision">TimeRangePrecision</a></code></td><td>a required date range precision if the results should be aggregated per week or month, overall or return for each day
+</td><td>required</td><td></td></tr>
+<tr><td>7</td><td>startIndex</td><td><code>i16</code></td><td>an optional starting index (e.g.: if the maximum number of results was exceeded and a second page needs to be displayed). First index is 0.
+</td><td>optional</td><td></td></tr>
+<tr><td>8</td><td>maxResults</td><td><code>i16</code></td><td>an required number of maximum number of results (one result is one source of date rage data in of values for all kpis)
+</td><td>required</td><td></td></tr>
+</table><br/>This structure defines a transaction report request
+<br/></div><div class="definition"><h3 id="Struct_TransactionReportResult">Struct: TransactionReportResult</h3>
+<table class="table-bordered table-striped table-condensed"><thead><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></thead>
+<tr><td>1</td><td>dimensionValue</td><td><code>map&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportDimension">ReportDimension</a></code>, <code>string</code>&gt;</code></td><td>an required map of dimension values
+</td><td>required</td><td></td></tr>
+</table><br/>This structure defines a map key (signature) of a transaction report result (indication about what this result is about)
+The TransactionReport object contains a map with the results. For each key (i.e.: result group) the system returns a list of report metrics (kpis) and value for each date range requested.
+These keys are, in the case of a TransactionReport defined by a map of dimension values for each requested Dimension
+<br/></div><div class="definition"><h3 id="Struct_TransactionReport">Struct: TransactionReport</h3>
+<table class="table-bordered table-striped table-condensed"><thead><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></thead>
+<tr><td>1</td><td>results</td><td><code>map&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_TransactionReportResult">TransactionReportResult</a></code>, <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportResultValues">ReportResultValues</a></code>&gt;</code></td><td>the map of reporting results (one result per TransactionReportResult: indicating dimension values)
+</td><td>required</td><td></td></tr>
+<tr><td>2</td><td>sumResult</td><td><code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportResultValues">ReportResultValues</a></code></td><td>the sum result
+</td><td>required</td><td></td></tr>
+</table><br/>This structure defines a transaction report returned
+This object is specific to TransactionReportRequest but is similar to all other type of report responses, as the only difference usually is the key object of the result variable (in this case: TransactionReportResult)
+<br/></div><div class="definition"><h3 id="Struct_BehaviorReportRequest">Struct: BehaviorReportRequest</h3>
+<table class="table-bordered table-striped table-condensed"><thead><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></thead>
+<tr><td>1</td><td>metrics</td><td><code>list&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportMetric">ReportMetric</a></code>&gt;</code></td><td>the metrics to evaluate report (e.g.: kpis to return)
+</td><td>required</td><td></td></tr>
+<tr><td>2</td><td>dimensions</td><td><code>list&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportDimension">ReportDimension</a></code>&gt;</code></td><td>an optional list of dimensions for the report (for segmentation), while groups are different for each type of reporting, the dimension are normally standard (visitor country, device, ...)
+</td><td>optional</td><td></td></tr>
+<tr><td>3</td><td>filter</td><td><code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportFilter">ReportFilter</a></code></td><td>the report filter to use
+</td><td>optional</td><td></td></tr>
+<tr><td>4</td><td>sortBys</td><td><code>list&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportMetric">ReportMetric</a></code>&gt;</code></td><td>the metrics to use for sorting the results
+</td><td>optional</td><td></td></tr>
+<tr><td>5</td><td>range</td><td><code><a href="BoxalinoDataIntelligenceV1.html#Struct_TimeRange">TimeRange</a></code></td><td>a required date range for the reporting response (precision is only managed per day)
+</td><td>required</td><td></td></tr>
+<tr><td>6</td><td>precision</td><td><code><a href="BoxalinoDataIntelligenceV1.html#Enum_TimeRangePrecision">TimeRangePrecision</a></code></td><td>a required date range precision if the results should be aggregated per week or month, overall or return for each day
+</td><td>required</td><td></td></tr>
+<tr><td>7</td><td>startIndex</td><td><code>i16</code></td><td>an optional starting index (e.g.: if the maximum number of results was exceeded and a second page needs to be displayed). First index is 0.
+</td><td>optional</td><td></td></tr>
+<tr><td>8</td><td>maxResults</td><td><code>i16</code></td><td>an required number of maximum number of results (one result is one source of date rage data in of values for all kpis)
+</td><td>required</td><td></td></tr>
+</table><br/>This structure defines a behavior report request
+<br/></div><div class="definition"><h3 id="Struct_BehaviorReportResult">Struct: BehaviorReportResult</h3>
+<table class="table-bordered table-striped table-condensed"><thead><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></thead>
+<tr><td>1</td><td>dimensionValue</td><td><code>map&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportDimension">ReportDimension</a></code>, <code>string</code>&gt;</code></td><td>an required map of dimension values
+</td><td>required</td><td></td></tr>
+</table><br/>This structure defines a map key (signature) of a behavior report result (indication about what this result is about)
+The BehaviorReport object contains a map with the results. For each key (i.e.: result group) the system returns a list of report metrics (kpis) and value for each date range requested.
+These keys are, in the case of a BehaviorReport defined by a map of dimension values for each requested Dimension
+<br/></div><div class="definition"><h3 id="Struct_BehaviorReport">Struct: BehaviorReport</h3>
+<table class="table-bordered table-striped table-condensed"><thead><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></thead>
+<tr><td>1</td><td>results</td><td><code>map&lt;<code><a href="BoxalinoDataIntelligenceV1.html#Struct_BehaviorReportResult">BehaviorReportResult</a></code>, <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportResultValues">ReportResultValues</a></code>&gt;</code></td><td>the map of reporting results (one result per BehaviorReportResult: indicating dimension values)
+</td><td>required</td><td></td></tr>
+<tr><td>2</td><td>sumResult</td><td><code><a href="BoxalinoDataIntelligenceV1.html#Struct_ReportResultValues">ReportResultValues</a></code></td><td>the sum result
+</td><td>required</td><td></td></tr>
+</table><br/>This structure defines a behavior report returned
+This object is specific to BehaviorReportRequest but is similar to all other type of report responses, as the only difference usually is the key object of the result variable (in this case: BehaviorReportResult)
 <br/></div><hr/><h2 id="Services">Services</h2>
 <h3 id="Svc_BoxalinoDataIntelligence">Service: BoxalinoDataIntelligence</h3>
 <div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_GetAuthentication">Function: BoxalinoDataIntelligence.GetAuthentication</h4>
@@ -1523,7 +1908,8 @@ File hash is set by the API internally and cannot be changed.
                                   <code><a href="BoxalinoDataIntelligenceV1.html#Struct_TimeRange">TimeRange</a></code> range,
                                   <code><a href="BoxalinoDataIntelligenceV1.html#Enum_TimeRangePrecision">TimeRangePrecision</a></code> precision)
     throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
-</pre>This service function retrieves number of visits for each time range with selected precision.
+</pre>DEPRECITATED: USE GetChoiceReport service instead with ReportMetric: PAGE_VIEWS
+This service function retrieves number of visits for each time range with selected precision.
 
 <dl>
 <dt>@param authenticationToken</dt>
@@ -1538,5 +1924,62 @@ File hash is set by the API internally and cannot be changed.
 <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
 <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
 <dd>INVALID_RANGE: if the given time range is incorrect</dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_GetChoiceReport">Function: BoxalinoDataIntelligence.GetChoiceReport</h4>
+<pre><code><a href="BoxalinoDataIntelligenceV1.html#Struct_ChoiceReport">ChoiceReport</a></code> GetChoiceReport(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
+                             <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
+                             <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ChoiceReportRequest">ChoiceReportRequest</a></code> request)
+    throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
+</pre>This service function provides an choice statistical report.
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@param request</dt>
+<dd>The statistical report request indicating the parameters of the requested report: dimension, metrics, etc.</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dd>INVALID_REPORT_REQUEST: if the provided report request is not valid.</dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_GetTransactionReport">Function: BoxalinoDataIntelligence.GetTransactionReport</h4>
+<pre><code><a href="BoxalinoDataIntelligenceV1.html#Struct_TransactionReport">TransactionReport</a></code> GetTransactionReport(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
+                                       <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
+                                       <code><a href="BoxalinoDataIntelligenceV1.html#Struct_TransactionReportRequest">TransactionReportRequest</a></code> request)
+    throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
+</pre>This service function provides an transaction statistical report.
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@param request</dt>
+<dd>The statistical report request indicating the parameters of the requested report: dimension, metrics, etc.</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dd>INVALID_REPORT_REQUEST: if the provided report request is not valid.</dd>
+</dl>
+<br/></div><div class="definition"><h4 id="Fn_BoxalinoDataIntelligence_GetBehaviorReport">Function: BoxalinoDataIntelligence.GetBehaviorReport</h4>
+<pre><code><a href="BoxalinoDataIntelligenceV1.html#Struct_BehaviorReport">BehaviorReport</a></code> GetBehaviorReport(<code><a href="BoxalinoDataIntelligenceV1.html#Struct_Authentication">Authentication</a></code> authentication,
+                                 <code><a href="BoxalinoDataIntelligenceV1.html#Struct_ConfigurationVersion">ConfigurationVersion</a></code> configuration,
+                                 <code><a href="BoxalinoDataIntelligenceV1.html#Struct_BehaviorReportRequest">BehaviorReportRequest</a></code> request)
+    throws <code><a href="BoxalinoDataIntelligenceV1.html#Struct_DataIntelligenceServiceException">DataIntelligenceServiceException</a></code>
+</pre>This service function provides an behavior statistical report.
+
+<dl>
+<dt>@param authenticationToken</dt>
+<dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+<dt>@param configurationVersion</dt>
+<dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+<dt>@param request</dt>
+<dd>The statistical report request indicating the parameters of the requested report: dimension, metrics, etc.</dd>
+<dt>@throws DataIntelligenceServiceException</dt>
+<dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+<dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+<dd>INVALID_REPORT_REQUEST: if the provided report request is not valid.</dd>
 </dl>
 <br/></div></div></body></html>

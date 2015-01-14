@@ -72,7 +72,12 @@ enum DataIntelligenceServiceExceptionNumber {
         /**
          * the provided time range is incorrect (start timestamp is higher than the end one)
          */
-	INVALID_RANGE = 17
+	INVALID_RANGE = 17,
+	
+	/**
+	* the provided report request contains some invalid parameters settings (missing settings, conflicting settings, etc.)
+	*/
+	INVALID_REPORT_REQUEST = 18
 }
 
 /**
@@ -527,7 +532,19 @@ enum TimeRangePrecision {
 	/**
 	 * monthly precision
 	 */
-	MONTH = 3
+	MONTH = 3,
+	/**
+	 * quarterly precision
+	 */
+	QUARTER = 4,
+	/**
+	 * yearly precision
+	 */
+	YEAR = 5,
+	/**
+	 * return all data for provided date range as one
+	 */
+	ALL = 6
 }
 
 /**
@@ -542,6 +559,564 @@ struct TimeRangeValue {
 	 * KPI value for this particular range
 	 */
 	2: required double value
+}
+
+/**
+ * This enumeration defines possible report metric types
+ */
+enum ReportMetricType {
+	/**
+	 * number of unique visitors (or user)
+	 */
+	VISITORS = 1,
+	/**
+	 * number of visits (or session)
+	 */
+	VISITS = 2,
+	/**
+	 * number of landing page bounces
+	 */
+	BOUNCES = 3,
+	/**
+	 * BOUNCES / VISITS
+	 */
+	BOUNCE_RATE = 4,
+	/**
+	 * number of page views
+	 */
+	PAGE_VIEWS = 5,
+	/**
+	 * PAGE_VIEWS / VISITS
+	 */
+	PAGE_VIEWS_PER_VISIT = 6,
+	/**
+	 * average time of visits
+	 */
+	AVERAGE_TIME_ON_SITE = 7,
+	/**
+	 * number of product views
+	 */
+	PRODUCT_VIEWS = 8,
+	/**
+	 * PRODUCT_VIEWS / VISITS
+	 */
+	PRODUCT_VIEWS_PER_VISIT = 9,
+	/**
+	 * number of visits having at least one product view
+	 */
+	VISITS_WITH_PRODUCT_VIEWS = 10,
+	/**
+	 * VISITS_WITH_PRODUCT_VIEWS / VISITS
+	 */
+	VISITS_WITH_PRODUCT_VIEWS_RATE = 11,
+	/**
+	 * number of in-site searches
+	 */
+	SEARCHES = 12,
+	/**
+	 * SEARCHES / VISITS
+	 */
+	SEARCHES_PER_VISIT = 13,
+	/**
+	 * number of visits having at least one search
+	 */
+	VISITS_WITH_SEARCHES = 14,
+	/**
+	 * VISITS_WITH_SEARCHES / VISITS
+	 */
+	VISITS_WITH_SEARCHES_RATE = 15,
+	/**
+	 * number of goals (require identifier to be provided with the choice identifier)
+	 */
+	GOALS = 16,
+	/**
+	 * GOALS / VISITS (require identifier to be provided with the choice identifier)
+	 */
+	GOALS_PER_VISIT = 17,
+	/**
+	 * number of visits having at least one goal (require identifier to be provided with the choice identifier)
+	 */
+	VISITS_WITH_GOALS = 18,
+	/**
+	 * VISITS_WITH_GOALS / VISITS (require identifier to be provided with the choice identifier)
+	 */
+	VISITS_WITH_GOALS_RATE = 19,
+	/**
+	 * number of transactions
+	 */
+	TRANSACTIONS = 20,
+	/**
+	 * TRANSACTIONS / VISITS
+	 */
+	TRANSACTIONS_PER_VISIT = 21,
+	/**
+	 * number of visits having at least one transaction
+	 */
+	VISITS_WITH_TRANSACTIONS = 22,
+	/**
+	 * VISITS_WITH_TRANSACTIONS / VISITS 
+	 */
+	VISITS_WITH_TRANSACTIONS_RATE = 23,
+	/**
+	 * transaction turnover 
+	 * N.B.: will return zero for all cases which cannot be mapped to any transaction
+	 */
+	TRANSACTIONS_TURNOVER = 28,
+	/**
+	 * sum of the transaction parameter values (require identifier to be provided with the transaction parameter name)
+	 * N.B.: will return zero for all cases which cannot be mapped to any transaction
+	 */
+	TRANSACTIONS_PARAMETER_SUM = 29,
+	/**
+	 * number of add-to-basket events
+	 */
+	ADD_TO_BASKETS = 24,
+	/**
+	 * ADD_TO_BASKET / VISITS
+	 */
+	ADD_TO_BASKETS_PER_VISIT = 25,
+	/**
+	 * number of visits having at least one add to basket event
+	 */
+	VISITS_WITH_ADD_TO_BASKETS = 26,
+	/**
+	 * VISITS_WITH_ADD_TO_BASKETS / VISITS 
+	 */
+	VISITS_WITH_ADD_TO_BASKETS_RATE = 27
+}
+
+/**
+ * This structure defines a report metric (kpi) which can be standard or custom wiht an identifier (e.g.: for goals)
+ */
+struct ReportMetric {
+	/**
+	 * the type of metric
+	 */
+	1: required ReportMetricType type,
+	/**
+	 * optional, for the ReportMetricType requiring it (e.g.: goal) the identifier the metric
+	 */
+	2: optional string identifier
+}
+
+/**
+ * This enumeration defines possible report dimension types
+ */
+enum ReportDimensionType {
+	/**
+	 * is the visitor a new visitor or a returning visitor
+	 */
+	NEW_VISITOR = 1,
+	/**
+	 * the detected country of the visitor (NULL if none detected)
+	 */
+	GEO_COUNTRY = 2,
+	/**
+	 * the detected zip code of the visitor (NULL if none detected)
+	 */
+	GEO_ZIP = 3,
+	/**
+	 * the detected subdivision (Kanton for Switzerland) of the visitor (NULL if none detected)
+	 */
+	GEO_SUBDIVISION = 4,
+	/**
+	 * the detected city of the visitor (NULL if none detected)
+	 */
+	GEO_CITY = 4,
+	/**
+	 * the user agent name (most common values: IE,Mobile Safari,Chrome,Firefox,Safari,Android browser,Chrome Mobile,Java,IE Mobile,Opera,Mobile Firefox)
+	 */
+	BROWSER_NAME = 5,
+	/**
+	 * the user agent version
+	 */
+	BROWSER_VERSION = 5,
+	/**
+	 * the user agent operating system (most common values: Windows 7,iOS 7,Windows 8.1,iOS 8,Android 4.4 KitKat,OS X 10.9 Mavericks,Windows 8,Windows XP,Windows Vista,Android 4.2 Jelly Bean)
+	 */
+	OPERATING_SYSTEM = 6,
+	/**
+	 * the user agent device category (most common values: Personal computer,Smartphone,Tablet,Other)
+	 */
+	DEVICE_CATEGORY = 7,
+	/**
+	 * the AdWords Creative (requires that the AdWords ValueTrack is passed on the url parameter as "&creative={creative}"
+	 */
+	ADWORDS_CREATIVE = 8,
+	/**
+	 * the AdWords Keyword (requires that the AdWords ValueTrack is passed on the url parameter as "&keyword={keyword}"
+	 */
+	ADWORDS_KEYWORD = 9,
+	/**
+	 * the different values of a URL parameter (require identifier to be provided with url parameter name)
+	 */
+	URL_PARAMETER = 50,
+	/**
+	 * the different values of a transaction property (require identifier to be provided with the transaction property name)
+	 * N.B.: a connection to the transaction property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a transaction)
+	 */
+	TRANSACTION_PROPERTY = 100,
+	/**
+	 * the different values of a customer property (require identifier to be provided with the customer property name)
+	 * N.B.: a connection to the transaction property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a login or other ways to link the customer id to the visitor id)
+	 */
+	CUSTOMER_PROPERTY = 150,
+	/**
+	 * the different values of a product property (require identifier to be provided with the product property name)
+	 * N.B.: a connection to the transaction property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a product purchased)
+	 */
+	PURCHASED_PRODUCT_PROPERTY = 200
+}
+
+/**
+ * This structure defines a report dimension (segmentation) which can be standard or custom with an identifier (e.g.: for url parameters)
+ */
+struct ReportDimension {
+	/**
+	 * the type of metric
+	 */
+	1: required ReportDimensionType type,
+	/**
+	 * optional, for the ReportDimensionType requiring it (e.g.: goal) the identifier the metric
+	 */
+	2: optional string identifier
+}
+
+/**
+* the possible condition operators to be used in a condition target
+*/
+enum  ConditionOperator {
+	/**
+	* when cast as a String, does the substring provided in the ConditionTarget value match exactly the source string?
+	*/
+	IS = 1,
+	/**
+	* when cast as a String, does the substring provided in the ConditionTarget value NOT match exactly the source string?
+	*/
+	IS_NOT = 2,
+	/**
+	* when cast as a number, is the number provided in the source number greater (but not equal or smaller) than the ConditionTarget value?
+	*/
+	IS_GREATER = 3,
+	/**
+	* when cast as a number, is the number provided in the source number greater or equal (but not smaller) than the ConditionTarget value?
+	*/
+	IS_GREATER_OR_EQUAL = 4,
+	/**
+	* when cast as a number, is the number provided in the source number smaller (but not equal or greater) than the ConditionTarget value?
+	*/
+	IS_SMALLER = 5,
+	/**
+	* when cast as a number, is the number provided in the source number smaller or equal (but not greater) than the ConditionTarget value?
+	*/
+	IS_SMALLER_OR_EQUAL = 6,
+	/**
+	* when cast as a String, is the substring provided in the ConditionTarget value contained in the source string?
+	*/
+	CONTAINS = 7,
+	/**
+	* when cast as a String, is the substring provided in the ConditionTarget value NOT contained in the source string?
+	*/
+	DOES_NOT_CONTAIN = 8,
+	/**
+	* when cast as a String, does the substring provided in the ConditionTarget value match the first characters of the source string?
+	*/
+	STARTS_WITH = 9,
+	/**
+	* when cast as a String, does the substring provided in the ConditionTarget value NOT match the first characters of the source string?
+	*/
+	DOES_NOT_START_WITH = 10,
+	/**
+	* when cast as a String, does the substring provided in the ConditionTarget value match the last characters of the source string?
+	*/
+	ENDS_WITH = 11,
+	/**
+	* when cast as a String, does the substring provided in the ConditionTarget value NOT match the last characters of the source string?
+	*/
+	DOES_NOT_END_WITH = 12
+}
+
+/**
+* this structure defines the operator and values required for a condition to be true
+* (example: condition "is", value : "123"
+*/
+struct ConditionTarget {
+	/**
+	* the condition target operator ("is", "is not", "greater than", ...)
+	*/
+	1: required ConditionOperator operator,
+	/**
+	* the condition value (will be cast in the proper format, so "123" == 123)
+	*/
+	2: required string value
+}
+
+/**
+ * this structure defines a report filter (set of and clauses), all of which must be true
+ */
+struct ReportFilter {
+	/**
+	* the dimension filters
+	*/
+	1: required map<ReportDimension, list<ConditionTarget>> dimensionConditions,
+	/**
+	* the metric filters
+	*/
+	2: required map<ReportMetric, list<ConditionTarget>> metricConditions
+}
+
+/**
+ * This structure defines an optimization report request
+ */
+struct ChoiceReportRequest {
+	/**
+	 * the choice to analyse (e.g.: each landing page is a choice and has several variant potentially, even if only one)
+	 */
+	1: required Choice choice
+	/**
+	 * the metrics to evaluate report (e.g.: kpis to return)
+	 */
+	2: required list<ReportMetric> metrics,
+	/**
+	 * an optional choice variants to use as filters (only return the results for these choicevariants)
+	 */
+	3: optional list<ChoiceVariant> choiceVariants,
+	/**
+	 * an optional flag to indicate that the results should display not only the choice variant, but which recommendation strategies have been used for each choice variant (only applicable if the choice is a recommendation choice)
+	 */
+	4: optional bool returnRecommendationStrategies,
+	/**
+	 * an optional dimension for the report (for segmentation), while groups are different for each type of reporting, the dimension are normally standard (visitor country, device, ...)
+	 */
+	5: optional ReportDimension dimension,
+	/**
+	 * an optional list of metrics to limit the report to only the cases where at least one of the metrics of the list was reached (e.g.: if focusedMetrics are goal-X and goal-Y, then the Metric Transactions will not be returned for all the visits, but only for the visits who did reach goal-X or goal-Y at least once)
+	 */
+	6: optional list<ReportMetric> funnelMetrics,
+	/**
+	 * the metrics to use for sorting the results
+	 */
+	7: optional list<ReportMetric> sortBys,
+	/**
+	 * a required date range for the reporting response (precision is only managed per day)
+	 */
+	8: required TimeRange range,
+	/**
+	 * a required date range precision if the results should be aggregated per week or month, overall or return for each day
+	 */
+	9: required TimeRangePrecision precision,
+	/**
+	 * an optional starting index (e.g.: if the maximum number of results was exceeded and a second page needs to be displayed). First index is 0.
+	 */
+	10: optional i16 startIndex,
+	/**
+	 * an required number of maximum number of results (one result is one source of date rage data in of values for all kpis)
+	 */
+	11: required i16 maxResults
+}
+
+/** 
+ * This structure defines a map key (signature) of a choice report result (indication about what this result is about)
+ * The ChoiceReport object contains a map with the results. For each key (i.e.: result group) the system returns a list of report metrics (kpis) and value for each date range requested.
+ * These keys are, in the case of a ChoiceReport defined by the choice variant and, possibly a specific dimension value of the choice variant.
+ * It is possible that there is no value for the dimension, but then there must be a value for the choiceVariant.
+ * It is possible that there is no value for the choiceVariant, but then there must be a value for the choiceVariant.
+ * It is only possibly that the recommendationStrategy has a value if a choiceVariant value is also provided.
+ * It is possible that the 3 variables (choiceVariant, recommendationStrategy and dimensionValue) are all set.
+ * Even if allowed by the fact that all of the variables are optional, it is not possible that none of the variables are set.
+ */
+struct ChoiceReportResult {
+	/**
+	* the choice variant of the choice
+	*/
+	1: optional ChoiceVariant choiceVariant,
+	/**
+	* optional: indicate a specific recommendation strategy which provided the result (only returned for recommendation choices when the flag returnRecommendationStrategies is true)
+	*/
+	2: optional string recommendationStrategy,
+	/**
+	 * an optional dimension value (in case a dimension has been requested for segmentation)
+	 */
+	3: optional string dimensionValue,	
+}
+
+
+/**
+ * This enumeration defines possible report result value key types.
+ * For each report result groups, the system returns a map of ReportResultValues object (i.e.:a map of report metric (kpi) with their values) for each time range. 
+ * These time ranges can be of different types (absolute defining exactly form a specific moment to another, or relative, starting at 0 for the first key, for cohort analysis).
+ */
+enum ReportResultTimeRangeType {
+	/**
+	 * an absolute time range (defines the datetime start and end of the reporting values for this key)
+	 */
+	REAL_TIME = 1,
+	/**
+	 * returns the start and end date time based on timestamp 0 being the beginning of the report (if cohort per day: first value: 0->3600*24, second value: 3600*24->3600*24*2, ...)
+	 */
+	COHORT = 2
+}
+
+/** 
+ * This structure defines the result values (map of metric and values for each requested time ranges)
+ */
+struct ReportResultValues {
+	/**
+	* the type of report result value time ranges
+	* For each report result groups, the system returns a map of ReportResultValues object (i.e.:a map of report metric (kpi) with their values) for each time range. 
+	* These time ranges can be of different types (absolute defining exactly form a specific moment to another, or relative, starting at 0 for the first key, for cohort analysis).
+	*/
+	1: required ReportResultTimeRangeType type,
+	
+	/**
+	* a map with a key for each time range (each day, each week, each month, ... depending on its meaning provided by the ReportResultTimeRangeType type) providing for each case a map of metric values
+	*/
+	2: required map<TimeRange, map<ReportMetric, double>> values
+}
+
+/** 
+ * This structure defines an optimization report returned
+ * This object is specific to ChoiceReportRequest but is similar to all other type of report responses, as the only difference usually is the key object of the result variable (in this case: ChoiceReportResult)
+*/
+struct ChoiceReport {
+	/**
+	* the map of reporting results (one result per ChoiceReportResult: indicating choice variant, dimension value, etc.)
+	*/
+	1: required map<ChoiceReportResult, ReportResultValues> results,
+	/**
+	* the sum result
+	*/
+	2: required ReportResultValues sumResult
+}
+
+/**
+ * This structure defines a transaction report request
+ */
+struct TransactionReportRequest {
+	/**
+	 * the metrics to evaluate report (e.g.: kpis to return)
+	 */
+	1: required list<ReportMetric> metrics,
+	/**
+	 * an optional list of dimensions for the report (for segmentation), while groups are different for each type of reporting, the dimension are normally standard (visitor country, device, ...)
+	 */
+	2: optional list<ReportDimension> dimensions,
+	/**
+	 * the report filter to use
+	 */
+	3: optional ReportFilter filter,
+	/**
+	 * the metrics to use for sorting the results
+	 */
+	4: optional list<ReportMetric> sortBys,
+	/**
+	 * a required date range for the reporting response (precision is only managed per day)
+	 */
+	5: required TimeRange range,
+	/**
+	 * a required date range precision if the results should be aggregated per week or month, overall or return for each day
+	 */
+	6: required TimeRangePrecision precision,
+	/**
+	 * an optional starting index (e.g.: if the maximum number of results was exceeded and a second page needs to be displayed). First index is 0.
+	 */
+	7: optional i16 startIndex,
+	/**
+	 * an required number of maximum number of results (one result is one source of date rage data in of values for all kpis)
+	 */
+	8: required i16 maxResults
+}
+
+/** 
+ * This structure defines a map key (signature) of a transaction report result (indication about what this result is about)
+ * The TransactionReport object contains a map with the results. For each key (i.e.: result group) the system returns a list of report metrics (kpis) and value for each date range requested.
+ * These keys are, in the case of a TransactionReport defined by a map of dimension values for each requested Dimension
+ */
+struct TransactionReportResult {
+	/**
+	 * an required map of dimension values
+	 */
+	1: required map<ReportDimension,string> dimensionValue,	
+}
+
+/** 
+ * This structure defines a transaction report returned
+ * This object is specific to TransactionReportRequest but is similar to all other type of report responses, as the only difference usually is the key object of the result variable (in this case: TransactionReportResult)
+*/
+struct TransactionReport {
+	/**
+	* the map of reporting results (one result per TransactionReportResult: indicating dimension values)
+	*/
+	1: required map<TransactionReportResult, ReportResultValues> results,
+	/**
+	* the sum result
+	*/
+	2: required ReportResultValues sumResult
+}
+
+/**
+ * This structure defines a behavior report request
+ */
+struct BehaviorReportRequest {
+	/**
+	 * the metrics to evaluate report (e.g.: kpis to return)
+	 */
+	1: required list<ReportMetric> metrics,
+	/**
+	 * an optional list of dimensions for the report (for segmentation), while groups are different for each type of reporting, the dimension are normally standard (visitor country, device, ...)
+	 */
+	2: optional list<ReportDimension> dimensions,
+	/**
+	 * the report filter to use
+	 */
+	3: optional ReportFilter filter,
+	/**
+	 * the metrics to use for sorting the results
+	 */
+	4: optional list<ReportMetric> sortBys,
+	/**
+	 * a required date range for the reporting response (precision is only managed per day)
+	 */
+	5: required TimeRange range,
+	/**
+	 * a required date range precision if the results should be aggregated per week or month, overall or return for each day
+	 */
+	6: required TimeRangePrecision precision,
+	/**
+	 * an optional starting index (e.g.: if the maximum number of results was exceeded and a second page needs to be displayed). First index is 0.
+	 */
+	7: optional i16 startIndex,
+	/**
+	 * an required number of maximum number of results (one result is one source of date rage data in of values for all kpis)
+	 */
+	8: required i16 maxResults
+}
+
+/** 
+ * This structure defines a map key (signature) of a behavior report result (indication about what this result is about)
+ * The BehaviorReport object contains a map with the results. For each key (i.e.: result group) the system returns a list of report metrics (kpis) and value for each date range requested.
+ * These keys are, in the case of a BehaviorReport defined by a map of dimension values for each requested Dimension
+ */
+struct BehaviorReportResult {
+	/**
+	 * an required map of dimension values
+	 */
+	1: required map<ReportDimension,string> dimensionValue,	
+}
+
+/** 
+ * This structure defines a behavior report returned
+ * This object is specific to BehaviorReportRequest but is similar to all other type of report responses, as the only difference usually is the key object of the result variable (in this case: BehaviorReportResult)
+*/
+struct BehaviorReport {
+	/**
+	* the map of reporting results (one result per BehaviorReportResult: indicating dimension values)
+	*/
+	1: required map<BehaviorReportResult, ReportResultValues> results,
+	/**
+	* the sum result
+	*/
+	2: required ReportResultValues sumResult
 }
 
 service BoxalinoDataIntelligence {
@@ -1572,6 +2147,7 @@ service BoxalinoDataIntelligence {
         string GetLastTransactionID(1: Authentication authentication, 2: ConfigurationVersion configuration) throws (1: DataIntelligenceServiceException e),
 
 /**
+ * DEPRECITATED: USE GetChoiceReport service instead with ReportMetric: PAGE_VIEWS
  * This service function retrieves number of visits for each time range with selected precision.
  * 
  * <dl>
@@ -1590,5 +2166,59 @@ service BoxalinoDataIntelligence {
  * </dl>
  */
 	list<TimeRangeValue> GetPageViews(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: TimeRange range, 4: TimeRangePrecision precision) throws (1: DataIntelligenceServiceException e),
+	
+/**
+ * This service function provides an choice statistical report. 
+ * 
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param request</dt>
+ * <dd>The statistical report request indicating the parameters of the requested report: dimension, metrics, etc.</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>INVALID_REPORT_REQUEST: if the provided report request is not valid.</dd>
+ * </dl>
+ */
+	ChoiceReport GetChoiceReport(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: ChoiceReportRequest request) throws (1: DataIntelligenceServiceException e),
+	
+/**
+ * This service function provides an transaction statistical report. 
+ * 
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param request</dt>
+ * <dd>The statistical report request indicating the parameters of the requested report: dimension, metrics, etc.</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>INVALID_REPORT_REQUEST: if the provided report request is not valid.</dd>
+ * </dl>
+ */
+	TransactionReport GetTransactionReport(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: TransactionReportRequest request) throws (1: DataIntelligenceServiceException e),
 
+/**
+ * This service function provides an behavior statistical report. 
+ * 
+ * <dl>
+ * <dt>@param authenticationToken</dt>
+ * <dd>the authentication object as returned by the GetAuthentication service function in the AuthenticationResponse struct</dd>
+ * <dt>@param configurationVersion</dt>
+ * <dd>a ConfigurationVersion object indicating the configuration version number (as returned by function GetConfigurationVersion)</dd>
+ * <dt>@param request</dt>
+ * <dd>The statistical report request indicating the parameters of the requested report: dimension, metrics, etc.</dd>
+ * <dt>@throws DataIntelligenceServiceException</dt>
+ * <dd>INVALID_AUTHENTICATION_TOKEN:if the provided authentication token is not valid or has expired (1 hour validity).</dd>
+ * <dd>INVALID_CONFIGURATION_VERSION: if the provided configuration version is not valid.</dd>
+ * <dd>INVALID_REPORT_REQUEST: if the provided report request is not valid.</dd>
+ * </dl>
+ */
+	BehaviorReport GetBehaviorReport(1: Authentication authentication, 2: ConfigurationVersion configuration, 3: BehaviorReportRequest request) throws (1: DataIntelligenceServiceException e),
+	
 }
