@@ -5594,18 +5594,18 @@ class BoxalinoDataIntelligence_GetFields_result {
         case 0:
           if ($ftype == TType::MAP) {
             $this->success = array();
-            $_size272 = 0;
-            $_ktype273 = 0;
-            $_vtype274 = 0;
-            $xfer += $input->readMapBegin($_ktype273, $_vtype274, $_size272);
-            for ($_i276 = 0; $_i276 < $_size272; ++$_i276)
+            $_size254 = 0;
+            $_ktype255 = 0;
+            $_vtype256 = 0;
+            $xfer += $input->readMapBegin($_ktype255, $_vtype256, $_size254);
+            for ($_i258 = 0; $_i258 < $_size254; ++$_i258)
             {
-              $key277 = '';
-              $val278 = new \com\boxalino\dataintelligence\api\thrift\Field();
-              $xfer += $input->readString($key277);
-              $val278 = new \com\boxalino\dataintelligence\api\thrift\Field();
-              $xfer += $val278->read($input);
-              $this->success[$key277] = $val278;
+              $key259 = '';
+              $val260 = new \com\boxalino\dataintelligence\api\thrift\Field();
+              $xfer += $input->readString($key259);
+              $val260 = new \com\boxalino\dataintelligence\api\thrift\Field();
+              $xfer += $val260->read($input);
+              $this->success[$key259] = $val260;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -5641,10 +5641,10 @@ class BoxalinoDataIntelligence_GetFields_result {
       {
         $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $kiter279 => $viter280)
+          foreach ($this->success as $kiter261 => $viter262)
           {
-            $xfer += $output->writeString($kiter279);
-            $xfer += $viter280->write($output);
+            $xfer += $output->writeString($kiter261);
+            $xfer += $viter262->write($output);
           }
         }
         $output->writeMapEnd();
@@ -6467,18 +6467,18 @@ class BoxalinoDataIntelligence_GetProcessTasks_result {
         case 0:
           if ($ftype == TType::MAP) {
             $this->success = array();
-            $_size281 = 0;
-            $_ktype282 = 0;
-            $_vtype283 = 0;
-            $xfer += $input->readMapBegin($_ktype282, $_vtype283, $_size281);
-            for ($_i285 = 0; $_i285 < $_size281; ++$_i285)
+            $_size263 = 0;
+            $_ktype264 = 0;
+            $_vtype265 = 0;
+            $xfer += $input->readMapBegin($_ktype264, $_vtype265, $_size263);
+            for ($_i267 = 0; $_i267 < $_size263; ++$_i267)
             {
-              $key286 = '';
-              $val287 = new \com\boxalino\dataintelligence\api\thrift\ProcessTask();
-              $xfer += $input->readString($key286);
-              $val287 = new \com\boxalino\dataintelligence\api\thrift\ProcessTask();
-              $xfer += $val287->read($input);
-              $this->success[$key286] = $val287;
+              $key268 = '';
+              $val269 = new \com\boxalino\dataintelligence\api\thrift\ProcessTask();
+              $xfer += $input->readString($key268);
+              $val269 = new \com\boxalino\dataintelligence\api\thrift\ProcessTask();
+              $xfer += $val269->read($input);
+              $this->success[$key268] = $val269;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -6514,10 +6514,10 @@ class BoxalinoDataIntelligence_GetProcessTasks_result {
       {
         $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $kiter288 => $viter289)
+          foreach ($this->success as $kiter270 => $viter271)
           {
-            $xfer += $output->writeString($kiter288);
-            $xfer += $viter289->write($output);
+            $xfer += $output->writeString($kiter270);
+            $xfer += $viter271->write($output);
           }
         }
         $output->writeMapEnd();
@@ -7576,18 +7576,18 @@ class BoxalinoDataIntelligence_GetEmailCampaigns_result {
         case 0:
           if ($ftype == TType::MAP) {
             $this->success = array();
-            $_size290 = 0;
-            $_ktype291 = 0;
-            $_vtype292 = 0;
-            $xfer += $input->readMapBegin($_ktype291, $_vtype292, $_size290);
-            for ($_i294 = 0; $_i294 < $_size290; ++$_i294)
+            $_size272 = 0;
+            $_ktype273 = 0;
+            $_vtype274 = 0;
+            $xfer += $input->readMapBegin($_ktype273, $_vtype274, $_size272);
+            for ($_i276 = 0; $_i276 < $_size272; ++$_i276)
             {
-              $key295 = '';
-              $val296 = new \com\boxalino\dataintelligence\api\thrift\EmailCampaign();
-              $xfer += $input->readString($key295);
-              $val296 = new \com\boxalino\dataintelligence\api\thrift\EmailCampaign();
-              $xfer += $val296->read($input);
-              $this->success[$key295] = $val296;
+              $key277 = '';
+              $val278 = new \com\boxalino\dataintelligence\api\thrift\EmailCampaign();
+              $xfer += $input->readString($key277);
+              $val278 = new \com\boxalino\dataintelligence\api\thrift\EmailCampaign();
+              $xfer += $val278->read($input);
+              $this->success[$key277] = $val278;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -7623,10 +7623,10 @@ class BoxalinoDataIntelligence_GetEmailCampaigns_result {
       {
         $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $kiter297 => $viter298)
+          foreach ($this->success as $kiter279 => $viter280)
           {
-            $xfer += $output->writeString($kiter297);
-            $xfer += $viter298->write($output);
+            $xfer += $output->writeString($kiter279);
+            $xfer += $viter280->write($output);
           }
         }
         $output->writeMapEnd();
@@ -8472,18 +8472,18 @@ class BoxalinoDataIntelligence_GetChoices_result {
         case 0:
           if ($ftype == TType::MAP) {
             $this->success = array();
-            $_size299 = 0;
-            $_ktype300 = 0;
-            $_vtype301 = 0;
-            $xfer += $input->readMapBegin($_ktype300, $_vtype301, $_size299);
-            for ($_i303 = 0; $_i303 < $_size299; ++$_i303)
+            $_size281 = 0;
+            $_ktype282 = 0;
+            $_vtype283 = 0;
+            $xfer += $input->readMapBegin($_ktype282, $_vtype283, $_size281);
+            for ($_i285 = 0; $_i285 < $_size281; ++$_i285)
             {
-              $key304 = '';
-              $val305 = new \com\boxalino\dataintelligence\api\thrift\Choice();
-              $xfer += $input->readString($key304);
-              $val305 = new \com\boxalino\dataintelligence\api\thrift\Choice();
-              $xfer += $val305->read($input);
-              $this->success[$key304] = $val305;
+              $key286 = '';
+              $val287 = new \com\boxalino\dataintelligence\api\thrift\Choice();
+              $xfer += $input->readString($key286);
+              $val287 = new \com\boxalino\dataintelligence\api\thrift\Choice();
+              $xfer += $val287->read($input);
+              $this->success[$key286] = $val287;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -8519,10 +8519,10 @@ class BoxalinoDataIntelligence_GetChoices_result {
       {
         $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $kiter306 => $viter307)
+          foreach ($this->success as $kiter288 => $viter289)
           {
-            $xfer += $output->writeString($kiter306);
-            $xfer += $viter307->write($output);
+            $xfer += $output->writeString($kiter288);
+            $xfer += $viter289->write($output);
           }
         }
         $output->writeMapEnd();
@@ -9460,18 +9460,18 @@ class BoxalinoDataIntelligence_GetChoiceVariants_result {
         case 0:
           if ($ftype == TType::MAP) {
             $this->success = array();
-            $_size308 = 0;
-            $_ktype309 = 0;
-            $_vtype310 = 0;
-            $xfer += $input->readMapBegin($_ktype309, $_vtype310, $_size308);
-            for ($_i312 = 0; $_i312 < $_size308; ++$_i312)
+            $_size290 = 0;
+            $_ktype291 = 0;
+            $_vtype292 = 0;
+            $xfer += $input->readMapBegin($_ktype291, $_vtype292, $_size290);
+            for ($_i294 = 0; $_i294 < $_size290; ++$_i294)
             {
-              $key313 = '';
-              $val314 = new \com\boxalino\dataintelligence\api\thrift\ChoiceVariant();
-              $xfer += $input->readString($key313);
-              $val314 = new \com\boxalino\dataintelligence\api\thrift\ChoiceVariant();
-              $xfer += $val314->read($input);
-              $this->success[$key313] = $val314;
+              $key295 = '';
+              $val296 = new \com\boxalino\dataintelligence\api\thrift\ChoiceVariant();
+              $xfer += $input->readString($key295);
+              $val296 = new \com\boxalino\dataintelligence\api\thrift\ChoiceVariant();
+              $xfer += $val296->read($input);
+              $this->success[$key295] = $val296;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -9507,10 +9507,10 @@ class BoxalinoDataIntelligence_GetChoiceVariants_result {
       {
         $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $kiter315 => $viter316)
+          foreach ($this->success as $kiter297 => $viter298)
           {
-            $xfer += $output->writeString($kiter315);
-            $xfer += $viter316->write($output);
+            $xfer += $output->writeString($kiter297);
+            $xfer += $viter298->write($output);
           }
         }
         $output->writeMapEnd();
@@ -10708,15 +10708,15 @@ class BoxalinoDataIntelligence_GetConfigurationDifferences_result {
         case 0:
           if ($ftype == TType::LST) {
             $this->success = array();
-            $_size317 = 0;
-            $_etype320 = 0;
-            $xfer += $input->readListBegin($_etype320, $_size317);
-            for ($_i321 = 0; $_i321 < $_size317; ++$_i321)
+            $_size299 = 0;
+            $_etype302 = 0;
+            $xfer += $input->readListBegin($_etype302, $_size299);
+            for ($_i303 = 0; $_i303 < $_size299; ++$_i303)
             {
-              $elem322 = null;
-              $elem322 = new \com\boxalino\dataintelligence\api\thrift\ConfigurationDifference();
-              $xfer += $elem322->read($input);
-              $this->success []= $elem322;
+              $elem304 = null;
+              $elem304 = new \com\boxalino\dataintelligence\api\thrift\ConfigurationDifference();
+              $xfer += $elem304->read($input);
+              $this->success []= $elem304;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -10752,9 +10752,9 @@ class BoxalinoDataIntelligence_GetConfigurationDifferences_result {
       {
         $output->writeListBegin(TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $iter323)
+          foreach ($this->success as $iter305)
           {
-            $xfer += $iter323->write($output);
+            $xfer += $iter305->write($output);
           }
         }
         $output->writeListEnd();
@@ -11981,15 +11981,15 @@ class BoxalinoDataIntelligence_GetAllReferenceCSVFiles_result {
         case 0:
           if ($ftype == TType::LST) {
             $this->success = array();
-            $_size324 = 0;
-            $_etype327 = 0;
-            $xfer += $input->readListBegin($_etype327, $_size324);
-            for ($_i328 = 0; $_i328 < $_size324; ++$_i328)
+            $_size306 = 0;
+            $_etype309 = 0;
+            $xfer += $input->readListBegin($_etype309, $_size306);
+            for ($_i310 = 0; $_i310 < $_size306; ++$_i310)
             {
-              $elem329 = null;
-              $elem329 = new \com\boxalino\dataintelligence\api\thrift\ReferenceCSVFileDescriptor();
-              $xfer += $elem329->read($input);
-              $this->success []= $elem329;
+              $elem311 = null;
+              $elem311 = new \com\boxalino\dataintelligence\api\thrift\ReferenceCSVFileDescriptor();
+              $xfer += $elem311->read($input);
+              $this->success []= $elem311;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -12025,9 +12025,9 @@ class BoxalinoDataIntelligence_GetAllReferenceCSVFiles_result {
       {
         $output->writeListBegin(TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $iter330)
+          foreach ($this->success as $iter312)
           {
-            $xfer += $iter330->write($output);
+            $xfer += $iter312->write($output);
           }
         }
         $output->writeListEnd();
@@ -12429,18 +12429,18 @@ class BoxalinoDataIntelligence_GetSchedulings_result {
         case 0:
           if ($ftype == TType::MAP) {
             $this->success = array();
-            $_size331 = 0;
-            $_ktype332 = 0;
-            $_vtype333 = 0;
-            $xfer += $input->readMapBegin($_ktype332, $_vtype333, $_size331);
-            for ($_i335 = 0; $_i335 < $_size331; ++$_i335)
+            $_size313 = 0;
+            $_ktype314 = 0;
+            $_vtype315 = 0;
+            $xfer += $input->readMapBegin($_ktype314, $_vtype315, $_size313);
+            for ($_i317 = 0; $_i317 < $_size313; ++$_i317)
             {
-              $key336 = '';
-              $val337 = new \com\boxalino\dataintelligence\api\thrift\Scheduling();
-              $xfer += $input->readString($key336);
-              $val337 = new \com\boxalino\dataintelligence\api\thrift\Scheduling();
-              $xfer += $val337->read($input);
-              $this->success[$key336] = $val337;
+              $key318 = '';
+              $val319 = new \com\boxalino\dataintelligence\api\thrift\Scheduling();
+              $xfer += $input->readString($key318);
+              $val319 = new \com\boxalino\dataintelligence\api\thrift\Scheduling();
+              $xfer += $val319->read($input);
+              $this->success[$key318] = $val319;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -12476,10 +12476,10 @@ class BoxalinoDataIntelligence_GetSchedulings_result {
       {
         $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $kiter338 => $viter339)
+          foreach ($this->success as $kiter320 => $viter321)
           {
-            $xfer += $output->writeString($kiter338);
-            $xfer += $viter339->write($output);
+            $xfer += $output->writeString($kiter320);
+            $xfer += $viter321->write($output);
           }
         }
         $output->writeMapEnd();
@@ -13515,18 +13515,18 @@ class BoxalinoDataIntelligence_GetRecommendationBlocks_result {
         case 0:
           if ($ftype == TType::MAP) {
             $this->success = array();
-            $_size340 = 0;
-            $_ktype341 = 0;
-            $_vtype342 = 0;
-            $xfer += $input->readMapBegin($_ktype341, $_vtype342, $_size340);
-            for ($_i344 = 0; $_i344 < $_size340; ++$_i344)
+            $_size322 = 0;
+            $_ktype323 = 0;
+            $_vtype324 = 0;
+            $xfer += $input->readMapBegin($_ktype323, $_vtype324, $_size322);
+            for ($_i326 = 0; $_i326 < $_size322; ++$_i326)
             {
-              $key345 = '';
-              $val346 = new \com\boxalino\dataintelligence\api\thrift\RecommendationBlock();
-              $xfer += $input->readString($key345);
-              $val346 = new \com\boxalino\dataintelligence\api\thrift\RecommendationBlock();
-              $xfer += $val346->read($input);
-              $this->success[$key345] = $val346;
+              $key327 = '';
+              $val328 = new \com\boxalino\dataintelligence\api\thrift\RecommendationBlock();
+              $xfer += $input->readString($key327);
+              $val328 = new \com\boxalino\dataintelligence\api\thrift\RecommendationBlock();
+              $xfer += $val328->read($input);
+              $this->success[$key327] = $val328;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -13562,10 +13562,10 @@ class BoxalinoDataIntelligence_GetRecommendationBlocks_result {
       {
         $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $kiter347 => $viter348)
+          foreach ($this->success as $kiter329 => $viter330)
           {
-            $xfer += $output->writeString($kiter347);
-            $xfer += $viter348->write($output);
+            $xfer += $output->writeString($kiter329);
+            $xfer += $viter330->write($output);
           }
         }
         $output->writeMapEnd();
@@ -14388,18 +14388,18 @@ class BoxalinoDataIntelligence_GetDataSources_result {
         case 0:
           if ($ftype == TType::MAP) {
             $this->success = array();
-            $_size349 = 0;
-            $_ktype350 = 0;
-            $_vtype351 = 0;
-            $xfer += $input->readMapBegin($_ktype350, $_vtype351, $_size349);
-            for ($_i353 = 0; $_i353 < $_size349; ++$_i353)
+            $_size331 = 0;
+            $_ktype332 = 0;
+            $_vtype333 = 0;
+            $xfer += $input->readMapBegin($_ktype332, $_vtype333, $_size331);
+            for ($_i335 = 0; $_i335 < $_size331; ++$_i335)
             {
-              $key354 = '';
-              $val355 = new \com\boxalino\dataintelligence\api\thrift\DataSource();
-              $xfer += $input->readString($key354);
-              $val355 = new \com\boxalino\dataintelligence\api\thrift\DataSource();
-              $xfer += $val355->read($input);
-              $this->success[$key354] = $val355;
+              $key336 = '';
+              $val337 = new \com\boxalino\dataintelligence\api\thrift\DataSource();
+              $xfer += $input->readString($key336);
+              $val337 = new \com\boxalino\dataintelligence\api\thrift\DataSource();
+              $xfer += $val337->read($input);
+              $this->success[$key336] = $val337;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -14435,10 +14435,10 @@ class BoxalinoDataIntelligence_GetDataSources_result {
       {
         $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $kiter356 => $viter357)
+          foreach ($this->success as $kiter338 => $viter339)
           {
-            $xfer += $output->writeString($kiter356);
-            $xfer += $viter357->write($output);
+            $xfer += $output->writeString($kiter338);
+            $xfer += $viter339->write($output);
           }
         }
         $output->writeMapEnd();
@@ -15261,18 +15261,18 @@ class BoxalinoDataIntelligence_GetDataExports_result {
         case 0:
           if ($ftype == TType::MAP) {
             $this->success = array();
-            $_size358 = 0;
-            $_ktype359 = 0;
-            $_vtype360 = 0;
-            $xfer += $input->readMapBegin($_ktype359, $_vtype360, $_size358);
-            for ($_i362 = 0; $_i362 < $_size358; ++$_i362)
+            $_size340 = 0;
+            $_ktype341 = 0;
+            $_vtype342 = 0;
+            $xfer += $input->readMapBegin($_ktype341, $_vtype342, $_size340);
+            for ($_i344 = 0; $_i344 < $_size340; ++$_i344)
             {
-              $key363 = '';
-              $val364 = new \com\boxalino\dataintelligence\api\thrift\DataExport();
-              $xfer += $input->readString($key363);
-              $val364 = new \com\boxalino\dataintelligence\api\thrift\DataExport();
-              $xfer += $val364->read($input);
-              $this->success[$key363] = $val364;
+              $key345 = '';
+              $val346 = new \com\boxalino\dataintelligence\api\thrift\DataExport();
+              $xfer += $input->readString($key345);
+              $val346 = new \com\boxalino\dataintelligence\api\thrift\DataExport();
+              $xfer += $val346->read($input);
+              $this->success[$key345] = $val346;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -15308,10 +15308,10 @@ class BoxalinoDataIntelligence_GetDataExports_result {
       {
         $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $kiter365 => $viter366)
+          foreach ($this->success as $kiter347 => $viter348)
           {
-            $xfer += $output->writeString($kiter365);
-            $xfer += $viter366->write($output);
+            $xfer += $output->writeString($kiter347);
+            $xfer += $viter348->write($output);
           }
         }
         $output->writeMapEnd();
@@ -16134,18 +16134,18 @@ class BoxalinoDataIntelligence_GetReferenceCSVFileDataSources_result {
         case 0:
           if ($ftype == TType::MAP) {
             $this->success = array();
-            $_size367 = 0;
-            $_ktype368 = 0;
-            $_vtype369 = 0;
-            $xfer += $input->readMapBegin($_ktype368, $_vtype369, $_size367);
-            for ($_i371 = 0; $_i371 < $_size367; ++$_i371)
+            $_size349 = 0;
+            $_ktype350 = 0;
+            $_vtype351 = 0;
+            $xfer += $input->readMapBegin($_ktype350, $_vtype351, $_size349);
+            for ($_i353 = 0; $_i353 < $_size349; ++$_i353)
             {
-              $key372 = '';
-              $val373 = new \com\boxalino\dataintelligence\api\thrift\ReferenceCSVDataSource();
-              $xfer += $input->readString($key372);
-              $val373 = new \com\boxalino\dataintelligence\api\thrift\ReferenceCSVDataSource();
-              $xfer += $val373->read($input);
-              $this->success[$key372] = $val373;
+              $key354 = '';
+              $val355 = new \com\boxalino\dataintelligence\api\thrift\ReferenceCSVDataSource();
+              $xfer += $input->readString($key354);
+              $val355 = new \com\boxalino\dataintelligence\api\thrift\ReferenceCSVDataSource();
+              $xfer += $val355->read($input);
+              $this->success[$key354] = $val355;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -16181,10 +16181,10 @@ class BoxalinoDataIntelligence_GetReferenceCSVFileDataSources_result {
       {
         $output->writeMapBegin(TType::STRING, TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $kiter374 => $viter375)
+          foreach ($this->success as $kiter356 => $viter357)
           {
-            $xfer += $output->writeString($kiter374);
-            $xfer += $viter375->write($output);
+            $xfer += $output->writeString($kiter356);
+            $xfer += $viter357->write($output);
           }
         }
         $output->writeMapEnd();
@@ -17262,15 +17262,15 @@ class BoxalinoDataIntelligence_GetPageViews_result {
         case 0:
           if ($ftype == TType::LST) {
             $this->success = array();
-            $_size376 = 0;
-            $_etype379 = 0;
-            $xfer += $input->readListBegin($_etype379, $_size376);
-            for ($_i380 = 0; $_i380 < $_size376; ++$_i380)
+            $_size358 = 0;
+            $_etype361 = 0;
+            $xfer += $input->readListBegin($_etype361, $_size358);
+            for ($_i362 = 0; $_i362 < $_size358; ++$_i362)
             {
-              $elem381 = null;
-              $elem381 = new \com\boxalino\dataintelligence\api\thrift\TimeRangeValue();
-              $xfer += $elem381->read($input);
-              $this->success []= $elem381;
+              $elem363 = null;
+              $elem363 = new \com\boxalino\dataintelligence\api\thrift\TimeRangeValue();
+              $xfer += $elem363->read($input);
+              $this->success []= $elem363;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -17306,9 +17306,9 @@ class BoxalinoDataIntelligence_GetPageViews_result {
       {
         $output->writeListBegin(TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $iter382)
+          foreach ($this->success as $iter364)
           {
-            $xfer += $iter382->write($output);
+            $xfer += $iter364->write($output);
           }
         }
         $output->writeListEnd();

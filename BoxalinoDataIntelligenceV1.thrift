@@ -852,17 +852,45 @@ struct ConditionTarget {
 }
 
 /**
+* this structure defines a dimension condition, corresponding to a list of ConditionTargets for a given dimension
+*/
+struct DimensionCondition {
+	/**
+	* the report dimension
+	*/
+	1: required ReportDimension dimension,
+	/**
+	* the list of condition targets to be matched
+	*/
+	2: required list<ConditionTarget> conditionTargets
+}
+
+/**
+* this structure defines a metric condition, corresponding to a list of ConditionTargets for a given metric
+*/
+struct MetricCondition {
+	/**
+	* the report metric
+	*/
+	1: required ReportMetric metric,
+	/**
+	* the list of condition targets to be matched
+	*/
+	2: required list<ConditionTarget> conditionTargets
+}
+
+/**
  * this structure defines a report filter (set of and clauses), all of which must be true
  */
 struct ReportFilter {
 	/**
 	* the dimension filters
 	*/
-	1: required map<ReportDimension, list<ConditionTarget>> dimensionConditions,
+	1: required list<DimensionCondition> dimensionConditions,
 	/**
 	* the metric filters
 	*/
-	2: required map<ReportMetric, list<ConditionTarget>> metricConditions
+	2: required list<MetricCondition> metricConditions
 }
 
 /**
@@ -870,49 +898,53 @@ struct ReportFilter {
  */
 struct ChoiceReportRequest {
 	/**
+	 * the choice source id (identifying the system being the source of the choices, if you don't have a choice source id already, please contact support@boxalino.com) (must follow the content id format: <= 50 alphanumeric characters without accent or punctuation)
+	 */
+	1: string choiceSourceId,
+	/**
 	 * the choice to analyse (e.g.: each landing page is a choice and has several variant potentially, even if only one)
 	 */
-	1: required Choice choice
+	2: required Choice choice,
 	/**
 	 * the metrics to evaluate report (e.g.: kpis to return)
 	 */
-	2: required list<ReportMetric> metrics,
+	3: required list<ReportMetric> metrics,
 	/**
 	 * an optional choice variants to use as filters (only return the results for these choicevariants)
 	 */
-	3: optional list<ChoiceVariant> choiceVariants,
+	4: optional list<string> choiceVariantIds,
 	/**
 	 * an optional flag to indicate that the results should display not only the choice variant, but which recommendation strategies have been used for each choice variant (only applicable if the choice is a recommendation choice)
 	 */
-	4: optional bool returnRecommendationStrategies,
+	5: optional bool returnRecommendationStrategies,
 	/**
 	 * an optional dimension for the report (for segmentation), while groups are different for each type of reporting, the dimension are normally standard (visitor country, device, ...)
 	 */
-	5: optional ReportDimension dimension,
+	6: optional ReportDimension dimension,
 	/**
 	 * an optional list of metrics to limit the report to only the cases where at least one of the metrics of the list was reached (e.g.: if focusedMetrics are goal-X and goal-Y, then the Metric Transactions will not be returned for all the visits, but only for the visits who did reach goal-X or goal-Y at least once)
 	 */
-	6: optional list<ReportMetric> funnelMetrics,
+	7: optional list<ReportMetric> funnelMetrics,
 	/**
 	 * the metrics to use for sorting the results
 	 */
-	7: optional list<ReportMetric> sortBys,
+	8: optional list<ReportMetric> sortBys,
 	/**
 	 * a required date range for the reporting response (precision is only managed per day)
 	 */
-	8: required TimeRange range,
+	9: required TimeRange range,
 	/**
 	 * a required date range precision if the results should be aggregated per week or month, overall or return for each day
 	 */
-	9: required TimeRangePrecision precision,
+	10: required TimeRangePrecision precision,
 	/**
 	 * an optional starting index (e.g.: if the maximum number of results was exceeded and a second page needs to be displayed). First index is 0.
 	 */
-	10: optional i16 startIndex,
+	11: optional i16 startIndex,
 	/**
 	 * an required number of maximum number of results (one result is one source of date rage data in of values for all kpis)
 	 */
-	11: required i16 maxResults
+	12: required i16 maxResults
 }
 
 /** 
@@ -929,7 +961,7 @@ struct ChoiceReportResult {
 	/**
 	* the choice variant of the choice
 	*/
-	1: optional ChoiceVariant choiceVariant,
+	1: optional string choiceVariantId,
 	/**
 	* optional: indicate a specific recommendation strategy which provided the result (only returned for recommendation choices when the flag returnRecommendationStrategies is true)
 	*/
@@ -938,6 +970,10 @@ struct ChoiceReportResult {
 	 * an optional dimension value (in case a dimension has been requested for segmentation)
 	 */
 	3: optional string dimensionValue,	
+	/**
+	* the report result values
+	*/
+	4: required ReportResultValues values
 }
 
 
@@ -958,6 +994,49 @@ enum ReportResultTimeRangeType {
 }
 
 /** 
+ * This structure defines a metric value association
+ */
+struct ReportMetricValue {
+	/**
+	* the metric
+	*/
+	1: required ReportMetric metric,
+	/**
+	* the metric value
+	*/
+	2: required double value
+}
+
+/** 
+ * This structure defines a dimension value association
+ */
+struct ReportDimensionValue {
+	/**
+	* the dimension
+	*/
+	1: required ReportDimension dimension,
+	/**
+	* the dimension value
+	*/
+	2: required string value
+}
+
+/** 
+ * This structure defines one key value set of report results
+ */
+struct ReportResultKeyValues {
+	/**
+	* the time range key
+	*/
+	1: required TimeRange range,
+	
+	/**
+	* the metric values for this time range key
+	*/
+	2: required list<ReportMetricValue> values
+}
+
+/** 
  * This structure defines the result values (map of metric and values for each requested time ranges)
  */
 struct ReportResultValues {
@@ -971,7 +1050,7 @@ struct ReportResultValues {
 	/**
 	* a map with a key for each time range (each day, each week, each month, ... depending on its meaning provided by the ReportResultTimeRangeType type) providing for each case a map of metric values
 	*/
-	2: required map<TimeRange, map<ReportMetric, double>> values
+	2: required list<ReportResultKeyValues> values
 }
 
 /** 
@@ -982,7 +1061,7 @@ struct ChoiceReport {
 	/**
 	* the map of reporting results (one result per ChoiceReportResult: indicating choice variant, dimension value, etc.)
 	*/
-	1: required map<ChoiceReportResult, ReportResultValues> results,
+	1: required list<ChoiceReportResult> results,
 	/**
 	* the sum result
 	*/
@@ -1006,25 +1085,32 @@ struct TransactionReportRequest {
 	 */
 	3: optional ReportFilter filter,
 	/**
+	 * optional: ONLY FOR COHORT ANALYSIS, the cohort customer id field (will consider all transactions of customers having this property indicating the customer id to belong to the same cohort)
+	 * E.G.: for re-order rate, indicating the customer id field as the cohort customer id field will work, because each time the same customer re-order, then it is the same cohort re-ordering)
+	 * E.G.: for viral-rate, indicating the customer field which contains the id of the customer who originated the suggestion to buy should be used a cohort customer id field
+	 * N.B: Please consider that cohort analysis are basing the cohort time grouping on the precision TimeRangePrecision variable of the TransactionReportRequest)
+	 */
+	4: optional Field cohortIdField,
+	/**
 	 * the metrics to use for sorting the results
 	 */
-	4: optional list<ReportMetric> sortBys,
+	5: optional list<ReportMetric> sortBys,
 	/**
 	 * a required date range for the reporting response (precision is only managed per day)
 	 */
-	5: required TimeRange range,
+	6: required TimeRange range,
 	/**
 	 * a required date range precision if the results should be aggregated per week or month, overall or return for each day
 	 */
-	6: required TimeRangePrecision precision,
+	7: required TimeRangePrecision precision,
 	/**
 	 * an optional starting index (e.g.: if the maximum number of results was exceeded and a second page needs to be displayed). First index is 0.
 	 */
-	7: optional i16 startIndex,
+	8: optional i16 startIndex,
 	/**
 	 * an required number of maximum number of results (one result is one source of date rage data in of values for all kpis)
 	 */
-	8: required i16 maxResults
+	9: required i16 maxResults
 }
 
 /** 
@@ -1036,7 +1122,11 @@ struct TransactionReportResult {
 	/**
 	 * an required map of dimension values
 	 */
-	1: required map<ReportDimension,string> dimensionValue,	
+	1: required list<ReportDimensionValue> dimensionValues,	
+	/**
+	* the report result values
+	*/
+	2: required ReportResultValues values
 }
 
 /** 
@@ -1047,7 +1137,7 @@ struct TransactionReport {
 	/**
 	* the map of reporting results (one result per TransactionReportResult: indicating dimension values)
 	*/
-	1: required map<TransactionReportResult, ReportResultValues> results,
+	1: required list<TransactionReportResult> results,
 	/**
 	* the sum result
 	*/
@@ -1101,7 +1191,11 @@ struct BehaviorReportResult {
 	/**
 	 * an required map of dimension values
 	 */
-	1: required map<ReportDimension,string> dimensionValue,	
+	1: required list<ReportDimensionValue> dimensionValues,	
+	/**
+	* the report result values
+	*/
+	2: required ReportResultValues values
 }
 
 /** 
@@ -1112,7 +1206,7 @@ struct BehaviorReport {
 	/**
 	* the map of reporting results (one result per BehaviorReportResult: indicating dimension values)
 	*/
-	1: required map<BehaviorReportResult, ReportResultValues> results,
+	1: required list<BehaviorReportResult> results,
 	/**
 	* the sum result
 	*/

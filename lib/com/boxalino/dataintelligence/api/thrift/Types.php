@@ -3926,6 +3926,282 @@ class ConditionTarget {
 }
 
 /**
+ * this structure defines a dimension condition, corresponding to a list of ConditionTargets for a given dimension
+ */
+class DimensionCondition {
+  static $_TSPEC;
+
+  /**
+   * the report dimension
+   * 
+   * @var \com\boxalino\dataintelligence\api\thrift\ReportDimension
+   */
+  public $dimension = null;
+  /**
+   * the list of condition targets to be matched
+   * 
+   * @var \com\boxalino\dataintelligence\api\thrift\ConditionTarget[]
+   */
+  public $conditionTargets = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'dimension',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ReportDimension',
+          ),
+        2 => array(
+          'var' => 'conditionTargets',
+          'type' => TType::LST,
+          'etype' => TType::STRUCT,
+          'elem' => array(
+            'type' => TType::STRUCT,
+            'class' => '\com\boxalino\dataintelligence\api\thrift\ConditionTarget',
+            ),
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['dimension'])) {
+        $this->dimension = $vals['dimension'];
+      }
+      if (isset($vals['conditionTargets'])) {
+        $this->conditionTargets = $vals['conditionTargets'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'DimensionCondition';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->dimension = new \com\boxalino\dataintelligence\api\thrift\ReportDimension();
+            $xfer += $this->dimension->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::LST) {
+            $this->conditionTargets = array();
+            $_size107 = 0;
+            $_etype110 = 0;
+            $xfer += $input->readListBegin($_etype110, $_size107);
+            for ($_i111 = 0; $_i111 < $_size107; ++$_i111)
+            {
+              $elem112 = null;
+              $elem112 = new \com\boxalino\dataintelligence\api\thrift\ConditionTarget();
+              $xfer += $elem112->read($input);
+              $this->conditionTargets []= $elem112;
+            }
+            $xfer += $input->readListEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('DimensionCondition');
+    if ($this->dimension !== null) {
+      if (!is_object($this->dimension)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('dimension', TType::STRUCT, 1);
+      $xfer += $this->dimension->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->conditionTargets !== null) {
+      if (!is_array($this->conditionTargets)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('conditionTargets', TType::LST, 2);
+      {
+        $output->writeListBegin(TType::STRUCT, count($this->conditionTargets));
+        {
+          foreach ($this->conditionTargets as $iter113)
+          {
+            $xfer += $iter113->write($output);
+          }
+        }
+        $output->writeListEnd();
+      }
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+/**
+ * this structure defines a metric condition, corresponding to a list of ConditionTargets for a given metric
+ */
+class MetricCondition {
+  static $_TSPEC;
+
+  /**
+   * the report metric
+   * 
+   * @var \com\boxalino\dataintelligence\api\thrift\ReportMetric
+   */
+  public $metric = null;
+  /**
+   * the list of condition targets to be matched
+   * 
+   * @var \com\boxalino\dataintelligence\api\thrift\ConditionTarget[]
+   */
+  public $conditionTargets = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'metric',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ReportMetric',
+          ),
+        2 => array(
+          'var' => 'conditionTargets',
+          'type' => TType::LST,
+          'etype' => TType::STRUCT,
+          'elem' => array(
+            'type' => TType::STRUCT,
+            'class' => '\com\boxalino\dataintelligence\api\thrift\ConditionTarget',
+            ),
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['metric'])) {
+        $this->metric = $vals['metric'];
+      }
+      if (isset($vals['conditionTargets'])) {
+        $this->conditionTargets = $vals['conditionTargets'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'MetricCondition';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->metric = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
+            $xfer += $this->metric->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::LST) {
+            $this->conditionTargets = array();
+            $_size114 = 0;
+            $_etype117 = 0;
+            $xfer += $input->readListBegin($_etype117, $_size114);
+            for ($_i118 = 0; $_i118 < $_size114; ++$_i118)
+            {
+              $elem119 = null;
+              $elem119 = new \com\boxalino\dataintelligence\api\thrift\ConditionTarget();
+              $xfer += $elem119->read($input);
+              $this->conditionTargets []= $elem119;
+            }
+            $xfer += $input->readListEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('MetricCondition');
+    if ($this->metric !== null) {
+      if (!is_object($this->metric)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('metric', TType::STRUCT, 1);
+      $xfer += $this->metric->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->conditionTargets !== null) {
+      if (!is_array($this->conditionTargets)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('conditionTargets', TType::LST, 2);
+      {
+        $output->writeListBegin(TType::STRUCT, count($this->conditionTargets));
+        {
+          foreach ($this->conditionTargets as $iter120)
+          {
+            $xfer += $iter120->write($output);
+          }
+        }
+        $output->writeListEnd();
+      }
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+/**
  * this structure defines a report filter (set of and clauses), all of which must be true
  */
 class ReportFilter {
@@ -3934,13 +4210,13 @@ class ReportFilter {
   /**
    * the dimension filters
    * 
-   * @var array
+   * @var \com\boxalino\dataintelligence\api\thrift\DimensionCondition[]
    */
   public $dimensionConditions = null;
   /**
    * the metric filters
    * 
-   * @var array
+   * @var \com\boxalino\dataintelligence\api\thrift\MetricCondition[]
    */
   public $metricConditions = null;
 
@@ -3949,38 +4225,20 @@ class ReportFilter {
       self::$_TSPEC = array(
         1 => array(
           'var' => 'dimensionConditions',
-          'type' => TType::MAP,
-          'ktype' => TType::STRUCT,
-          'vtype' => TType::LST,
-          'key' => array(
+          'type' => TType::LST,
+          'etype' => TType::STRUCT,
+          'elem' => array(
             'type' => TType::STRUCT,
-            'class' => '\com\boxalino\dataintelligence\api\thrift\ReportDimension',
-          ),
-          'val' => array(
-            'type' => TType::LST,
-            'etype' => TType::STRUCT,
-            'elem' => array(
-              'type' => TType::STRUCT,
-              'class' => '\com\boxalino\dataintelligence\api\thrift\ConditionTarget',
-              ),
+            'class' => '\com\boxalino\dataintelligence\api\thrift\DimensionCondition',
             ),
           ),
         2 => array(
           'var' => 'metricConditions',
-          'type' => TType::MAP,
-          'ktype' => TType::STRUCT,
-          'vtype' => TType::LST,
-          'key' => array(
+          'type' => TType::LST,
+          'etype' => TType::STRUCT,
+          'elem' => array(
             'type' => TType::STRUCT,
-            'class' => '\com\boxalino\dataintelligence\api\thrift\ReportMetric',
-          ),
-          'val' => array(
-            'type' => TType::LST,
-            'etype' => TType::STRUCT,
-            'elem' => array(
-              'type' => TType::STRUCT,
-              'class' => '\com\boxalino\dataintelligence\api\thrift\ConditionTarget',
-              ),
+            'class' => '\com\boxalino\dataintelligence\api\thrift\MetricCondition',
             ),
           ),
         );
@@ -4015,65 +4273,37 @@ class ReportFilter {
       switch ($fid)
       {
         case 1:
-          if ($ftype == TType::MAP) {
+          if ($ftype == TType::LST) {
             $this->dimensionConditions = array();
-            $_size107 = 0;
-            $_ktype108 = 0;
-            $_vtype109 = 0;
-            $xfer += $input->readMapBegin($_ktype108, $_vtype109, $_size107);
-            for ($_i111 = 0; $_i111 < $_size107; ++$_i111)
+            $_size121 = 0;
+            $_etype124 = 0;
+            $xfer += $input->readListBegin($_etype124, $_size121);
+            for ($_i125 = 0; $_i125 < $_size121; ++$_i125)
             {
-              $key112 = new \com\boxalino\dataintelligence\api\thrift\ReportDimension();
-              $val113 = array();
-              $key112 = new \com\boxalino\dataintelligence\api\thrift\ReportDimension();
-              $xfer += $key112->read($input);
-              $val113 = array();
-              $_size114 = 0;
-              $_etype117 = 0;
-              $xfer += $input->readListBegin($_etype117, $_size114);
-              for ($_i118 = 0; $_i118 < $_size114; ++$_i118)
-              {
-                $elem119 = null;
-                $elem119 = new \com\boxalino\dataintelligence\api\thrift\ConditionTarget();
-                $xfer += $elem119->read($input);
-                $val113 []= $elem119;
-              }
-              $xfer += $input->readListEnd();
-              $this->dimensionConditions[$key112] = $val113;
+              $elem126 = null;
+              $elem126 = new \com\boxalino\dataintelligence\api\thrift\DimensionCondition();
+              $xfer += $elem126->read($input);
+              $this->dimensionConditions []= $elem126;
             }
-            $xfer += $input->readMapEnd();
+            $xfer += $input->readListEnd();
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
         case 2:
-          if ($ftype == TType::MAP) {
+          if ($ftype == TType::LST) {
             $this->metricConditions = array();
-            $_size120 = 0;
-            $_ktype121 = 0;
-            $_vtype122 = 0;
-            $xfer += $input->readMapBegin($_ktype121, $_vtype122, $_size120);
-            for ($_i124 = 0; $_i124 < $_size120; ++$_i124)
+            $_size127 = 0;
+            $_etype130 = 0;
+            $xfer += $input->readListBegin($_etype130, $_size127);
+            for ($_i131 = 0; $_i131 < $_size127; ++$_i131)
             {
-              $key125 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
-              $val126 = array();
-              $key125 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
-              $xfer += $key125->read($input);
-              $val126 = array();
-              $_size127 = 0;
-              $_etype130 = 0;
-              $xfer += $input->readListBegin($_etype130, $_size127);
-              for ($_i131 = 0; $_i131 < $_size127; ++$_i131)
-              {
-                $elem132 = null;
-                $elem132 = new \com\boxalino\dataintelligence\api\thrift\ConditionTarget();
-                $xfer += $elem132->read($input);
-                $val126 []= $elem132;
-              }
-              $xfer += $input->readListEnd();
-              $this->metricConditions[$key125] = $val126;
+              $elem132 = null;
+              $elem132 = new \com\boxalino\dataintelligence\api\thrift\MetricCondition();
+              $xfer += $elem132->read($input);
+              $this->metricConditions []= $elem132;
             }
-            $xfer += $input->readMapEnd();
+            $xfer += $input->readListEnd();
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -4095,26 +4325,16 @@ class ReportFilter {
       if (!is_array($this->dimensionConditions)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('dimensionConditions', TType::MAP, 1);
+      $xfer += $output->writeFieldBegin('dimensionConditions', TType::LST, 1);
       {
-        $output->writeMapBegin(TType::STRUCT, TType::LST, count($this->dimensionConditions));
+        $output->writeListBegin(TType::STRUCT, count($this->dimensionConditions));
         {
-          foreach ($this->dimensionConditions as $kiter133 => $viter134)
+          foreach ($this->dimensionConditions as $iter133)
           {
-            $xfer += $kiter133->write($output);
-            {
-              $output->writeListBegin(TType::STRUCT, count($viter134));
-              {
-                foreach ($viter134 as $iter135)
-                {
-                  $xfer += $iter135->write($output);
-                }
-              }
-              $output->writeListEnd();
-            }
+            $xfer += $iter133->write($output);
           }
         }
-        $output->writeMapEnd();
+        $output->writeListEnd();
       }
       $xfer += $output->writeFieldEnd();
     }
@@ -4122,26 +4342,16 @@ class ReportFilter {
       if (!is_array($this->metricConditions)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('metricConditions', TType::MAP, 2);
+      $xfer += $output->writeFieldBegin('metricConditions', TType::LST, 2);
       {
-        $output->writeMapBegin(TType::STRUCT, TType::LST, count($this->metricConditions));
+        $output->writeListBegin(TType::STRUCT, count($this->metricConditions));
         {
-          foreach ($this->metricConditions as $kiter136 => $viter137)
+          foreach ($this->metricConditions as $iter134)
           {
-            $xfer += $kiter136->write($output);
-            {
-              $output->writeListBegin(TType::STRUCT, count($viter137));
-              {
-                foreach ($viter137 as $iter138)
-                {
-                  $xfer += $iter138->write($output);
-                }
-              }
-              $output->writeListEnd();
-            }
+            $xfer += $iter134->write($output);
           }
         }
-        $output->writeMapEnd();
+        $output->writeListEnd();
       }
       $xfer += $output->writeFieldEnd();
     }
@@ -4159,6 +4369,12 @@ class ChoiceReportRequest {
   static $_TSPEC;
 
   /**
+   * the choice source id (identifying the system being the source of the choices, if you don't have a choice source id already, please contact support@boxalino.com) (must follow the content id format: <= 50 alphanumeric characters without accent or punctuation)
+   * 
+   * @var string
+   */
+  public $choiceSourceId = null;
+  /**
    * the choice to analyse (e.g.: each landing page is a choice and has several variant potentially, even if only one)
    * 
    * @var \com\boxalino\dataintelligence\api\thrift\Choice
@@ -4173,9 +4389,9 @@ class ChoiceReportRequest {
   /**
    * an optional choice variants to use as filters (only return the results for these choicevariants)
    * 
-   * @var \com\boxalino\dataintelligence\api\thrift\ChoiceVariant[]
+   * @var string[]
    */
-  public $choiceVariants = null;
+  public $choiceVariantIds = null;
   /**
    * an optional flag to indicate that the results should display not only the choice variant, but which recommendation strategies have been used for each choice variant (only applicable if the choice is a recommendation choice)
    * 
@@ -4229,11 +4445,15 @@ class ChoiceReportRequest {
     if (!isset(self::$_TSPEC)) {
       self::$_TSPEC = array(
         1 => array(
+          'var' => 'choiceSourceId',
+          'type' => TType::STRING,
+          ),
+        2 => array(
           'var' => 'choice',
           'type' => TType::STRUCT,
           'class' => '\com\boxalino\dataintelligence\api\thrift\Choice',
           ),
-        2 => array(
+        3 => array(
           'var' => 'metrics',
           'type' => TType::LST,
           'etype' => TType::STRUCT,
@@ -4242,25 +4462,24 @@ class ChoiceReportRequest {
             'class' => '\com\boxalino\dataintelligence\api\thrift\ReportMetric',
             ),
           ),
-        3 => array(
-          'var' => 'choiceVariants',
+        4 => array(
+          'var' => 'choiceVariantIds',
           'type' => TType::LST,
-          'etype' => TType::STRUCT,
+          'etype' => TType::STRING,
           'elem' => array(
-            'type' => TType::STRUCT,
-            'class' => '\com\boxalino\dataintelligence\api\thrift\ChoiceVariant',
+            'type' => TType::STRING,
             ),
           ),
-        4 => array(
+        5 => array(
           'var' => 'returnRecommendationStrategies',
           'type' => TType::BOOL,
           ),
-        5 => array(
+        6 => array(
           'var' => 'dimension',
           'type' => TType::STRUCT,
           'class' => '\com\boxalino\dataintelligence\api\thrift\ReportDimension',
           ),
-        6 => array(
+        7 => array(
           'var' => 'funnelMetrics',
           'type' => TType::LST,
           'etype' => TType::STRUCT,
@@ -4269,7 +4488,7 @@ class ChoiceReportRequest {
             'class' => '\com\boxalino\dataintelligence\api\thrift\ReportMetric',
             ),
           ),
-        7 => array(
+        8 => array(
           'var' => 'sortBys',
           'type' => TType::LST,
           'etype' => TType::STRUCT,
@@ -4278,34 +4497,37 @@ class ChoiceReportRequest {
             'class' => '\com\boxalino\dataintelligence\api\thrift\ReportMetric',
             ),
           ),
-        8 => array(
+        9 => array(
           'var' => 'range',
           'type' => TType::STRUCT,
           'class' => '\com\boxalino\dataintelligence\api\thrift\TimeRange',
           ),
-        9 => array(
+        10 => array(
           'var' => 'precision',
           'type' => TType::I32,
           ),
-        10 => array(
+        11 => array(
           'var' => 'startIndex',
           'type' => TType::I16,
           ),
-        11 => array(
+        12 => array(
           'var' => 'maxResults',
           'type' => TType::I16,
           ),
         );
     }
     if (is_array($vals)) {
+      if (isset($vals['choiceSourceId'])) {
+        $this->choiceSourceId = $vals['choiceSourceId'];
+      }
       if (isset($vals['choice'])) {
         $this->choice = $vals['choice'];
       }
       if (isset($vals['metrics'])) {
         $this->metrics = $vals['metrics'];
       }
-      if (isset($vals['choiceVariants'])) {
-        $this->choiceVariants = $vals['choiceVariants'];
+      if (isset($vals['choiceVariantIds'])) {
+        $this->choiceVariantIds = $vals['choiceVariantIds'];
       }
       if (isset($vals['returnRecommendationStrategies'])) {
         $this->returnRecommendationStrategies = $vals['returnRecommendationStrategies'];
@@ -4354,6 +4576,13 @@ class ChoiceReportRequest {
       switch ($fid)
       {
         case 1:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->choiceSourceId);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
           if ($ftype == TType::STRUCT) {
             $this->choice = new \com\boxalino\dataintelligence\api\thrift\Choice();
             $xfer += $this->choice->read($input);
@@ -4361,36 +4590,18 @@ class ChoiceReportRequest {
             $xfer += $input->skip($ftype);
           }
           break;
-        case 2:
-          if ($ftype == TType::LST) {
-            $this->metrics = array();
-            $_size139 = 0;
-            $_etype142 = 0;
-            $xfer += $input->readListBegin($_etype142, $_size139);
-            for ($_i143 = 0; $_i143 < $_size139; ++$_i143)
-            {
-              $elem144 = null;
-              $elem144 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
-              $xfer += $elem144->read($input);
-              $this->metrics []= $elem144;
-            }
-            $xfer += $input->readListEnd();
-          } else {
-            $xfer += $input->skip($ftype);
-          }
-          break;
         case 3:
           if ($ftype == TType::LST) {
-            $this->choiceVariants = array();
-            $_size145 = 0;
-            $_etype148 = 0;
-            $xfer += $input->readListBegin($_etype148, $_size145);
-            for ($_i149 = 0; $_i149 < $_size145; ++$_i149)
+            $this->metrics = array();
+            $_size135 = 0;
+            $_etype138 = 0;
+            $xfer += $input->readListBegin($_etype138, $_size135);
+            for ($_i139 = 0; $_i139 < $_size135; ++$_i139)
             {
-              $elem150 = null;
-              $elem150 = new \com\boxalino\dataintelligence\api\thrift\ChoiceVariant();
-              $xfer += $elem150->read($input);
-              $this->choiceVariants []= $elem150;
+              $elem140 = null;
+              $elem140 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
+              $xfer += $elem140->read($input);
+              $this->metrics []= $elem140;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -4398,13 +4609,30 @@ class ChoiceReportRequest {
           }
           break;
         case 4:
+          if ($ftype == TType::LST) {
+            $this->choiceVariantIds = array();
+            $_size141 = 0;
+            $_etype144 = 0;
+            $xfer += $input->readListBegin($_etype144, $_size141);
+            for ($_i145 = 0; $_i145 < $_size141; ++$_i145)
+            {
+              $elem146 = null;
+              $xfer += $input->readString($elem146);
+              $this->choiceVariantIds []= $elem146;
+            }
+            $xfer += $input->readListEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 5:
           if ($ftype == TType::BOOL) {
             $xfer += $input->readBool($this->returnRecommendationStrategies);
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
-        case 5:
+        case 6:
           if ($ftype == TType::STRUCT) {
             $this->dimension = new \com\boxalino\dataintelligence\api\thrift\ReportDimension();
             $xfer += $this->dimension->read($input);
@@ -4412,36 +4640,18 @@ class ChoiceReportRequest {
             $xfer += $input->skip($ftype);
           }
           break;
-        case 6:
-          if ($ftype == TType::LST) {
-            $this->funnelMetrics = array();
-            $_size151 = 0;
-            $_etype154 = 0;
-            $xfer += $input->readListBegin($_etype154, $_size151);
-            for ($_i155 = 0; $_i155 < $_size151; ++$_i155)
-            {
-              $elem156 = null;
-              $elem156 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
-              $xfer += $elem156->read($input);
-              $this->funnelMetrics []= $elem156;
-            }
-            $xfer += $input->readListEnd();
-          } else {
-            $xfer += $input->skip($ftype);
-          }
-          break;
         case 7:
           if ($ftype == TType::LST) {
-            $this->sortBys = array();
-            $_size157 = 0;
-            $_etype160 = 0;
-            $xfer += $input->readListBegin($_etype160, $_size157);
-            for ($_i161 = 0; $_i161 < $_size157; ++$_i161)
+            $this->funnelMetrics = array();
+            $_size147 = 0;
+            $_etype150 = 0;
+            $xfer += $input->readListBegin($_etype150, $_size147);
+            for ($_i151 = 0; $_i151 < $_size147; ++$_i151)
             {
-              $elem162 = null;
-              $elem162 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
-              $xfer += $elem162->read($input);
-              $this->sortBys []= $elem162;
+              $elem152 = null;
+              $elem152 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
+              $xfer += $elem152->read($input);
+              $this->funnelMetrics []= $elem152;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -4449,6 +4659,24 @@ class ChoiceReportRequest {
           }
           break;
         case 8:
+          if ($ftype == TType::LST) {
+            $this->sortBys = array();
+            $_size153 = 0;
+            $_etype156 = 0;
+            $xfer += $input->readListBegin($_etype156, $_size153);
+            for ($_i157 = 0; $_i157 < $_size153; ++$_i157)
+            {
+              $elem158 = null;
+              $elem158 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
+              $xfer += $elem158->read($input);
+              $this->sortBys []= $elem158;
+            }
+            $xfer += $input->readListEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 9:
           if ($ftype == TType::STRUCT) {
             $this->range = new \com\boxalino\dataintelligence\api\thrift\TimeRange();
             $xfer += $this->range->read($input);
@@ -4456,21 +4684,21 @@ class ChoiceReportRequest {
             $xfer += $input->skip($ftype);
           }
           break;
-        case 9:
+        case 10:
           if ($ftype == TType::I32) {
             $xfer += $input->readI32($this->precision);
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
-        case 10:
+        case 11:
           if ($ftype == TType::I16) {
             $xfer += $input->readI16($this->startIndex);
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
-        case 11:
+        case 12:
           if ($ftype == TType::I16) {
             $xfer += $input->readI16($this->maxResults);
           } else {
@@ -4490,11 +4718,16 @@ class ChoiceReportRequest {
   public function write($output) {
     $xfer = 0;
     $xfer += $output->writeStructBegin('ChoiceReportRequest');
+    if ($this->choiceSourceId !== null) {
+      $xfer += $output->writeFieldBegin('choiceSourceId', TType::STRING, 1);
+      $xfer += $output->writeString($this->choiceSourceId);
+      $xfer += $output->writeFieldEnd();
+    }
     if ($this->choice !== null) {
       if (!is_object($this->choice)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('choice', TType::STRUCT, 1);
+      $xfer += $output->writeFieldBegin('choice', TType::STRUCT, 2);
       $xfer += $this->choice->write($output);
       $xfer += $output->writeFieldEnd();
     }
@@ -4502,30 +4735,30 @@ class ChoiceReportRequest {
       if (!is_array($this->metrics)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('metrics', TType::LST, 2);
+      $xfer += $output->writeFieldBegin('metrics', TType::LST, 3);
       {
         $output->writeListBegin(TType::STRUCT, count($this->metrics));
         {
-          foreach ($this->metrics as $iter163)
+          foreach ($this->metrics as $iter159)
           {
-            $xfer += $iter163->write($output);
+            $xfer += $iter159->write($output);
           }
         }
         $output->writeListEnd();
       }
       $xfer += $output->writeFieldEnd();
     }
-    if ($this->choiceVariants !== null) {
-      if (!is_array($this->choiceVariants)) {
+    if ($this->choiceVariantIds !== null) {
+      if (!is_array($this->choiceVariantIds)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('choiceVariants', TType::LST, 3);
+      $xfer += $output->writeFieldBegin('choiceVariantIds', TType::LST, 4);
       {
-        $output->writeListBegin(TType::STRUCT, count($this->choiceVariants));
+        $output->writeListBegin(TType::STRING, count($this->choiceVariantIds));
         {
-          foreach ($this->choiceVariants as $iter164)
+          foreach ($this->choiceVariantIds as $iter160)
           {
-            $xfer += $iter164->write($output);
+            $xfer += $output->writeString($iter160);
           }
         }
         $output->writeListEnd();
@@ -4533,7 +4766,7 @@ class ChoiceReportRequest {
       $xfer += $output->writeFieldEnd();
     }
     if ($this->returnRecommendationStrategies !== null) {
-      $xfer += $output->writeFieldBegin('returnRecommendationStrategies', TType::BOOL, 4);
+      $xfer += $output->writeFieldBegin('returnRecommendationStrategies', TType::BOOL, 5);
       $xfer += $output->writeBool($this->returnRecommendationStrategies);
       $xfer += $output->writeFieldEnd();
     }
@@ -4541,7 +4774,7 @@ class ChoiceReportRequest {
       if (!is_object($this->dimension)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('dimension', TType::STRUCT, 5);
+      $xfer += $output->writeFieldBegin('dimension', TType::STRUCT, 6);
       $xfer += $this->dimension->write($output);
       $xfer += $output->writeFieldEnd();
     }
@@ -4549,13 +4782,13 @@ class ChoiceReportRequest {
       if (!is_array($this->funnelMetrics)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('funnelMetrics', TType::LST, 6);
+      $xfer += $output->writeFieldBegin('funnelMetrics', TType::LST, 7);
       {
         $output->writeListBegin(TType::STRUCT, count($this->funnelMetrics));
         {
-          foreach ($this->funnelMetrics as $iter165)
+          foreach ($this->funnelMetrics as $iter161)
           {
-            $xfer += $iter165->write($output);
+            $xfer += $iter161->write($output);
           }
         }
         $output->writeListEnd();
@@ -4566,13 +4799,13 @@ class ChoiceReportRequest {
       if (!is_array($this->sortBys)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('sortBys', TType::LST, 7);
+      $xfer += $output->writeFieldBegin('sortBys', TType::LST, 8);
       {
         $output->writeListBegin(TType::STRUCT, count($this->sortBys));
         {
-          foreach ($this->sortBys as $iter166)
+          foreach ($this->sortBys as $iter162)
           {
-            $xfer += $iter166->write($output);
+            $xfer += $iter162->write($output);
           }
         }
         $output->writeListEnd();
@@ -4583,22 +4816,22 @@ class ChoiceReportRequest {
       if (!is_object($this->range)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('range', TType::STRUCT, 8);
+      $xfer += $output->writeFieldBegin('range', TType::STRUCT, 9);
       $xfer += $this->range->write($output);
       $xfer += $output->writeFieldEnd();
     }
     if ($this->precision !== null) {
-      $xfer += $output->writeFieldBegin('precision', TType::I32, 9);
+      $xfer += $output->writeFieldBegin('precision', TType::I32, 10);
       $xfer += $output->writeI32($this->precision);
       $xfer += $output->writeFieldEnd();
     }
     if ($this->startIndex !== null) {
-      $xfer += $output->writeFieldBegin('startIndex', TType::I16, 10);
+      $xfer += $output->writeFieldBegin('startIndex', TType::I16, 11);
       $xfer += $output->writeI16($this->startIndex);
       $xfer += $output->writeFieldEnd();
     }
     if ($this->maxResults !== null) {
-      $xfer += $output->writeFieldBegin('maxResults', TType::I16, 11);
+      $xfer += $output->writeFieldBegin('maxResults', TType::I16, 12);
       $xfer += $output->writeI16($this->maxResults);
       $xfer += $output->writeFieldEnd();
     }
@@ -4625,9 +4858,9 @@ class ChoiceReportResult {
   /**
    * the choice variant of the choice
    * 
-   * @var \com\boxalino\dataintelligence\api\thrift\ChoiceVariant
+   * @var string
    */
-  public $choiceVariant = null;
+  public $choiceVariantId = null;
   /**
    * optional: indicate a specific recommendation strategy which provided the result (only returned for recommendation choices when the flag returnRecommendationStrategies is true)
    * 
@@ -4640,14 +4873,19 @@ class ChoiceReportResult {
    * @var string
    */
   public $dimensionValue = null;
+  /**
+   * the report result values
+   * 
+   * @var \com\boxalino\dataintelligence\api\thrift\ReportResultValues
+   */
+  public $values = null;
 
   public function __construct($vals=null) {
     if (!isset(self::$_TSPEC)) {
       self::$_TSPEC = array(
         1 => array(
-          'var' => 'choiceVariant',
-          'type' => TType::STRUCT,
-          'class' => '\com\boxalino\dataintelligence\api\thrift\ChoiceVariant',
+          'var' => 'choiceVariantId',
+          'type' => TType::STRING,
           ),
         2 => array(
           'var' => 'recommendationStrategy',
@@ -4657,17 +4895,25 @@ class ChoiceReportResult {
           'var' => 'dimensionValue',
           'type' => TType::STRING,
           ),
+        4 => array(
+          'var' => 'values',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ReportResultValues',
+          ),
         );
     }
     if (is_array($vals)) {
-      if (isset($vals['choiceVariant'])) {
-        $this->choiceVariant = $vals['choiceVariant'];
+      if (isset($vals['choiceVariantId'])) {
+        $this->choiceVariantId = $vals['choiceVariantId'];
       }
       if (isset($vals['recommendationStrategy'])) {
         $this->recommendationStrategy = $vals['recommendationStrategy'];
       }
       if (isset($vals['dimensionValue'])) {
         $this->dimensionValue = $vals['dimensionValue'];
+      }
+      if (isset($vals['values'])) {
+        $this->values = $vals['values'];
       }
     }
   }
@@ -4692,9 +4938,8 @@ class ChoiceReportResult {
       switch ($fid)
       {
         case 1:
-          if ($ftype == TType::STRUCT) {
-            $this->choiceVariant = new \com\boxalino\dataintelligence\api\thrift\ChoiceVariant();
-            $xfer += $this->choiceVariant->read($input);
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->choiceVariantId);
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -4713,6 +4958,14 @@ class ChoiceReportResult {
             $xfer += $input->skip($ftype);
           }
           break;
+        case 4:
+          if ($ftype == TType::STRUCT) {
+            $this->values = new \com\boxalino\dataintelligence\api\thrift\ReportResultValues();
+            $xfer += $this->values->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
         default:
           $xfer += $input->skip($ftype);
           break;
@@ -4726,12 +4979,9 @@ class ChoiceReportResult {
   public function write($output) {
     $xfer = 0;
     $xfer += $output->writeStructBegin('ChoiceReportResult');
-    if ($this->choiceVariant !== null) {
-      if (!is_object($this->choiceVariant)) {
-        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
-      }
-      $xfer += $output->writeFieldBegin('choiceVariant', TType::STRUCT, 1);
-      $xfer += $this->choiceVariant->write($output);
+    if ($this->choiceVariantId !== null) {
+      $xfer += $output->writeFieldBegin('choiceVariantId', TType::STRING, 1);
+      $xfer += $output->writeString($this->choiceVariantId);
       $xfer += $output->writeFieldEnd();
     }
     if ($this->recommendationStrategy !== null) {
@@ -4742,6 +4992,372 @@ class ChoiceReportResult {
     if ($this->dimensionValue !== null) {
       $xfer += $output->writeFieldBegin('dimensionValue', TType::STRING, 3);
       $xfer += $output->writeString($this->dimensionValue);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->values !== null) {
+      if (!is_object($this->values)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('values', TType::STRUCT, 4);
+      $xfer += $this->values->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+/**
+ * This structure defines a metric value association
+ */
+class ReportMetricValue {
+  static $_TSPEC;
+
+  /**
+   * the metric
+   * 
+   * @var \com\boxalino\dataintelligence\api\thrift\ReportMetric
+   */
+  public $metric = null;
+  /**
+   * the metric value
+   * 
+   * @var double
+   */
+  public $value = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'metric',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ReportMetric',
+          ),
+        2 => array(
+          'var' => 'value',
+          'type' => TType::DOUBLE,
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['metric'])) {
+        $this->metric = $vals['metric'];
+      }
+      if (isset($vals['value'])) {
+        $this->value = $vals['value'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'ReportMetricValue';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->metric = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
+            $xfer += $this->metric->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::DOUBLE) {
+            $xfer += $input->readDouble($this->value);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('ReportMetricValue');
+    if ($this->metric !== null) {
+      if (!is_object($this->metric)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('metric', TType::STRUCT, 1);
+      $xfer += $this->metric->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->value !== null) {
+      $xfer += $output->writeFieldBegin('value', TType::DOUBLE, 2);
+      $xfer += $output->writeDouble($this->value);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+/**
+ * This structure defines a dimension value association
+ */
+class ReportDimensionValue {
+  static $_TSPEC;
+
+  /**
+   * the dimension
+   * 
+   * @var \com\boxalino\dataintelligence\api\thrift\ReportDimension
+   */
+  public $dimension = null;
+  /**
+   * the dimension value
+   * 
+   * @var string
+   */
+  public $value = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'dimension',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ReportDimension',
+          ),
+        2 => array(
+          'var' => 'value',
+          'type' => TType::STRING,
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['dimension'])) {
+        $this->dimension = $vals['dimension'];
+      }
+      if (isset($vals['value'])) {
+        $this->value = $vals['value'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'ReportDimensionValue';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->dimension = new \com\boxalino\dataintelligence\api\thrift\ReportDimension();
+            $xfer += $this->dimension->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->value);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('ReportDimensionValue');
+    if ($this->dimension !== null) {
+      if (!is_object($this->dimension)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('dimension', TType::STRUCT, 1);
+      $xfer += $this->dimension->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->value !== null) {
+      $xfer += $output->writeFieldBegin('value', TType::STRING, 2);
+      $xfer += $output->writeString($this->value);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+/**
+ * This structure defines one key value set of report results
+ */
+class ReportResultKeyValues {
+  static $_TSPEC;
+
+  /**
+   * the time range key
+   * 
+   * @var \com\boxalino\dataintelligence\api\thrift\TimeRange
+   */
+  public $range = null;
+  /**
+   * the metric values for this time range key
+   * 
+   * @var \com\boxalino\dataintelligence\api\thrift\ReportMetricValue[]
+   */
+  public $values = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'range',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\TimeRange',
+          ),
+        2 => array(
+          'var' => 'values',
+          'type' => TType::LST,
+          'etype' => TType::STRUCT,
+          'elem' => array(
+            'type' => TType::STRUCT,
+            'class' => '\com\boxalino\dataintelligence\api\thrift\ReportMetricValue',
+            ),
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['range'])) {
+        $this->range = $vals['range'];
+      }
+      if (isset($vals['values'])) {
+        $this->values = $vals['values'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'ReportResultKeyValues';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->range = new \com\boxalino\dataintelligence\api\thrift\TimeRange();
+            $xfer += $this->range->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::LST) {
+            $this->values = array();
+            $_size163 = 0;
+            $_etype166 = 0;
+            $xfer += $input->readListBegin($_etype166, $_size163);
+            for ($_i167 = 0; $_i167 < $_size163; ++$_i167)
+            {
+              $elem168 = null;
+              $elem168 = new \com\boxalino\dataintelligence\api\thrift\ReportMetricValue();
+              $xfer += $elem168->read($input);
+              $this->values []= $elem168;
+            }
+            $xfer += $input->readListEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('ReportResultKeyValues');
+    if ($this->range !== null) {
+      if (!is_object($this->range)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('range', TType::STRUCT, 1);
+      $xfer += $this->range->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->values !== null) {
+      if (!is_array($this->values)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('values', TType::LST, 2);
+      {
+        $output->writeListBegin(TType::STRUCT, count($this->values));
+        {
+          foreach ($this->values as $iter169)
+          {
+            $xfer += $iter169->write($output);
+          }
+        }
+        $output->writeListEnd();
+      }
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();
@@ -4768,7 +5384,7 @@ class ReportResultValues {
   /**
    * a map with a key for each time range (each day, each week, each month, ... depending on its meaning provided by the ReportResultTimeRangeType type) providing for each case a map of metric values
    * 
-   * @var array
+   * @var \com\boxalino\dataintelligence\api\thrift\ReportResultKeyValues[]
    */
   public $values = null;
 
@@ -4781,24 +5397,11 @@ class ReportResultValues {
           ),
         2 => array(
           'var' => 'values',
-          'type' => TType::MAP,
-          'ktype' => TType::STRUCT,
-          'vtype' => TType::MAP,
-          'key' => array(
+          'type' => TType::LST,
+          'etype' => TType::STRUCT,
+          'elem' => array(
             'type' => TType::STRUCT,
-            'class' => '\com\boxalino\dataintelligence\api\thrift\TimeRange',
-          ),
-          'val' => array(
-            'type' => TType::MAP,
-            'ktype' => TType::STRUCT,
-            'vtype' => TType::DOUBLE,
-            'key' => array(
-              'type' => TType::STRUCT,
-              'class' => '\com\boxalino\dataintelligence\api\thrift\ReportMetric',
-            ),
-            'val' => array(
-              'type' => TType::DOUBLE,
-              ),
+            'class' => '\com\boxalino\dataintelligence\api\thrift\ReportResultKeyValues',
             ),
           ),
         );
@@ -4840,36 +5443,19 @@ class ReportResultValues {
           }
           break;
         case 2:
-          if ($ftype == TType::MAP) {
+          if ($ftype == TType::LST) {
             $this->values = array();
-            $_size167 = 0;
-            $_ktype168 = 0;
-            $_vtype169 = 0;
-            $xfer += $input->readMapBegin($_ktype168, $_vtype169, $_size167);
-            for ($_i171 = 0; $_i171 < $_size167; ++$_i171)
+            $_size170 = 0;
+            $_etype173 = 0;
+            $xfer += $input->readListBegin($_etype173, $_size170);
+            for ($_i174 = 0; $_i174 < $_size170; ++$_i174)
             {
-              $key172 = new \com\boxalino\dataintelligence\api\thrift\TimeRange();
-              $val173 = array();
-              $key172 = new \com\boxalino\dataintelligence\api\thrift\TimeRange();
-              $xfer += $key172->read($input);
-              $val173 = array();
-              $_size174 = 0;
-              $_ktype175 = 0;
-              $_vtype176 = 0;
-              $xfer += $input->readMapBegin($_ktype175, $_vtype176, $_size174);
-              for ($_i178 = 0; $_i178 < $_size174; ++$_i178)
-              {
-                $key179 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
-                $val180 = 0.0;
-                $key179 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
-                $xfer += $key179->read($input);
-                $xfer += $input->readDouble($val180);
-                $val173[$key179] = $val180;
-              }
-              $xfer += $input->readMapEnd();
-              $this->values[$key172] = $val173;
+              $elem175 = null;
+              $elem175 = new \com\boxalino\dataintelligence\api\thrift\ReportResultKeyValues();
+              $xfer += $elem175->read($input);
+              $this->values []= $elem175;
             }
-            $xfer += $input->readMapEnd();
+            $xfer += $input->readListEnd();
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -4896,27 +5482,16 @@ class ReportResultValues {
       if (!is_array($this->values)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('values', TType::MAP, 2);
+      $xfer += $output->writeFieldBegin('values', TType::LST, 2);
       {
-        $output->writeMapBegin(TType::STRUCT, TType::MAP, count($this->values));
+        $output->writeListBegin(TType::STRUCT, count($this->values));
         {
-          foreach ($this->values as $kiter181 => $viter182)
+          foreach ($this->values as $iter176)
           {
-            $xfer += $kiter181->write($output);
-            {
-              $output->writeMapBegin(TType::STRUCT, TType::DOUBLE, count($viter182));
-              {
-                foreach ($viter182 as $kiter183 => $viter184)
-                {
-                  $xfer += $kiter183->write($output);
-                  $xfer += $output->writeDouble($viter184);
-                }
-              }
-              $output->writeMapEnd();
-            }
+            $xfer += $iter176->write($output);
           }
         }
-        $output->writeMapEnd();
+        $output->writeListEnd();
       }
       $xfer += $output->writeFieldEnd();
     }
@@ -4937,7 +5512,7 @@ class ChoiceReport {
   /**
    * the map of reporting results (one result per ChoiceReportResult: indicating choice variant, dimension value, etc.)
    * 
-   * @var array
+   * @var \com\boxalino\dataintelligence\api\thrift\ChoiceReportResult[]
    */
   public $results = null;
   /**
@@ -4952,16 +5527,11 @@ class ChoiceReport {
       self::$_TSPEC = array(
         1 => array(
           'var' => 'results',
-          'type' => TType::MAP,
-          'ktype' => TType::STRUCT,
-          'vtype' => TType::STRUCT,
-          'key' => array(
+          'type' => TType::LST,
+          'etype' => TType::STRUCT,
+          'elem' => array(
             'type' => TType::STRUCT,
             'class' => '\com\boxalino\dataintelligence\api\thrift\ChoiceReportResult',
-          ),
-          'val' => array(
-            'type' => TType::STRUCT,
-            'class' => '\com\boxalino\dataintelligence\api\thrift\ReportResultValues',
             ),
           ),
         2 => array(
@@ -5001,23 +5571,19 @@ class ChoiceReport {
       switch ($fid)
       {
         case 1:
-          if ($ftype == TType::MAP) {
+          if ($ftype == TType::LST) {
             $this->results = array();
-            $_size185 = 0;
-            $_ktype186 = 0;
-            $_vtype187 = 0;
-            $xfer += $input->readMapBegin($_ktype186, $_vtype187, $_size185);
-            for ($_i189 = 0; $_i189 < $_size185; ++$_i189)
+            $_size177 = 0;
+            $_etype180 = 0;
+            $xfer += $input->readListBegin($_etype180, $_size177);
+            for ($_i181 = 0; $_i181 < $_size177; ++$_i181)
             {
-              $key190 = new \com\boxalino\dataintelligence\api\thrift\ChoiceReportResult();
-              $val191 = new \com\boxalino\dataintelligence\api\thrift\ReportResultValues();
-              $key190 = new \com\boxalino\dataintelligence\api\thrift\ChoiceReportResult();
-              $xfer += $key190->read($input);
-              $val191 = new \com\boxalino\dataintelligence\api\thrift\ReportResultValues();
-              $xfer += $val191->read($input);
-              $this->results[$key190] = $val191;
+              $elem182 = null;
+              $elem182 = new \com\boxalino\dataintelligence\api\thrift\ChoiceReportResult();
+              $xfer += $elem182->read($input);
+              $this->results []= $elem182;
             }
-            $xfer += $input->readMapEnd();
+            $xfer += $input->readListEnd();
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -5047,17 +5613,16 @@ class ChoiceReport {
       if (!is_array($this->results)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('results', TType::MAP, 1);
+      $xfer += $output->writeFieldBegin('results', TType::LST, 1);
       {
-        $output->writeMapBegin(TType::STRUCT, TType::STRUCT, count($this->results));
+        $output->writeListBegin(TType::STRUCT, count($this->results));
         {
-          foreach ($this->results as $kiter192 => $viter193)
+          foreach ($this->results as $iter183)
           {
-            $xfer += $kiter192->write($output);
-            $xfer += $viter193->write($output);
+            $xfer += $iter183->write($output);
           }
         }
-        $output->writeMapEnd();
+        $output->writeListEnd();
       }
       $xfer += $output->writeFieldEnd();
     }
@@ -5100,6 +5665,15 @@ class TransactionReportRequest {
    * @var \com\boxalino\dataintelligence\api\thrift\ReportFilter
    */
   public $filter = null;
+  /**
+   * optional: ONLY FOR COHORT ANALYSIS, the cohort customer id field (will consider all transactions of customers having this property indicating the customer id to belong to the same cohort)
+   * E.G.: for re-order rate, indicating the customer id field as the cohort customer id field will work, because each time the same customer re-order, then it is the same cohort re-ordering)
+   * E.G.: for viral-rate, indicating the customer field which contains the id of the customer who originated the suggestion to buy should be used a cohort customer id field
+   * N.B: Please consider that cohort analysis are basing the cohort time grouping on the precision TimeRangePrecision variable of the TransactionReportRequest)
+   * 
+   * @var \com\boxalino\dataintelligence\api\thrift\Field
+   */
+  public $cohortIdField = null;
   /**
    * the metrics to use for sorting the results
    * 
@@ -5158,6 +5732,11 @@ class TransactionReportRequest {
           'class' => '\com\boxalino\dataintelligence\api\thrift\ReportFilter',
           ),
         4 => array(
+          'var' => 'cohortIdField',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\Field',
+          ),
+        5 => array(
           'var' => 'sortBys',
           'type' => TType::LST,
           'etype' => TType::STRUCT,
@@ -5166,20 +5745,20 @@ class TransactionReportRequest {
             'class' => '\com\boxalino\dataintelligence\api\thrift\ReportMetric',
             ),
           ),
-        5 => array(
+        6 => array(
           'var' => 'range',
           'type' => TType::STRUCT,
           'class' => '\com\boxalino\dataintelligence\api\thrift\TimeRange',
           ),
-        6 => array(
+        7 => array(
           'var' => 'precision',
           'type' => TType::I32,
           ),
-        7 => array(
+        8 => array(
           'var' => 'startIndex',
           'type' => TType::I16,
           ),
-        8 => array(
+        9 => array(
           'var' => 'maxResults',
           'type' => TType::I16,
           ),
@@ -5194,6 +5773,9 @@ class TransactionReportRequest {
       }
       if (isset($vals['filter'])) {
         $this->filter = $vals['filter'];
+      }
+      if (isset($vals['cohortIdField'])) {
+        $this->cohortIdField = $vals['cohortIdField'];
       }
       if (isset($vals['sortBys'])) {
         $this->sortBys = $vals['sortBys'];
@@ -5235,15 +5817,15 @@ class TransactionReportRequest {
         case 1:
           if ($ftype == TType::LST) {
             $this->metrics = array();
-            $_size194 = 0;
-            $_etype197 = 0;
-            $xfer += $input->readListBegin($_etype197, $_size194);
-            for ($_i198 = 0; $_i198 < $_size194; ++$_i198)
+            $_size184 = 0;
+            $_etype187 = 0;
+            $xfer += $input->readListBegin($_etype187, $_size184);
+            for ($_i188 = 0; $_i188 < $_size184; ++$_i188)
             {
-              $elem199 = null;
-              $elem199 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
-              $xfer += $elem199->read($input);
-              $this->metrics []= $elem199;
+              $elem189 = null;
+              $elem189 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
+              $xfer += $elem189->read($input);
+              $this->metrics []= $elem189;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -5253,15 +5835,15 @@ class TransactionReportRequest {
         case 2:
           if ($ftype == TType::LST) {
             $this->dimensions = array();
-            $_size200 = 0;
-            $_etype203 = 0;
-            $xfer += $input->readListBegin($_etype203, $_size200);
-            for ($_i204 = 0; $_i204 < $_size200; ++$_i204)
+            $_size190 = 0;
+            $_etype193 = 0;
+            $xfer += $input->readListBegin($_etype193, $_size190);
+            for ($_i194 = 0; $_i194 < $_size190; ++$_i194)
             {
-              $elem205 = null;
-              $elem205 = new \com\boxalino\dataintelligence\api\thrift\ReportDimension();
-              $xfer += $elem205->read($input);
-              $this->dimensions []= $elem205;
+              $elem195 = null;
+              $elem195 = new \com\boxalino\dataintelligence\api\thrift\ReportDimension();
+              $xfer += $elem195->read($input);
+              $this->dimensions []= $elem195;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -5277,24 +5859,32 @@ class TransactionReportRequest {
           }
           break;
         case 4:
+          if ($ftype == TType::STRUCT) {
+            $this->cohortIdField = new \com\boxalino\dataintelligence\api\thrift\Field();
+            $xfer += $this->cohortIdField->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 5:
           if ($ftype == TType::LST) {
             $this->sortBys = array();
-            $_size206 = 0;
-            $_etype209 = 0;
-            $xfer += $input->readListBegin($_etype209, $_size206);
-            for ($_i210 = 0; $_i210 < $_size206; ++$_i210)
+            $_size196 = 0;
+            $_etype199 = 0;
+            $xfer += $input->readListBegin($_etype199, $_size196);
+            for ($_i200 = 0; $_i200 < $_size196; ++$_i200)
             {
-              $elem211 = null;
-              $elem211 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
-              $xfer += $elem211->read($input);
-              $this->sortBys []= $elem211;
+              $elem201 = null;
+              $elem201 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
+              $xfer += $elem201->read($input);
+              $this->sortBys []= $elem201;
             }
             $xfer += $input->readListEnd();
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
-        case 5:
+        case 6:
           if ($ftype == TType::STRUCT) {
             $this->range = new \com\boxalino\dataintelligence\api\thrift\TimeRange();
             $xfer += $this->range->read($input);
@@ -5302,21 +5892,21 @@ class TransactionReportRequest {
             $xfer += $input->skip($ftype);
           }
           break;
-        case 6:
+        case 7:
           if ($ftype == TType::I32) {
             $xfer += $input->readI32($this->precision);
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
-        case 7:
+        case 8:
           if ($ftype == TType::I16) {
             $xfer += $input->readI16($this->startIndex);
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
-        case 8:
+        case 9:
           if ($ftype == TType::I16) {
             $xfer += $input->readI16($this->maxResults);
           } else {
@@ -5344,9 +5934,9 @@ class TransactionReportRequest {
       {
         $output->writeListBegin(TType::STRUCT, count($this->metrics));
         {
-          foreach ($this->metrics as $iter212)
+          foreach ($this->metrics as $iter202)
           {
-            $xfer += $iter212->write($output);
+            $xfer += $iter202->write($output);
           }
         }
         $output->writeListEnd();
@@ -5361,9 +5951,9 @@ class TransactionReportRequest {
       {
         $output->writeListBegin(TType::STRUCT, count($this->dimensions));
         {
-          foreach ($this->dimensions as $iter213)
+          foreach ($this->dimensions as $iter203)
           {
-            $xfer += $iter213->write($output);
+            $xfer += $iter203->write($output);
           }
         }
         $output->writeListEnd();
@@ -5378,17 +5968,25 @@ class TransactionReportRequest {
       $xfer += $this->filter->write($output);
       $xfer += $output->writeFieldEnd();
     }
+    if ($this->cohortIdField !== null) {
+      if (!is_object($this->cohortIdField)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('cohortIdField', TType::STRUCT, 4);
+      $xfer += $this->cohortIdField->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
     if ($this->sortBys !== null) {
       if (!is_array($this->sortBys)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('sortBys', TType::LST, 4);
+      $xfer += $output->writeFieldBegin('sortBys', TType::LST, 5);
       {
         $output->writeListBegin(TType::STRUCT, count($this->sortBys));
         {
-          foreach ($this->sortBys as $iter214)
+          foreach ($this->sortBys as $iter204)
           {
-            $xfer += $iter214->write($output);
+            $xfer += $iter204->write($output);
           }
         }
         $output->writeListEnd();
@@ -5399,22 +5997,22 @@ class TransactionReportRequest {
       if (!is_object($this->range)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('range', TType::STRUCT, 5);
+      $xfer += $output->writeFieldBegin('range', TType::STRUCT, 6);
       $xfer += $this->range->write($output);
       $xfer += $output->writeFieldEnd();
     }
     if ($this->precision !== null) {
-      $xfer += $output->writeFieldBegin('precision', TType::I32, 6);
+      $xfer += $output->writeFieldBegin('precision', TType::I32, 7);
       $xfer += $output->writeI32($this->precision);
       $xfer += $output->writeFieldEnd();
     }
     if ($this->startIndex !== null) {
-      $xfer += $output->writeFieldBegin('startIndex', TType::I16, 7);
+      $xfer += $output->writeFieldBegin('startIndex', TType::I16, 8);
       $xfer += $output->writeI16($this->startIndex);
       $xfer += $output->writeFieldEnd();
     }
     if ($this->maxResults !== null) {
-      $xfer += $output->writeFieldBegin('maxResults', TType::I16, 8);
+      $xfer += $output->writeFieldBegin('maxResults', TType::I16, 9);
       $xfer += $output->writeI16($this->maxResults);
       $xfer += $output->writeFieldEnd();
     }
@@ -5436,31 +6034,41 @@ class TransactionReportResult {
   /**
    * an required map of dimension values
    * 
-   * @var array
+   * @var \com\boxalino\dataintelligence\api\thrift\ReportDimensionValue[]
    */
-  public $dimensionValue = null;
+  public $dimensionValues = null;
+  /**
+   * the report result values
+   * 
+   * @var \com\boxalino\dataintelligence\api\thrift\ReportResultValues
+   */
+  public $values = null;
 
   public function __construct($vals=null) {
     if (!isset(self::$_TSPEC)) {
       self::$_TSPEC = array(
         1 => array(
-          'var' => 'dimensionValue',
-          'type' => TType::MAP,
-          'ktype' => TType::STRUCT,
-          'vtype' => TType::STRING,
-          'key' => array(
+          'var' => 'dimensionValues',
+          'type' => TType::LST,
+          'etype' => TType::STRUCT,
+          'elem' => array(
             'type' => TType::STRUCT,
-            'class' => '\com\boxalino\dataintelligence\api\thrift\ReportDimension',
-          ),
-          'val' => array(
-            'type' => TType::STRING,
+            'class' => '\com\boxalino\dataintelligence\api\thrift\ReportDimensionValue',
             ),
+          ),
+        2 => array(
+          'var' => 'values',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ReportResultValues',
           ),
         );
     }
     if (is_array($vals)) {
-      if (isset($vals['dimensionValue'])) {
-        $this->dimensionValue = $vals['dimensionValue'];
+      if (isset($vals['dimensionValues'])) {
+        $this->dimensionValues = $vals['dimensionValues'];
+      }
+      if (isset($vals['values'])) {
+        $this->values = $vals['values'];
       }
     }
   }
@@ -5485,22 +6093,27 @@ class TransactionReportResult {
       switch ($fid)
       {
         case 1:
-          if ($ftype == TType::MAP) {
-            $this->dimensionValue = array();
-            $_size215 = 0;
-            $_ktype216 = 0;
-            $_vtype217 = 0;
-            $xfer += $input->readMapBegin($_ktype216, $_vtype217, $_size215);
-            for ($_i219 = 0; $_i219 < $_size215; ++$_i219)
+          if ($ftype == TType::LST) {
+            $this->dimensionValues = array();
+            $_size205 = 0;
+            $_etype208 = 0;
+            $xfer += $input->readListBegin($_etype208, $_size205);
+            for ($_i209 = 0; $_i209 < $_size205; ++$_i209)
             {
-              $key220 = new \com\boxalino\dataintelligence\api\thrift\ReportDimension();
-              $val221 = '';
-              $key220 = new \com\boxalino\dataintelligence\api\thrift\ReportDimension();
-              $xfer += $key220->read($input);
-              $xfer += $input->readString($val221);
-              $this->dimensionValue[$key220] = $val221;
+              $elem210 = null;
+              $elem210 = new \com\boxalino\dataintelligence\api\thrift\ReportDimensionValue();
+              $xfer += $elem210->read($input);
+              $this->dimensionValues []= $elem210;
             }
-            $xfer += $input->readMapEnd();
+            $xfer += $input->readListEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRUCT) {
+            $this->values = new \com\boxalino\dataintelligence\api\thrift\ReportResultValues();
+            $xfer += $this->values->read($input);
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -5518,22 +6131,29 @@ class TransactionReportResult {
   public function write($output) {
     $xfer = 0;
     $xfer += $output->writeStructBegin('TransactionReportResult');
-    if ($this->dimensionValue !== null) {
-      if (!is_array($this->dimensionValue)) {
+    if ($this->dimensionValues !== null) {
+      if (!is_array($this->dimensionValues)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('dimensionValue', TType::MAP, 1);
+      $xfer += $output->writeFieldBegin('dimensionValues', TType::LST, 1);
       {
-        $output->writeMapBegin(TType::STRUCT, TType::STRING, count($this->dimensionValue));
+        $output->writeListBegin(TType::STRUCT, count($this->dimensionValues));
         {
-          foreach ($this->dimensionValue as $kiter222 => $viter223)
+          foreach ($this->dimensionValues as $iter211)
           {
-            $xfer += $kiter222->write($output);
-            $xfer += $output->writeString($viter223);
+            $xfer += $iter211->write($output);
           }
         }
-        $output->writeMapEnd();
+        $output->writeListEnd();
       }
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->values !== null) {
+      if (!is_object($this->values)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('values', TType::STRUCT, 2);
+      $xfer += $this->values->write($output);
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();
@@ -5553,7 +6173,7 @@ class TransactionReport {
   /**
    * the map of reporting results (one result per TransactionReportResult: indicating dimension values)
    * 
-   * @var array
+   * @var \com\boxalino\dataintelligence\api\thrift\TransactionReportResult[]
    */
   public $results = null;
   /**
@@ -5568,16 +6188,11 @@ class TransactionReport {
       self::$_TSPEC = array(
         1 => array(
           'var' => 'results',
-          'type' => TType::MAP,
-          'ktype' => TType::STRUCT,
-          'vtype' => TType::STRUCT,
-          'key' => array(
+          'type' => TType::LST,
+          'etype' => TType::STRUCT,
+          'elem' => array(
             'type' => TType::STRUCT,
             'class' => '\com\boxalino\dataintelligence\api\thrift\TransactionReportResult',
-          ),
-          'val' => array(
-            'type' => TType::STRUCT,
-            'class' => '\com\boxalino\dataintelligence\api\thrift\ReportResultValues',
             ),
           ),
         2 => array(
@@ -5617,23 +6232,19 @@ class TransactionReport {
       switch ($fid)
       {
         case 1:
-          if ($ftype == TType::MAP) {
+          if ($ftype == TType::LST) {
             $this->results = array();
-            $_size224 = 0;
-            $_ktype225 = 0;
-            $_vtype226 = 0;
-            $xfer += $input->readMapBegin($_ktype225, $_vtype226, $_size224);
-            for ($_i228 = 0; $_i228 < $_size224; ++$_i228)
+            $_size212 = 0;
+            $_etype215 = 0;
+            $xfer += $input->readListBegin($_etype215, $_size212);
+            for ($_i216 = 0; $_i216 < $_size212; ++$_i216)
             {
-              $key229 = new \com\boxalino\dataintelligence\api\thrift\TransactionReportResult();
-              $val230 = new \com\boxalino\dataintelligence\api\thrift\ReportResultValues();
-              $key229 = new \com\boxalino\dataintelligence\api\thrift\TransactionReportResult();
-              $xfer += $key229->read($input);
-              $val230 = new \com\boxalino\dataintelligence\api\thrift\ReportResultValues();
-              $xfer += $val230->read($input);
-              $this->results[$key229] = $val230;
+              $elem217 = null;
+              $elem217 = new \com\boxalino\dataintelligence\api\thrift\TransactionReportResult();
+              $xfer += $elem217->read($input);
+              $this->results []= $elem217;
             }
-            $xfer += $input->readMapEnd();
+            $xfer += $input->readListEnd();
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -5663,17 +6274,16 @@ class TransactionReport {
       if (!is_array($this->results)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('results', TType::MAP, 1);
+      $xfer += $output->writeFieldBegin('results', TType::LST, 1);
       {
-        $output->writeMapBegin(TType::STRUCT, TType::STRUCT, count($this->results));
+        $output->writeListBegin(TType::STRUCT, count($this->results));
         {
-          foreach ($this->results as $kiter231 => $viter232)
+          foreach ($this->results as $iter218)
           {
-            $xfer += $kiter231->write($output);
-            $xfer += $viter232->write($output);
+            $xfer += $iter218->write($output);
           }
         }
-        $output->writeMapEnd();
+        $output->writeListEnd();
       }
       $xfer += $output->writeFieldEnd();
     }
@@ -5851,15 +6461,15 @@ class BehaviorReportRequest {
         case 1:
           if ($ftype == TType::LST) {
             $this->metrics = array();
-            $_size233 = 0;
-            $_etype236 = 0;
-            $xfer += $input->readListBegin($_etype236, $_size233);
-            for ($_i237 = 0; $_i237 < $_size233; ++$_i237)
+            $_size219 = 0;
+            $_etype222 = 0;
+            $xfer += $input->readListBegin($_etype222, $_size219);
+            for ($_i223 = 0; $_i223 < $_size219; ++$_i223)
             {
-              $elem238 = null;
-              $elem238 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
-              $xfer += $elem238->read($input);
-              $this->metrics []= $elem238;
+              $elem224 = null;
+              $elem224 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
+              $xfer += $elem224->read($input);
+              $this->metrics []= $elem224;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -5869,15 +6479,15 @@ class BehaviorReportRequest {
         case 2:
           if ($ftype == TType::LST) {
             $this->dimensions = array();
-            $_size239 = 0;
-            $_etype242 = 0;
-            $xfer += $input->readListBegin($_etype242, $_size239);
-            for ($_i243 = 0; $_i243 < $_size239; ++$_i243)
+            $_size225 = 0;
+            $_etype228 = 0;
+            $xfer += $input->readListBegin($_etype228, $_size225);
+            for ($_i229 = 0; $_i229 < $_size225; ++$_i229)
             {
-              $elem244 = null;
-              $elem244 = new \com\boxalino\dataintelligence\api\thrift\ReportDimension();
-              $xfer += $elem244->read($input);
-              $this->dimensions []= $elem244;
+              $elem230 = null;
+              $elem230 = new \com\boxalino\dataintelligence\api\thrift\ReportDimension();
+              $xfer += $elem230->read($input);
+              $this->dimensions []= $elem230;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -5895,15 +6505,15 @@ class BehaviorReportRequest {
         case 4:
           if ($ftype == TType::LST) {
             $this->sortBys = array();
-            $_size245 = 0;
-            $_etype248 = 0;
-            $xfer += $input->readListBegin($_etype248, $_size245);
-            for ($_i249 = 0; $_i249 < $_size245; ++$_i249)
+            $_size231 = 0;
+            $_etype234 = 0;
+            $xfer += $input->readListBegin($_etype234, $_size231);
+            for ($_i235 = 0; $_i235 < $_size231; ++$_i235)
             {
-              $elem250 = null;
-              $elem250 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
-              $xfer += $elem250->read($input);
-              $this->sortBys []= $elem250;
+              $elem236 = null;
+              $elem236 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
+              $xfer += $elem236->read($input);
+              $this->sortBys []= $elem236;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -5960,9 +6570,9 @@ class BehaviorReportRequest {
       {
         $output->writeListBegin(TType::STRUCT, count($this->metrics));
         {
-          foreach ($this->metrics as $iter251)
+          foreach ($this->metrics as $iter237)
           {
-            $xfer += $iter251->write($output);
+            $xfer += $iter237->write($output);
           }
         }
         $output->writeListEnd();
@@ -5977,9 +6587,9 @@ class BehaviorReportRequest {
       {
         $output->writeListBegin(TType::STRUCT, count($this->dimensions));
         {
-          foreach ($this->dimensions as $iter252)
+          foreach ($this->dimensions as $iter238)
           {
-            $xfer += $iter252->write($output);
+            $xfer += $iter238->write($output);
           }
         }
         $output->writeListEnd();
@@ -6002,9 +6612,9 @@ class BehaviorReportRequest {
       {
         $output->writeListBegin(TType::STRUCT, count($this->sortBys));
         {
-          foreach ($this->sortBys as $iter253)
+          foreach ($this->sortBys as $iter239)
           {
-            $xfer += $iter253->write($output);
+            $xfer += $iter239->write($output);
           }
         }
         $output->writeListEnd();
@@ -6052,31 +6662,41 @@ class BehaviorReportResult {
   /**
    * an required map of dimension values
    * 
-   * @var array
+   * @var \com\boxalino\dataintelligence\api\thrift\ReportDimensionValue[]
    */
-  public $dimensionValue = null;
+  public $dimensionValues = null;
+  /**
+   * the report result values
+   * 
+   * @var \com\boxalino\dataintelligence\api\thrift\ReportResultValues
+   */
+  public $values = null;
 
   public function __construct($vals=null) {
     if (!isset(self::$_TSPEC)) {
       self::$_TSPEC = array(
         1 => array(
-          'var' => 'dimensionValue',
-          'type' => TType::MAP,
-          'ktype' => TType::STRUCT,
-          'vtype' => TType::STRING,
-          'key' => array(
+          'var' => 'dimensionValues',
+          'type' => TType::LST,
+          'etype' => TType::STRUCT,
+          'elem' => array(
             'type' => TType::STRUCT,
-            'class' => '\com\boxalino\dataintelligence\api\thrift\ReportDimension',
-          ),
-          'val' => array(
-            'type' => TType::STRING,
+            'class' => '\com\boxalino\dataintelligence\api\thrift\ReportDimensionValue',
             ),
+          ),
+        2 => array(
+          'var' => 'values',
+          'type' => TType::STRUCT,
+          'class' => '\com\boxalino\dataintelligence\api\thrift\ReportResultValues',
           ),
         );
     }
     if (is_array($vals)) {
-      if (isset($vals['dimensionValue'])) {
-        $this->dimensionValue = $vals['dimensionValue'];
+      if (isset($vals['dimensionValues'])) {
+        $this->dimensionValues = $vals['dimensionValues'];
+      }
+      if (isset($vals['values'])) {
+        $this->values = $vals['values'];
       }
     }
   }
@@ -6101,22 +6721,27 @@ class BehaviorReportResult {
       switch ($fid)
       {
         case 1:
-          if ($ftype == TType::MAP) {
-            $this->dimensionValue = array();
-            $_size254 = 0;
-            $_ktype255 = 0;
-            $_vtype256 = 0;
-            $xfer += $input->readMapBegin($_ktype255, $_vtype256, $_size254);
-            for ($_i258 = 0; $_i258 < $_size254; ++$_i258)
+          if ($ftype == TType::LST) {
+            $this->dimensionValues = array();
+            $_size240 = 0;
+            $_etype243 = 0;
+            $xfer += $input->readListBegin($_etype243, $_size240);
+            for ($_i244 = 0; $_i244 < $_size240; ++$_i244)
             {
-              $key259 = new \com\boxalino\dataintelligence\api\thrift\ReportDimension();
-              $val260 = '';
-              $key259 = new \com\boxalino\dataintelligence\api\thrift\ReportDimension();
-              $xfer += $key259->read($input);
-              $xfer += $input->readString($val260);
-              $this->dimensionValue[$key259] = $val260;
+              $elem245 = null;
+              $elem245 = new \com\boxalino\dataintelligence\api\thrift\ReportDimensionValue();
+              $xfer += $elem245->read($input);
+              $this->dimensionValues []= $elem245;
             }
-            $xfer += $input->readMapEnd();
+            $xfer += $input->readListEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRUCT) {
+            $this->values = new \com\boxalino\dataintelligence\api\thrift\ReportResultValues();
+            $xfer += $this->values->read($input);
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -6134,22 +6759,29 @@ class BehaviorReportResult {
   public function write($output) {
     $xfer = 0;
     $xfer += $output->writeStructBegin('BehaviorReportResult');
-    if ($this->dimensionValue !== null) {
-      if (!is_array($this->dimensionValue)) {
+    if ($this->dimensionValues !== null) {
+      if (!is_array($this->dimensionValues)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('dimensionValue', TType::MAP, 1);
+      $xfer += $output->writeFieldBegin('dimensionValues', TType::LST, 1);
       {
-        $output->writeMapBegin(TType::STRUCT, TType::STRING, count($this->dimensionValue));
+        $output->writeListBegin(TType::STRUCT, count($this->dimensionValues));
         {
-          foreach ($this->dimensionValue as $kiter261 => $viter262)
+          foreach ($this->dimensionValues as $iter246)
           {
-            $xfer += $kiter261->write($output);
-            $xfer += $output->writeString($viter262);
+            $xfer += $iter246->write($output);
           }
         }
-        $output->writeMapEnd();
+        $output->writeListEnd();
       }
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->values !== null) {
+      if (!is_object($this->values)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('values', TType::STRUCT, 2);
+      $xfer += $this->values->write($output);
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();
@@ -6169,7 +6801,7 @@ class BehaviorReport {
   /**
    * the map of reporting results (one result per BehaviorReportResult: indicating dimension values)
    * 
-   * @var array
+   * @var \com\boxalino\dataintelligence\api\thrift\BehaviorReportResult[]
    */
   public $results = null;
   /**
@@ -6184,16 +6816,11 @@ class BehaviorReport {
       self::$_TSPEC = array(
         1 => array(
           'var' => 'results',
-          'type' => TType::MAP,
-          'ktype' => TType::STRUCT,
-          'vtype' => TType::STRUCT,
-          'key' => array(
+          'type' => TType::LST,
+          'etype' => TType::STRUCT,
+          'elem' => array(
             'type' => TType::STRUCT,
             'class' => '\com\boxalino\dataintelligence\api\thrift\BehaviorReportResult',
-          ),
-          'val' => array(
-            'type' => TType::STRUCT,
-            'class' => '\com\boxalino\dataintelligence\api\thrift\ReportResultValues',
             ),
           ),
         2 => array(
@@ -6233,23 +6860,19 @@ class BehaviorReport {
       switch ($fid)
       {
         case 1:
-          if ($ftype == TType::MAP) {
+          if ($ftype == TType::LST) {
             $this->results = array();
-            $_size263 = 0;
-            $_ktype264 = 0;
-            $_vtype265 = 0;
-            $xfer += $input->readMapBegin($_ktype264, $_vtype265, $_size263);
-            for ($_i267 = 0; $_i267 < $_size263; ++$_i267)
+            $_size247 = 0;
+            $_etype250 = 0;
+            $xfer += $input->readListBegin($_etype250, $_size247);
+            for ($_i251 = 0; $_i251 < $_size247; ++$_i251)
             {
-              $key268 = new \com\boxalino\dataintelligence\api\thrift\BehaviorReportResult();
-              $val269 = new \com\boxalino\dataintelligence\api\thrift\ReportResultValues();
-              $key268 = new \com\boxalino\dataintelligence\api\thrift\BehaviorReportResult();
-              $xfer += $key268->read($input);
-              $val269 = new \com\boxalino\dataintelligence\api\thrift\ReportResultValues();
-              $xfer += $val269->read($input);
-              $this->results[$key268] = $val269;
+              $elem252 = null;
+              $elem252 = new \com\boxalino\dataintelligence\api\thrift\BehaviorReportResult();
+              $xfer += $elem252->read($input);
+              $this->results []= $elem252;
             }
-            $xfer += $input->readMapEnd();
+            $xfer += $input->readListEnd();
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -6279,17 +6902,16 @@ class BehaviorReport {
       if (!is_array($this->results)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('results', TType::MAP, 1);
+      $xfer += $output->writeFieldBegin('results', TType::LST, 1);
       {
-        $output->writeMapBegin(TType::STRUCT, TType::STRUCT, count($this->results));
+        $output->writeListBegin(TType::STRUCT, count($this->results));
         {
-          foreach ($this->results as $kiter270 => $viter271)
+          foreach ($this->results as $iter253)
           {
-            $xfer += $kiter270->write($output);
-            $xfer += $viter271->write($output);
+            $xfer += $iter253->write($output);
           }
         }
-        $output->writeMapEnd();
+        $output->writeListEnd();
       }
       $xfer += $output->writeFieldEnd();
     }
