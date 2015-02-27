@@ -668,6 +668,10 @@ enum ReportMetricType {
 	 */
 	TRANSACTIONS_PARAMETER_SUM = 29,
 	/**
+	 * count of the total number of transaction items (one product with quantity one is one item)
+	 */
+	TRANSACTIONS_QUANTITY = 30,
+	/**
 	 * number of add-to-basket events
 	 */
 	ADD_TO_BASKETS = 24,

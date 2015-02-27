@@ -400,6 +400,10 @@ final class ReportMetricType {
    */
   const TRANSACTIONS_PARAMETER_SUM = 29;
   /**
+   * count of the total number of transaction items (one product with quantity one is one item)
+   */
+  const TRANSACTIONS_QUANTITY = 30;
+  /**
    * number of add-to-basket events
    */
   const ADD_TO_BASKETS = 24;
@@ -441,6 +445,7 @@ final class ReportMetricType {
     23 => 'VISITS_WITH_TRANSACTIONS_RATE',
     28 => 'TRANSACTIONS_TURNOVER',
     29 => 'TRANSACTIONS_PARAMETER_SUM',
+    30 => 'TRANSACTIONS_QUANTITY',
     24 => 'ADD_TO_BASKETS',
     25 => 'ADD_TO_BASKETS_PER_VISIT',
     26 => 'VISITS_WITH_ADD_TO_BASKETS',
