@@ -399,6 +399,71 @@ number of visits having at least one add to basket event
 <tr><td><code>VISITS_WITH_ADD_TO_BASKETS_RATE</code></td><td><code>27</code></td><td>
 VISITS_WITH_ADD_TO_BASKETS / VISITS
 <br/></td></tr>
+<tr><td><code>EVENT_COUNT</code></td><td><code>40</code></td><td>
+number of time the event has occurred
+<br/></td></tr>
+<tr><td><code>CHOICE_DISPLAYS</code></td><td><code>100</code></td><td>
+number of display of a choice
+<br/></td></tr>
+<tr><td><code>VISITS_WITH_CHOICE_DISPLAYS</code></td><td><code>101</code></td><td>
+number of visits having at least one choice display
+<br/></td></tr>
+<tr><td><code>PRODUCT_VIEWS_FROM_CHOICE_DISPLAY</code></td><td><code>110</code></td><td>
+number of product views event related to product displayed in a choice display
+if a ReportDimension is on the product id, then only for this product id
+<br/></td></tr>
+<tr><td><code>VISITS_WITH_PRODUCT_VIEWS_FROM_CHOICE_DISPLAY</code></td><td><code>111</code></td><td>
+number of visits having at least one product views event related to product displayed in a choice display
+if a ReportDimension is on the product id, then only for this product id
+if a ReportDimension is on a Choice, then only for this choice
+if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+<br/></td></tr>
+<tr><td><code>TRANSACTIONS_FROM_CHOICE_DISPLAY</code></td><td><code>112</code></td><td>
+number of transactions related to product displayed in a choice display
+if a ReportDimension is on the product id, then only for this product id
+if a ReportDimension is on a Choice, then only for this choice
+if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+<br/></td></tr>
+<tr><td><code>TRANSACTIONS_PARAMETER_SUM_FROM_CHOICE_DISPLAY</code></td><td><code>113</code></td><td>
+sum of transaction property value of transactions related to product displayed in a choice display
+if a ReportDimension is on the product id, then only for this product id
+if a ReportDimension is on a Choice, then only for this choice
+if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+<br/></td></tr>
+<tr><td><code>VISITS_WITH_TRANSACTIONS_FROM_CHOICE_DISPLAY</code></td><td><code>114</code></td><td>
+number of visits having at least one transaction event related to product displayed in a choice display
+if a ReportDimension is on the product id, then only for this product id
+if a ReportDimension is on a Choice, then only for this choice
+if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+<br/></td></tr>
+<tr><td><code>ADD_TO_BASKETS_FROM_CHOICE_DISPLAY</code></td><td><code>115</code></td><td>
+number of add to baskets related to product displayed in a choice display
+if a ReportDimension is on the product id, then only for this product id
+if a ReportDimension is on a Choice, then only for this choice
+if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+<br/></td></tr>
+<tr><td><code>VISITS_WITH_ADD_TO_BASKETS_FROM_CHOICE_DISPLAY</code></td><td><code>116</code></td><td>
+number of visits having at least one add to basket related to product displayed in a choice display
+if a ReportDimension is on the product id, then only for this product id
+if a ReportDimension is on a Choice, then only for this choice
+if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+<br/></td></tr>
+<tr><td><code>GOALS_FROM_CHOICE_DISPLAY</code></td><td><code>117</code></td><td>
+number of goals related to product displayed in a choice display
+(require identifier to be provided with the choice identifier)
+(will only work if a product identifier is provided with the goal)
+if a ReportDimension is on the product id, then only for this product id
+if a ReportDimension is on a Choice, then only for this choice
+if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+<br/></td></tr>
+<tr><td><code>VISITS_WITH_GOALS_FROM_CHOICE_DISPLAY</code></td><td><code>118</code></td><td>
+number of visits having at least goal related to product displayed in a choice display
+(require identifier to be provided with the choice identifier)
+(will only work if a product identifier is provided with the goal)
+if a ReportDimension is on the product id, then only for this product id
+if a ReportDimension is on a Choice, then only for this choice
+if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+<br/></td></tr>
 </table></div>
 <div class="definition"><h3 id="Enum_ReportDimensionType">Enumeration: ReportDimensionType</h3>
 This enumeration defines possible report dimension types
@@ -436,20 +501,66 @@ the AdWords Creative (requires that the AdWords ValueTrack is passed on the url 
 <tr><td><code>ADWORDS_KEYWORD</code></td><td><code>9</code></td><td>
 the AdWords Keyword (requires that the AdWords ValueTrack is passed on the url parameter as "&keyword={keyword}"
 <br/></td></tr>
+<tr><td><code>ONSITE_SEARCH_QUERY</code></td><td><code>15</code></td><td>
+the search queries done in the web-site
+<br/></td></tr>
+<tr><td><code>HOUR_OF_DAY</code></td><td><code>20</code></td><td>
+the different hours of the day (from "0" to "24")
+<br/></td></tr>
+<tr><td><code>MOMENT_OF_DAY</code></td><td><code>21</code></td><td>
+the different moments of the day ("22-6", "6-10", "10-12", "12-14", "14-17", "17-19", "19-22")
+<br/></td></tr>
+<tr><td><code>DAY_OF_WEEK</code></td><td><code>22</code></td><td>
+the different days of the week ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+<br/></td></tr>
+<tr><td><code>MOMENT_OF_WEEK</code></td><td><code>23</code></td><td>
+the different moments of the week ("Monday-Friday", "Saturday-Sunday")
+<br/></td></tr>
+<tr><td><code>SESSION_START_TIMESTAMP</code></td><td><code>24</code></td><td>
+the timestamp at the beginning of the session (one dimension per session)
+<br/></td></tr>
+<tr><td><code>SESSION_ID</code></td><td><code>25</code></td><td>
+the session id (as provided by the tracker)
+<br/></td></tr>
+<tr><td><code>INTERNAL_SESSION_ID</code></td><td><code>26</code></td><td>
+the session id (internal id of Boxalino)
+<br/></td></tr>
+<tr><td><code>VISITOR_ID</code></td><td><code>27</code></td><td>
+the visitor id (as provided by the tracker)
+<br/></td></tr>
+<tr><td><code>INTERNAL_VISITOR_ID</code></td><td><code>28</code></td><td>
+the visitor id (internal id of Boxalino)
+<br/></td></tr>
 <tr><td><code>URL_PARAMETER</code></td><td><code>50</code></td><td>
 the different values of a URL parameter (require identifier to be provided with url parameter name)
 <br/></td></tr>
 <tr><td><code>TRANSACTION_PROPERTY</code></td><td><code>100</code></td><td>
-the different values of a transaction property (require identifier to be provided with the transaction property name)
+the different values of a transaction property (requires identifier to be provided with the transaction property name)
 N.B.: a connection to the transaction property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a transaction)
 <br/></td></tr>
 <tr><td><code>CUSTOMER_PROPERTY</code></td><td><code>150</code></td><td>
-the different values of a customer property (require identifier to be provided with the customer property name)
+the different values of a customer property (requires identifier to be provided with the customer property name)
 N.B.: a connection to the transaction property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a login or other ways to link the customer id to the visitor id)
 <br/></td></tr>
 <tr><td><code>PURCHASED_PRODUCT_PROPERTY</code></td><td><code>200</code></td><td>
-the different values of a product property (require identifier to be provided with the product property name)
+the different values of a product property (requires identifier to be provided with the product property name)
 N.B.: a connection to the transaction property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a product purchased)
+<br/></td></tr>
+<tr><td><code>PRODUCT_PROPERTY</code></td><td><code>201</code></td><td>
+the different values of a product property (requires identifier to be provided with the product property name)
+N.B.: a connection to the product property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a product displayed in the choice variant)
+<br/></td></tr>
+<tr><td><code>CHOICE</code></td><td><code>300</code></td><td>
+the different possible choice ids (requires identifier to be provided with the choiceId as indicated in the structure Choice)
+N.B.: a connection to the product property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a product displayed in the choice variant)
+<br/></td></tr>
+<tr><td><code>CHOICE_VARIANT</code></td><td><code>301</code></td><td>
+the different possible choice variant ids (requires identifier to be provided with the choiceVariantIdId as indicated in the structure ChoiceVariant)
+N.B.: a connection to the product property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a product displayed in the choice variant)
+<br/></td></tr>
+<tr><td><code>COHORT_INDEX</code></td><td><code>1000</code></td><td>
+ * The index of the returned time serie (starting at zero) related to this result (requires identifier to be provided with the cohort id field requested)
+* N.B.: the ReportDimensionValue value will indicate the index as a number 0-&gt;n-1, n-1 being the last time range of the cohort report
 <br/></td></tr>
 </table></div>
 <div class="definition"><h3 id="Enum_ConditionOperator">Enumeration: ConditionOperator</h3>
@@ -530,6 +641,8 @@ returns the start and end date time based on timestamp 0 being the beginning of 
 <table class="table-bordered table-striped table-condensed"><thead><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></thead>
 <tr><td>1</td><td>configurationVersionNumber</td><td><code>i16</code></td><td>an internal number identifying the configuration version
 </td><td>required</td><td></td></tr>
+<tr><td>2</td><td>systemParameters</td><td><code>map&lt;<code>string</code>, <code>string</code>&gt;</code></td><td>an internal number identifying the configuration version
+</td><td>optional</td><td></td></tr>
 </table><br/>This structure defines a configuration version of your account. It must be provided to all functions accessing / updating or removing information from your account configuration
 <br/></div><div class="definition"><h3 id="Struct_ConfigurationDifference">Struct: ConfigurationDifference</h3>
 <table class="table-bordered table-striped table-condensed"><thead><th>Key</th><th>Field</th><th>Type</th><th>Description</th><th>Requiredness</th><th>Default value</th></thead>
@@ -693,6 +806,15 @@ returns the start and end date time based on timestamp 0 being the beginning of 
 <tr><td>1</td><td>type</td><td><code><a href="BoxalinoDataIntelligenceV1.html#Enum_ReportDimensionType">ReportDimensionType</a></code></td><td>the type of metric
 </td><td>required</td><td></td></tr>
 <tr><td>2</td><td>identifier</td><td><code>string</code></td><td>optional, for the ReportDimensionType requiring it (e.g.: goal) the identifier the metric
+</td><td>optional</td><td></td></tr>
+<tr><td>3</td><td>param1</td><td><code>string</code></td><td>optional, an additional parameter
+Use cases:
+- for hierarchical product properties for the type PURCHASED_PRODUCT_PROPERTY (e.g.: "categories") provide the level of depth to consider: "0" : first level, "1" : second level, ...
+in the response, this parameter will be replaced with the category id (label will provide the bread crumb as value : "cat1 &gt;&gt; cat2 &gt;&gt; cat3", but the id of this cat3 will be provided in the param1)
+</td><td>optional</td><td></td></tr>
+<tr><td>4</td><td>param2</td><td><code>string</code></td><td>optional, an additional parameter (planned, but not used until now)
+</td><td>optional</td><td></td></tr>
+<tr><td>5</td><td>param3</td><td><code>string</code></td><td>optional, an additional parameter (planned, but not used until now)
 </td><td>optional</td><td></td></tr>
 </table><br/>This structure defines a report dimension (segmentation) which can be standard or custom with an identifier (e.g.: for url parameters)
 <br/></div><div class="definition"><h3 id="Struct_ConditionTarget">Struct: ConditionTarget</h3>

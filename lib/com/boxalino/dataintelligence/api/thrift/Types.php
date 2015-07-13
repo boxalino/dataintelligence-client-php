@@ -419,6 +419,83 @@ final class ReportMetricType {
    * VISITS_WITH_ADD_TO_BASKETS / VISITS
    */
   const VISITS_WITH_ADD_TO_BASKETS_RATE = 27;
+  /**
+   * number of time the event has occurred
+   */
+  const EVENT_COUNT = 40;
+  /**
+   * number of display of a choice
+   */
+  const CHOICE_DISPLAYS = 100;
+  /**
+   * number of visits having at least one choice display
+   */
+  const VISITS_WITH_CHOICE_DISPLAYS = 101;
+  /**
+   * number of product views event related to product displayed in a choice display
+   * if a ReportDimension is on the product id, then only for this product id
+   */
+  const PRODUCT_VIEWS_FROM_CHOICE_DISPLAY = 110;
+  /**
+   * number of visits having at least one product views event related to product displayed in a choice display
+   * if a ReportDimension is on the product id, then only for this product id
+   * if a ReportDimension is on a Choice, then only for this choice
+   * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+   */
+  const VISITS_WITH_PRODUCT_VIEWS_FROM_CHOICE_DISPLAY = 111;
+  /**
+   * number of transactions related to product displayed in a choice display
+   * if a ReportDimension is on the product id, then only for this product id
+   * if a ReportDimension is on a Choice, then only for this choice
+   * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+   */
+  const TRANSACTIONS_FROM_CHOICE_DISPLAY = 112;
+  /**
+   * sum of transaction property value of transactions related to product displayed in a choice display
+   * if a ReportDimension is on the product id, then only for this product id
+   * if a ReportDimension is on a Choice, then only for this choice
+   * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+   */
+  const TRANSACTIONS_PARAMETER_SUM_FROM_CHOICE_DISPLAY = 113;
+  /**
+   * number of visits having at least one transaction event related to product displayed in a choice display
+   * if a ReportDimension is on the product id, then only for this product id
+   * if a ReportDimension is on a Choice, then only for this choice
+   * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+   */
+  const VISITS_WITH_TRANSACTIONS_FROM_CHOICE_DISPLAY = 114;
+  /**
+   * number of add to baskets related to product displayed in a choice display
+   * if a ReportDimension is on the product id, then only for this product id
+   * if a ReportDimension is on a Choice, then only for this choice
+   * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+   */
+  const ADD_TO_BASKETS_FROM_CHOICE_DISPLAY = 115;
+  /**
+   * number of visits having at least one add to basket related to product displayed in a choice display
+   * if a ReportDimension is on the product id, then only for this product id
+   * if a ReportDimension is on a Choice, then only for this choice
+   * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+   */
+  const VISITS_WITH_ADD_TO_BASKETS_FROM_CHOICE_DISPLAY = 116;
+  /**
+   * number of goals related to product displayed in a choice display
+   * (require identifier to be provided with the choice identifier)
+   * (will only work if a product identifier is provided with the goal)
+   * if a ReportDimension is on the product id, then only for this product id
+   * if a ReportDimension is on a Choice, then only for this choice
+   * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+   */
+  const GOALS_FROM_CHOICE_DISPLAY = 117;
+  /**
+   * number of visits having at least goal related to product displayed in a choice display
+   * (require identifier to be provided with the choice identifier)
+   * (will only work if a product identifier is provided with the goal)
+   * if a ReportDimension is on the product id, then only for this product id
+   * if a ReportDimension is on a Choice, then only for this choice
+   * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+   */
+  const VISITS_WITH_GOALS_FROM_CHOICE_DISPLAY = 118;
   static public $__names = array(
     1 => 'VISITORS',
     2 => 'VISITS',
@@ -450,6 +527,18 @@ final class ReportMetricType {
     25 => 'ADD_TO_BASKETS_PER_VISIT',
     26 => 'VISITS_WITH_ADD_TO_BASKETS',
     27 => 'VISITS_WITH_ADD_TO_BASKETS_RATE',
+    40 => 'EVENT_COUNT',
+    100 => 'CHOICE_DISPLAYS',
+    101 => 'VISITS_WITH_CHOICE_DISPLAYS',
+    110 => 'PRODUCT_VIEWS_FROM_CHOICE_DISPLAY',
+    111 => 'VISITS_WITH_PRODUCT_VIEWS_FROM_CHOICE_DISPLAY',
+    112 => 'TRANSACTIONS_FROM_CHOICE_DISPLAY',
+    113 => 'TRANSACTIONS_PARAMETER_SUM_FROM_CHOICE_DISPLAY',
+    114 => 'VISITS_WITH_TRANSACTIONS_FROM_CHOICE_DISPLAY',
+    115 => 'ADD_TO_BASKETS_FROM_CHOICE_DISPLAY',
+    116 => 'VISITS_WITH_ADD_TO_BASKETS_FROM_CHOICE_DISPLAY',
+    117 => 'GOALS_FROM_CHOICE_DISPLAY',
+    118 => 'VISITS_WITH_GOALS_FROM_CHOICE_DISPLAY',
   );
 }
 
@@ -502,24 +591,84 @@ final class ReportDimensionType {
    */
   const ADWORDS_KEYWORD = 9;
   /**
+   * the search queries done in the web-site
+   */
+  const ONSITE_SEARCH_QUERY = 15;
+  /**
+   * the different hours of the day (from "0" to "24")
+   */
+  const HOUR_OF_DAY = 20;
+  /**
+   * the different moments of the day ("22-6", "6-10", "10-12", "12-14", "14-17", "17-19", "19-22")
+   */
+  const MOMENT_OF_DAY = 21;
+  /**
+   * the different days of the week ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+   */
+  const DAY_OF_WEEK = 22;
+  /**
+   * the different moments of the week ("Monday-Friday", "Saturday-Sunday")
+   */
+  const MOMENT_OF_WEEK = 23;
+  /**
+   * the timestamp at the beginning of the session (one dimension per session)
+   */
+  const SESSION_START_TIMESTAMP = 24;
+  /**
+   * the session id (as provided by the tracker)
+   */
+  const SESSION_ID = 25;
+  /**
+   * the session id (internal id of Boxalino)
+   */
+  const INTERNAL_SESSION_ID = 26;
+  /**
+   * the visitor id (as provided by the tracker)
+   */
+  const VISITOR_ID = 27;
+  /**
+   * the visitor id (internal id of Boxalino)
+   */
+  const INTERNAL_VISITOR_ID = 28;
+  /**
    * the different values of a URL parameter (require identifier to be provided with url parameter name)
    */
   const URL_PARAMETER = 50;
   /**
-   * the different values of a transaction property (require identifier to be provided with the transaction property name)
+   * the different values of a transaction property (requires identifier to be provided with the transaction property name)
    * N.B.: a connection to the transaction property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a transaction)
    */
   const TRANSACTION_PROPERTY = 100;
   /**
-   * the different values of a customer property (require identifier to be provided with the customer property name)
+   * the different values of a customer property (requires identifier to be provided with the customer property name)
    * N.B.: a connection to the transaction property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a login or other ways to link the customer id to the visitor id)
    */
   const CUSTOMER_PROPERTY = 150;
   /**
-   * the different values of a product property (require identifier to be provided with the product property name)
+   * the different values of a product property (requires identifier to be provided with the product property name)
    * N.B.: a connection to the transaction property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a product purchased)
    */
   const PURCHASED_PRODUCT_PROPERTY = 200;
+  /**
+   * the different values of a product property (requires identifier to be provided with the product property name)
+   * N.B.: a connection to the product property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a product displayed in the choice variant)
+   */
+  const PRODUCT_PROPERTY = 201;
+  /**
+   * the different possible choice ids (requires identifier to be provided with the choiceId as indicated in the structure Choice)
+   * N.B.: a connection to the product property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a product displayed in the choice variant)
+   */
+  const CHOICE = 300;
+  /**
+   * the different possible choice variant ids (requires identifier to be provided with the choiceVariantIdId as indicated in the structure ChoiceVariant)
+   * N.B.: a connection to the product property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a product displayed in the choice variant)
+   */
+  const CHOICE_VARIANT = 301;
+  /**
+   *  * The index of the returned time serie (starting at zero) related to this result (requires identifier to be provided with the cohort id field requested)
+   * * N.B.: the ReportDimensionValue value will indicate the index as a number 0->n-1, n-1 being the last time range of the cohort report
+   */
+  const COHORT_INDEX = 1000;
   static public $__names = array(
     1 => 'NEW_VISITOR',
     2 => 'GEO_COUNTRY',
@@ -532,10 +681,24 @@ final class ReportDimensionType {
     7 => 'DEVICE_CATEGORY',
     8 => 'ADWORDS_CREATIVE',
     9 => 'ADWORDS_KEYWORD',
+    15 => 'ONSITE_SEARCH_QUERY',
+    20 => 'HOUR_OF_DAY',
+    21 => 'MOMENT_OF_DAY',
+    22 => 'DAY_OF_WEEK',
+    23 => 'MOMENT_OF_WEEK',
+    24 => 'SESSION_START_TIMESTAMP',
+    25 => 'SESSION_ID',
+    26 => 'INTERNAL_SESSION_ID',
+    27 => 'VISITOR_ID',
+    28 => 'INTERNAL_VISITOR_ID',
     50 => 'URL_PARAMETER',
     100 => 'TRANSACTION_PROPERTY',
     150 => 'CUSTOMER_PROPERTY',
     200 => 'PURCHASED_PRODUCT_PROPERTY',
+    201 => 'PRODUCT_PROPERTY',
+    300 => 'CHOICE',
+    301 => 'CHOICE_VARIANT',
+    1000 => 'COHORT_INDEX',
   );
 }
 
@@ -954,6 +1117,12 @@ class ConfigurationVersion {
    * @var int
    */
   public $configurationVersionNumber = null;
+  /**
+   * an internal number identifying the configuration version
+   * 
+   * @var array
+   */
+  public $systemParameters = null;
 
   public function __construct($vals=null) {
     if (!isset(self::$_TSPEC)) {
@@ -962,11 +1131,26 @@ class ConfigurationVersion {
           'var' => 'configurationVersionNumber',
           'type' => TType::I16,
           ),
+        2 => array(
+          'var' => 'systemParameters',
+          'type' => TType::MAP,
+          'ktype' => TType::STRING,
+          'vtype' => TType::STRING,
+          'key' => array(
+            'type' => TType::STRING,
+          ),
+          'val' => array(
+            'type' => TType::STRING,
+            ),
+          ),
         );
     }
     if (is_array($vals)) {
       if (isset($vals['configurationVersionNumber'])) {
         $this->configurationVersionNumber = $vals['configurationVersionNumber'];
+      }
+      if (isset($vals['systemParameters'])) {
+        $this->systemParameters = $vals['systemParameters'];
       }
     }
   }
@@ -997,6 +1181,26 @@ class ConfigurationVersion {
             $xfer += $input->skip($ftype);
           }
           break;
+        case 2:
+          if ($ftype == TType::MAP) {
+            $this->systemParameters = array();
+            $_size0 = 0;
+            $_ktype1 = 0;
+            $_vtype2 = 0;
+            $xfer += $input->readMapBegin($_ktype1, $_vtype2, $_size0);
+            for ($_i4 = 0; $_i4 < $_size0; ++$_i4)
+            {
+              $key5 = '';
+              $val6 = '';
+              $xfer += $input->readString($key5);
+              $xfer += $input->readString($val6);
+              $this->systemParameters[$key5] = $val6;
+            }
+            $xfer += $input->readMapEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
         default:
           $xfer += $input->skip($ftype);
           break;
@@ -1013,6 +1217,24 @@ class ConfigurationVersion {
     if ($this->configurationVersionNumber !== null) {
       $xfer += $output->writeFieldBegin('configurationVersionNumber', TType::I16, 1);
       $xfer += $output->writeI16($this->configurationVersionNumber);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->systemParameters !== null) {
+      if (!is_array($this->systemParameters)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('systemParameters', TType::MAP, 2);
+      {
+        $output->writeMapBegin(TType::STRING, TType::STRING, count($this->systemParameters));
+        {
+          foreach ($this->systemParameters as $kiter7 => $viter8)
+          {
+            $xfer += $output->writeString($kiter7);
+            $xfer += $output->writeString($viter8);
+          }
+        }
+        $output->writeMapEnd();
+      }
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();
@@ -1482,15 +1704,15 @@ class DataSyncProcessTask {
         case 2:
           if ($ftype == TType::LST) {
             $this->inputs = array();
-            $_size0 = 0;
-            $_etype3 = 0;
-            $xfer += $input->readListBegin($_etype3, $_size0);
-            for ($_i4 = 0; $_i4 < $_size0; ++$_i4)
+            $_size9 = 0;
+            $_etype12 = 0;
+            $xfer += $input->readListBegin($_etype12, $_size9);
+            for ($_i13 = 0; $_i13 < $_size9; ++$_i13)
             {
-              $elem5 = null;
-              $elem5 = new \com\boxalino\dataintelligence\api\thrift\DataSource();
-              $xfer += $elem5->read($input);
-              $this->inputs []= $elem5;
+              $elem14 = null;
+              $elem14 = new \com\boxalino\dataintelligence\api\thrift\DataSource();
+              $xfer += $elem14->read($input);
+              $this->inputs []= $elem14;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -1500,15 +1722,15 @@ class DataSyncProcessTask {
         case 3:
           if ($ftype == TType::LST) {
             $this->outputs = array();
-            $_size6 = 0;
-            $_etype9 = 0;
-            $xfer += $input->readListBegin($_etype9, $_size6);
-            for ($_i10 = 0; $_i10 < $_size6; ++$_i10)
+            $_size15 = 0;
+            $_etype18 = 0;
+            $xfer += $input->readListBegin($_etype18, $_size15);
+            for ($_i19 = 0; $_i19 < $_size15; ++$_i19)
             {
-              $elem11 = null;
-              $elem11 = new \com\boxalino\dataintelligence\api\thrift\DataExport();
-              $xfer += $elem11->read($input);
-              $this->outputs []= $elem11;
+              $elem20 = null;
+              $elem20 = new \com\boxalino\dataintelligence\api\thrift\DataExport();
+              $xfer += $elem20->read($input);
+              $this->outputs []= $elem20;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -1555,9 +1777,9 @@ class DataSyncProcessTask {
       {
         $output->writeListBegin(TType::STRUCT, count($this->inputs));
         {
-          foreach ($this->inputs as $iter12)
+          foreach ($this->inputs as $iter21)
           {
-            $xfer += $iter12->write($output);
+            $xfer += $iter21->write($output);
           }
         }
         $output->writeListEnd();
@@ -1572,9 +1794,9 @@ class DataSyncProcessTask {
       {
         $output->writeListBegin(TType::STRUCT, count($this->outputs));
         {
-          foreach ($this->outputs as $iter13)
+          foreach ($this->outputs as $iter22)
           {
-            $xfer += $iter13->write($output);
+            $xfer += $iter22->write($output);
           }
         }
         $output->writeListEnd();
@@ -2205,17 +2427,17 @@ class EmailCampaign {
         case 4:
           if ($ftype == TType::MAP) {
             $this->baseUrl = array();
-            $_size14 = 0;
-            $_ktype15 = 0;
-            $_vtype16 = 0;
-            $xfer += $input->readMapBegin($_ktype15, $_vtype16, $_size14);
-            for ($_i18 = 0; $_i18 < $_size14; ++$_i18)
+            $_size23 = 0;
+            $_ktype24 = 0;
+            $_vtype25 = 0;
+            $xfer += $input->readMapBegin($_ktype24, $_vtype25, $_size23);
+            for ($_i27 = 0; $_i27 < $_size23; ++$_i27)
             {
-              $key19 = 0;
-              $val20 = '';
-              $xfer += $input->readI32($key19);
-              $xfer += $input->readString($val20);
-              $this->baseUrl[$key19] = $val20;
+              $key28 = 0;
+              $val29 = '';
+              $xfer += $input->readI32($key28);
+              $xfer += $input->readString($val29);
+              $this->baseUrl[$key28] = $val29;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -2225,17 +2447,17 @@ class EmailCampaign {
         case 5:
           if ($ftype == TType::MAP) {
             $this->subject = array();
-            $_size21 = 0;
-            $_ktype22 = 0;
-            $_vtype23 = 0;
-            $xfer += $input->readMapBegin($_ktype22, $_vtype23, $_size21);
-            for ($_i25 = 0; $_i25 < $_size21; ++$_i25)
+            $_size30 = 0;
+            $_ktype31 = 0;
+            $_vtype32 = 0;
+            $xfer += $input->readMapBegin($_ktype31, $_vtype32, $_size30);
+            for ($_i34 = 0; $_i34 < $_size30; ++$_i34)
             {
-              $key26 = 0;
-              $val27 = '';
-              $xfer += $input->readI32($key26);
-              $xfer += $input->readString($val27);
-              $this->subject[$key26] = $val27;
+              $key35 = 0;
+              $val36 = '';
+              $xfer += $input->readI32($key35);
+              $xfer += $input->readString($val36);
+              $this->subject[$key35] = $val36;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -2245,17 +2467,17 @@ class EmailCampaign {
         case 6:
           if ($ftype == TType::MAP) {
             $this->firstSentence = array();
-            $_size28 = 0;
-            $_ktype29 = 0;
-            $_vtype30 = 0;
-            $xfer += $input->readMapBegin($_ktype29, $_vtype30, $_size28);
-            for ($_i32 = 0; $_i32 < $_size28; ++$_i32)
+            $_size37 = 0;
+            $_ktype38 = 0;
+            $_vtype39 = 0;
+            $xfer += $input->readMapBegin($_ktype38, $_vtype39, $_size37);
+            for ($_i41 = 0; $_i41 < $_size37; ++$_i41)
             {
-              $key33 = 0;
-              $val34 = '';
-              $xfer += $input->readI32($key33);
-              $xfer += $input->readString($val34);
-              $this->firstSentence[$key33] = $val34;
+              $key42 = 0;
+              $val43 = '';
+              $xfer += $input->readI32($key42);
+              $xfer += $input->readString($val43);
+              $this->firstSentence[$key42] = $val43;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -2265,17 +2487,17 @@ class EmailCampaign {
         case 7:
           if ($ftype == TType::MAP) {
             $this->legals = array();
-            $_size35 = 0;
-            $_ktype36 = 0;
-            $_vtype37 = 0;
-            $xfer += $input->readMapBegin($_ktype36, $_vtype37, $_size35);
-            for ($_i39 = 0; $_i39 < $_size35; ++$_i39)
+            $_size44 = 0;
+            $_ktype45 = 0;
+            $_vtype46 = 0;
+            $xfer += $input->readMapBegin($_ktype45, $_vtype46, $_size44);
+            for ($_i48 = 0; $_i48 < $_size44; ++$_i48)
             {
-              $key40 = 0;
-              $val41 = '';
-              $xfer += $input->readI32($key40);
-              $xfer += $input->readString($val41);
-              $this->legals[$key40] = $val41;
+              $key49 = 0;
+              $val50 = '';
+              $xfer += $input->readI32($key49);
+              $xfer += $input->readString($val50);
+              $this->legals[$key49] = $val50;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -2318,10 +2540,10 @@ class EmailCampaign {
       {
         $output->writeMapBegin(TType::I32, TType::STRING, count($this->baseUrl));
         {
-          foreach ($this->baseUrl as $kiter42 => $viter43)
+          foreach ($this->baseUrl as $kiter51 => $viter52)
           {
-            $xfer += $output->writeI32($kiter42);
-            $xfer += $output->writeString($viter43);
+            $xfer += $output->writeI32($kiter51);
+            $xfer += $output->writeString($viter52);
           }
         }
         $output->writeMapEnd();
@@ -2336,10 +2558,10 @@ class EmailCampaign {
       {
         $output->writeMapBegin(TType::I32, TType::STRING, count($this->subject));
         {
-          foreach ($this->subject as $kiter44 => $viter45)
+          foreach ($this->subject as $kiter53 => $viter54)
           {
-            $xfer += $output->writeI32($kiter44);
-            $xfer += $output->writeString($viter45);
+            $xfer += $output->writeI32($kiter53);
+            $xfer += $output->writeString($viter54);
           }
         }
         $output->writeMapEnd();
@@ -2354,10 +2576,10 @@ class EmailCampaign {
       {
         $output->writeMapBegin(TType::I32, TType::STRING, count($this->firstSentence));
         {
-          foreach ($this->firstSentence as $kiter46 => $viter47)
+          foreach ($this->firstSentence as $kiter55 => $viter56)
           {
-            $xfer += $output->writeI32($kiter46);
-            $xfer += $output->writeString($viter47);
+            $xfer += $output->writeI32($kiter55);
+            $xfer += $output->writeString($viter56);
           }
         }
         $output->writeMapEnd();
@@ -2372,10 +2594,10 @@ class EmailCampaign {
       {
         $output->writeMapBegin(TType::I32, TType::STRING, count($this->legals));
         {
-          foreach ($this->legals as $kiter48 => $viter49)
+          foreach ($this->legals as $kiter57 => $viter58)
           {
-            $xfer += $output->writeI32($kiter48);
-            $xfer += $output->writeString($viter49);
+            $xfer += $output->writeI32($kiter57);
+            $xfer += $output->writeString($viter58);
           }
         }
         $output->writeMapEnd();
@@ -2622,14 +2844,14 @@ class ChoiceVariant {
         case 3:
           if ($ftype == TType::LST) {
             $this->tags = array();
-            $_size50 = 0;
-            $_etype53 = 0;
-            $xfer += $input->readListBegin($_etype53, $_size50);
-            for ($_i54 = 0; $_i54 < $_size50; ++$_i54)
+            $_size59 = 0;
+            $_etype62 = 0;
+            $xfer += $input->readListBegin($_etype62, $_size59);
+            for ($_i63 = 0; $_i63 < $_size59; ++$_i63)
             {
-              $elem55 = null;
-              $xfer += $input->readString($elem55);
-              $this->tags []= $elem55;
+              $elem64 = null;
+              $xfer += $input->readString($elem64);
+              $this->tags []= $elem64;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -2639,27 +2861,27 @@ class ChoiceVariant {
         case 4:
           if ($ftype == TType::MAP) {
             $this->simpleParameters = array();
-            $_size56 = 0;
-            $_ktype57 = 0;
-            $_vtype58 = 0;
-            $xfer += $input->readMapBegin($_ktype57, $_vtype58, $_size56);
-            for ($_i60 = 0; $_i60 < $_size56; ++$_i60)
+            $_size65 = 0;
+            $_ktype66 = 0;
+            $_vtype67 = 0;
+            $xfer += $input->readMapBegin($_ktype66, $_vtype67, $_size65);
+            for ($_i69 = 0; $_i69 < $_size65; ++$_i69)
             {
-              $key61 = '';
-              $val62 = array();
-              $xfer += $input->readString($key61);
-              $val62 = array();
-              $_size63 = 0;
-              $_etype66 = 0;
-              $xfer += $input->readListBegin($_etype66, $_size63);
-              for ($_i67 = 0; $_i67 < $_size63; ++$_i67)
+              $key70 = '';
+              $val71 = array();
+              $xfer += $input->readString($key70);
+              $val71 = array();
+              $_size72 = 0;
+              $_etype75 = 0;
+              $xfer += $input->readListBegin($_etype75, $_size72);
+              for ($_i76 = 0; $_i76 < $_size72; ++$_i76)
               {
-                $elem68 = null;
-                $xfer += $input->readString($elem68);
-                $val62 []= $elem68;
+                $elem77 = null;
+                $xfer += $input->readString($elem77);
+                $val71 []= $elem77;
               }
               $xfer += $input->readListEnd();
-              $this->simpleParameters[$key61] = $val62;
+              $this->simpleParameters[$key70] = $val71;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -2669,40 +2891,40 @@ class ChoiceVariant {
         case 5:
           if ($ftype == TType::MAP) {
             $this->localizedParemeters = array();
-            $_size69 = 0;
-            $_ktype70 = 0;
-            $_vtype71 = 0;
-            $xfer += $input->readMapBegin($_ktype70, $_vtype71, $_size69);
-            for ($_i73 = 0; $_i73 < $_size69; ++$_i73)
+            $_size78 = 0;
+            $_ktype79 = 0;
+            $_vtype80 = 0;
+            $xfer += $input->readMapBegin($_ktype79, $_vtype80, $_size78);
+            for ($_i82 = 0; $_i82 < $_size78; ++$_i82)
             {
-              $key74 = '';
-              $val75 = array();
-              $xfer += $input->readString($key74);
-              $val75 = array();
-              $_size76 = 0;
-              $_etype79 = 0;
-              $xfer += $input->readListBegin($_etype79, $_size76);
-              for ($_i80 = 0; $_i80 < $_size76; ++$_i80)
+              $key83 = '';
+              $val84 = array();
+              $xfer += $input->readString($key83);
+              $val84 = array();
+              $_size85 = 0;
+              $_etype88 = 0;
+              $xfer += $input->readListBegin($_etype88, $_size85);
+              for ($_i89 = 0; $_i89 < $_size85; ++$_i89)
               {
-                $elem81 = null;
-                $elem81 = array();
-                $_size82 = 0;
-                $_ktype83 = 0;
-                $_vtype84 = 0;
-                $xfer += $input->readMapBegin($_ktype83, $_vtype84, $_size82);
-                for ($_i86 = 0; $_i86 < $_size82; ++$_i86)
+                $elem90 = null;
+                $elem90 = array();
+                $_size91 = 0;
+                $_ktype92 = 0;
+                $_vtype93 = 0;
+                $xfer += $input->readMapBegin($_ktype92, $_vtype93, $_size91);
+                for ($_i95 = 0; $_i95 < $_size91; ++$_i95)
                 {
-                  $key87 = 0;
-                  $val88 = '';
-                  $xfer += $input->readI32($key87);
-                  $xfer += $input->readString($val88);
-                  $elem81[$key87] = $val88;
+                  $key96 = 0;
+                  $val97 = '';
+                  $xfer += $input->readI32($key96);
+                  $xfer += $input->readString($val97);
+                  $elem90[$key96] = $val97;
                 }
                 $xfer += $input->readMapEnd();
-                $val75 []= $elem81;
+                $val84 []= $elem90;
               }
               $xfer += $input->readListEnd();
-              $this->localizedParemeters[$key74] = $val75;
+              $this->localizedParemeters[$key83] = $val84;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -2740,9 +2962,9 @@ class ChoiceVariant {
       {
         $output->writeListBegin(TType::STRING, count($this->tags));
         {
-          foreach ($this->tags as $iter89)
+          foreach ($this->tags as $iter98)
           {
-            $xfer += $output->writeString($iter89);
+            $xfer += $output->writeString($iter98);
           }
         }
         $output->writeListEnd();
@@ -2757,15 +2979,15 @@ class ChoiceVariant {
       {
         $output->writeMapBegin(TType::STRING, TType::LST, count($this->simpleParameters));
         {
-          foreach ($this->simpleParameters as $kiter90 => $viter91)
+          foreach ($this->simpleParameters as $kiter99 => $viter100)
           {
-            $xfer += $output->writeString($kiter90);
+            $xfer += $output->writeString($kiter99);
             {
-              $output->writeListBegin(TType::STRING, count($viter91));
+              $output->writeListBegin(TType::STRING, count($viter100));
               {
-                foreach ($viter91 as $iter92)
+                foreach ($viter100 as $iter101)
                 {
-                  $xfer += $output->writeString($iter92);
+                  $xfer += $output->writeString($iter101);
                 }
               }
               $output->writeListEnd();
@@ -2784,21 +3006,21 @@ class ChoiceVariant {
       {
         $output->writeMapBegin(TType::STRING, TType::LST, count($this->localizedParemeters));
         {
-          foreach ($this->localizedParemeters as $kiter93 => $viter94)
+          foreach ($this->localizedParemeters as $kiter102 => $viter103)
           {
-            $xfer += $output->writeString($kiter93);
+            $xfer += $output->writeString($kiter102);
             {
-              $output->writeListBegin(TType::MAP, count($viter94));
+              $output->writeListBegin(TType::MAP, count($viter103));
               {
-                foreach ($viter94 as $iter95)
+                foreach ($viter103 as $iter104)
                 {
                   {
-                    $output->writeMapBegin(TType::I32, TType::STRING, count($iter95));
+                    $output->writeMapBegin(TType::I32, TType::STRING, count($iter104));
                     {
-                      foreach ($iter95 as $kiter96 => $viter97)
+                      foreach ($iter104 as $kiter105 => $viter106)
                       {
-                        $xfer += $output->writeI32($kiter96);
-                        $xfer += $output->writeString($viter97);
+                        $xfer += $output->writeI32($kiter105);
+                        $xfer += $output->writeString($viter106);
                       }
                     }
                     $output->writeMapEnd();
@@ -3172,17 +3394,17 @@ class ReferenceCSVFileDescriptor {
         case 2:
           if ($ftype == TType::MAP) {
             $this->fileColumns = array();
-            $_size98 = 0;
-            $_ktype99 = 0;
-            $_vtype100 = 0;
-            $xfer += $input->readMapBegin($_ktype99, $_vtype100, $_size98);
-            for ($_i102 = 0; $_i102 < $_size98; ++$_i102)
+            $_size107 = 0;
+            $_ktype108 = 0;
+            $_vtype109 = 0;
+            $xfer += $input->readMapBegin($_ktype108, $_vtype109, $_size107);
+            for ($_i111 = 0; $_i111 < $_size107; ++$_i111)
             {
-              $key103 = '';
-              $val104 = 0;
-              $xfer += $input->readString($key103);
-              $xfer += $input->readI32($val104);
-              $this->fileColumns[$key103] = $val104;
+              $key112 = '';
+              $val113 = 0;
+              $xfer += $input->readString($key112);
+              $xfer += $input->readI32($val113);
+              $this->fileColumns[$key112] = $val113;
             }
             $xfer += $input->readMapEnd();
           } else {
@@ -3222,10 +3444,10 @@ class ReferenceCSVFileDescriptor {
       {
         $output->writeMapBegin(TType::STRING, TType::I32, count($this->fileColumns));
         {
-          foreach ($this->fileColumns as $kiter105 => $viter106)
+          foreach ($this->fileColumns as $kiter114 => $viter115)
           {
-            $xfer += $output->writeString($kiter105);
-            $xfer += $output->writeI32($viter106);
+            $xfer += $output->writeString($kiter114);
+            $xfer += $output->writeI32($viter115);
           }
         }
         $output->writeMapEnd();
@@ -3737,6 +3959,27 @@ class ReportDimension {
    * @var string
    */
   public $identifier = null;
+  /**
+   * optional, an additional parameter
+   * Use cases:
+   * - for hierarchical product properties for the type PURCHASED_PRODUCT_PROPERTY (e.g.: "categories") provide the level of depth to consider: "0" : first level, "1" : second level, ...
+   * in the response, this parameter will be replaced with the category id (label will provide the bread crumb as value : "cat1 >> cat2 >> cat3", but the id of this cat3 will be provided in the param1)
+   * 
+   * @var string
+   */
+  public $param1 = null;
+  /**
+   * optional, an additional parameter (planned, but not used until now)
+   * 
+   * @var string
+   */
+  public $param2 = null;
+  /**
+   * optional, an additional parameter (planned, but not used until now)
+   * 
+   * @var string
+   */
+  public $param3 = null;
 
   public function __construct($vals=null) {
     if (!isset(self::$_TSPEC)) {
@@ -3749,6 +3992,18 @@ class ReportDimension {
           'var' => 'identifier',
           'type' => TType::STRING,
           ),
+        3 => array(
+          'var' => 'param1',
+          'type' => TType::STRING,
+          ),
+        4 => array(
+          'var' => 'param2',
+          'type' => TType::STRING,
+          ),
+        5 => array(
+          'var' => 'param3',
+          'type' => TType::STRING,
+          ),
         );
     }
     if (is_array($vals)) {
@@ -3757,6 +4012,15 @@ class ReportDimension {
       }
       if (isset($vals['identifier'])) {
         $this->identifier = $vals['identifier'];
+      }
+      if (isset($vals['param1'])) {
+        $this->param1 = $vals['param1'];
+      }
+      if (isset($vals['param2'])) {
+        $this->param2 = $vals['param2'];
+      }
+      if (isset($vals['param3'])) {
+        $this->param3 = $vals['param3'];
       }
     }
   }
@@ -3794,6 +4058,27 @@ class ReportDimension {
             $xfer += $input->skip($ftype);
           }
           break;
+        case 3:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->param1);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 4:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->param2);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 5:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->param3);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
         default:
           $xfer += $input->skip($ftype);
           break;
@@ -3815,6 +4100,21 @@ class ReportDimension {
     if ($this->identifier !== null) {
       $xfer += $output->writeFieldBegin('identifier', TType::STRING, 2);
       $xfer += $output->writeString($this->identifier);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->param1 !== null) {
+      $xfer += $output->writeFieldBegin('param1', TType::STRING, 3);
+      $xfer += $output->writeString($this->param1);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->param2 !== null) {
+      $xfer += $output->writeFieldBegin('param2', TType::STRING, 4);
+      $xfer += $output->writeString($this->param2);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->param3 !== null) {
+      $xfer += $output->writeFieldBegin('param3', TType::STRING, 5);
+      $xfer += $output->writeString($this->param3);
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();
@@ -4008,15 +4308,15 @@ class DimensionCondition {
         case 2:
           if ($ftype == TType::LST) {
             $this->conditionTargets = array();
-            $_size107 = 0;
-            $_etype110 = 0;
-            $xfer += $input->readListBegin($_etype110, $_size107);
-            for ($_i111 = 0; $_i111 < $_size107; ++$_i111)
+            $_size116 = 0;
+            $_etype119 = 0;
+            $xfer += $input->readListBegin($_etype119, $_size116);
+            for ($_i120 = 0; $_i120 < $_size116; ++$_i120)
             {
-              $elem112 = null;
-              $elem112 = new \com\boxalino\dataintelligence\api\thrift\ConditionTarget();
-              $xfer += $elem112->read($input);
-              $this->conditionTargets []= $elem112;
+              $elem121 = null;
+              $elem121 = new \com\boxalino\dataintelligence\api\thrift\ConditionTarget();
+              $xfer += $elem121->read($input);
+              $this->conditionTargets []= $elem121;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -4052,9 +4352,9 @@ class DimensionCondition {
       {
         $output->writeListBegin(TType::STRUCT, count($this->conditionTargets));
         {
-          foreach ($this->conditionTargets as $iter113)
+          foreach ($this->conditionTargets as $iter122)
           {
-            $xfer += $iter113->write($output);
+            $xfer += $iter122->write($output);
           }
         }
         $output->writeListEnd();
@@ -4146,15 +4446,15 @@ class MetricCondition {
         case 2:
           if ($ftype == TType::LST) {
             $this->conditionTargets = array();
-            $_size114 = 0;
-            $_etype117 = 0;
-            $xfer += $input->readListBegin($_etype117, $_size114);
-            for ($_i118 = 0; $_i118 < $_size114; ++$_i118)
+            $_size123 = 0;
+            $_etype126 = 0;
+            $xfer += $input->readListBegin($_etype126, $_size123);
+            for ($_i127 = 0; $_i127 < $_size123; ++$_i127)
             {
-              $elem119 = null;
-              $elem119 = new \com\boxalino\dataintelligence\api\thrift\ConditionTarget();
-              $xfer += $elem119->read($input);
-              $this->conditionTargets []= $elem119;
+              $elem128 = null;
+              $elem128 = new \com\boxalino\dataintelligence\api\thrift\ConditionTarget();
+              $xfer += $elem128->read($input);
+              $this->conditionTargets []= $elem128;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -4190,9 +4490,9 @@ class MetricCondition {
       {
         $output->writeListBegin(TType::STRUCT, count($this->conditionTargets));
         {
-          foreach ($this->conditionTargets as $iter120)
+          foreach ($this->conditionTargets as $iter129)
           {
-            $xfer += $iter120->write($output);
+            $xfer += $iter129->write($output);
           }
         }
         $output->writeListEnd();
@@ -4280,15 +4580,15 @@ class ReportFilter {
         case 1:
           if ($ftype == TType::LST) {
             $this->dimensionConditions = array();
-            $_size121 = 0;
-            $_etype124 = 0;
-            $xfer += $input->readListBegin($_etype124, $_size121);
-            for ($_i125 = 0; $_i125 < $_size121; ++$_i125)
+            $_size130 = 0;
+            $_etype133 = 0;
+            $xfer += $input->readListBegin($_etype133, $_size130);
+            for ($_i134 = 0; $_i134 < $_size130; ++$_i134)
             {
-              $elem126 = null;
-              $elem126 = new \com\boxalino\dataintelligence\api\thrift\DimensionCondition();
-              $xfer += $elem126->read($input);
-              $this->dimensionConditions []= $elem126;
+              $elem135 = null;
+              $elem135 = new \com\boxalino\dataintelligence\api\thrift\DimensionCondition();
+              $xfer += $elem135->read($input);
+              $this->dimensionConditions []= $elem135;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -4298,15 +4598,15 @@ class ReportFilter {
         case 2:
           if ($ftype == TType::LST) {
             $this->metricConditions = array();
-            $_size127 = 0;
-            $_etype130 = 0;
-            $xfer += $input->readListBegin($_etype130, $_size127);
-            for ($_i131 = 0; $_i131 < $_size127; ++$_i131)
+            $_size136 = 0;
+            $_etype139 = 0;
+            $xfer += $input->readListBegin($_etype139, $_size136);
+            for ($_i140 = 0; $_i140 < $_size136; ++$_i140)
             {
-              $elem132 = null;
-              $elem132 = new \com\boxalino\dataintelligence\api\thrift\MetricCondition();
-              $xfer += $elem132->read($input);
-              $this->metricConditions []= $elem132;
+              $elem141 = null;
+              $elem141 = new \com\boxalino\dataintelligence\api\thrift\MetricCondition();
+              $xfer += $elem141->read($input);
+              $this->metricConditions []= $elem141;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -4334,9 +4634,9 @@ class ReportFilter {
       {
         $output->writeListBegin(TType::STRUCT, count($this->dimensionConditions));
         {
-          foreach ($this->dimensionConditions as $iter133)
+          foreach ($this->dimensionConditions as $iter142)
           {
-            $xfer += $iter133->write($output);
+            $xfer += $iter142->write($output);
           }
         }
         $output->writeListEnd();
@@ -4351,9 +4651,9 @@ class ReportFilter {
       {
         $output->writeListBegin(TType::STRUCT, count($this->metricConditions));
         {
-          foreach ($this->metricConditions as $iter134)
+          foreach ($this->metricConditions as $iter143)
           {
-            $xfer += $iter134->write($output);
+            $xfer += $iter143->write($output);
           }
         }
         $output->writeListEnd();
@@ -4598,15 +4898,15 @@ class ChoiceReportRequest {
         case 3:
           if ($ftype == TType::LST) {
             $this->metrics = array();
-            $_size135 = 0;
-            $_etype138 = 0;
-            $xfer += $input->readListBegin($_etype138, $_size135);
-            for ($_i139 = 0; $_i139 < $_size135; ++$_i139)
+            $_size144 = 0;
+            $_etype147 = 0;
+            $xfer += $input->readListBegin($_etype147, $_size144);
+            for ($_i148 = 0; $_i148 < $_size144; ++$_i148)
             {
-              $elem140 = null;
-              $elem140 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
-              $xfer += $elem140->read($input);
-              $this->metrics []= $elem140;
+              $elem149 = null;
+              $elem149 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
+              $xfer += $elem149->read($input);
+              $this->metrics []= $elem149;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -4616,14 +4916,14 @@ class ChoiceReportRequest {
         case 4:
           if ($ftype == TType::LST) {
             $this->choiceVariantIds = array();
-            $_size141 = 0;
-            $_etype144 = 0;
-            $xfer += $input->readListBegin($_etype144, $_size141);
-            for ($_i145 = 0; $_i145 < $_size141; ++$_i145)
+            $_size150 = 0;
+            $_etype153 = 0;
+            $xfer += $input->readListBegin($_etype153, $_size150);
+            for ($_i154 = 0; $_i154 < $_size150; ++$_i154)
             {
-              $elem146 = null;
-              $xfer += $input->readString($elem146);
-              $this->choiceVariantIds []= $elem146;
+              $elem155 = null;
+              $xfer += $input->readString($elem155);
+              $this->choiceVariantIds []= $elem155;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -4648,15 +4948,15 @@ class ChoiceReportRequest {
         case 7:
           if ($ftype == TType::LST) {
             $this->funnelMetrics = array();
-            $_size147 = 0;
-            $_etype150 = 0;
-            $xfer += $input->readListBegin($_etype150, $_size147);
-            for ($_i151 = 0; $_i151 < $_size147; ++$_i151)
+            $_size156 = 0;
+            $_etype159 = 0;
+            $xfer += $input->readListBegin($_etype159, $_size156);
+            for ($_i160 = 0; $_i160 < $_size156; ++$_i160)
             {
-              $elem152 = null;
-              $elem152 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
-              $xfer += $elem152->read($input);
-              $this->funnelMetrics []= $elem152;
+              $elem161 = null;
+              $elem161 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
+              $xfer += $elem161->read($input);
+              $this->funnelMetrics []= $elem161;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -4666,15 +4966,15 @@ class ChoiceReportRequest {
         case 8:
           if ($ftype == TType::LST) {
             $this->sortBys = array();
-            $_size153 = 0;
-            $_etype156 = 0;
-            $xfer += $input->readListBegin($_etype156, $_size153);
-            for ($_i157 = 0; $_i157 < $_size153; ++$_i157)
+            $_size162 = 0;
+            $_etype165 = 0;
+            $xfer += $input->readListBegin($_etype165, $_size162);
+            for ($_i166 = 0; $_i166 < $_size162; ++$_i166)
             {
-              $elem158 = null;
-              $elem158 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
-              $xfer += $elem158->read($input);
-              $this->sortBys []= $elem158;
+              $elem167 = null;
+              $elem167 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
+              $xfer += $elem167->read($input);
+              $this->sortBys []= $elem167;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -4744,9 +5044,9 @@ class ChoiceReportRequest {
       {
         $output->writeListBegin(TType::STRUCT, count($this->metrics));
         {
-          foreach ($this->metrics as $iter159)
+          foreach ($this->metrics as $iter168)
           {
-            $xfer += $iter159->write($output);
+            $xfer += $iter168->write($output);
           }
         }
         $output->writeListEnd();
@@ -4761,9 +5061,9 @@ class ChoiceReportRequest {
       {
         $output->writeListBegin(TType::STRING, count($this->choiceVariantIds));
         {
-          foreach ($this->choiceVariantIds as $iter160)
+          foreach ($this->choiceVariantIds as $iter169)
           {
-            $xfer += $output->writeString($iter160);
+            $xfer += $output->writeString($iter169);
           }
         }
         $output->writeListEnd();
@@ -4791,9 +5091,9 @@ class ChoiceReportRequest {
       {
         $output->writeListBegin(TType::STRUCT, count($this->funnelMetrics));
         {
-          foreach ($this->funnelMetrics as $iter161)
+          foreach ($this->funnelMetrics as $iter170)
           {
-            $xfer += $iter161->write($output);
+            $xfer += $iter170->write($output);
           }
         }
         $output->writeListEnd();
@@ -4808,9 +5108,9 @@ class ChoiceReportRequest {
       {
         $output->writeListBegin(TType::STRUCT, count($this->sortBys));
         {
-          foreach ($this->sortBys as $iter162)
+          foreach ($this->sortBys as $iter171)
           {
-            $xfer += $iter162->write($output);
+            $xfer += $iter171->write($output);
           }
         }
         $output->writeListEnd();
@@ -5312,15 +5612,15 @@ class ReportResultKeyValues {
         case 2:
           if ($ftype == TType::LST) {
             $this->values = array();
-            $_size163 = 0;
-            $_etype166 = 0;
-            $xfer += $input->readListBegin($_etype166, $_size163);
-            for ($_i167 = 0; $_i167 < $_size163; ++$_i167)
+            $_size172 = 0;
+            $_etype175 = 0;
+            $xfer += $input->readListBegin($_etype175, $_size172);
+            for ($_i176 = 0; $_i176 < $_size172; ++$_i176)
             {
-              $elem168 = null;
-              $elem168 = new \com\boxalino\dataintelligence\api\thrift\ReportMetricValue();
-              $xfer += $elem168->read($input);
-              $this->values []= $elem168;
+              $elem177 = null;
+              $elem177 = new \com\boxalino\dataintelligence\api\thrift\ReportMetricValue();
+              $xfer += $elem177->read($input);
+              $this->values []= $elem177;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -5356,9 +5656,9 @@ class ReportResultKeyValues {
       {
         $output->writeListBegin(TType::STRUCT, count($this->values));
         {
-          foreach ($this->values as $iter169)
+          foreach ($this->values as $iter178)
           {
-            $xfer += $iter169->write($output);
+            $xfer += $iter178->write($output);
           }
         }
         $output->writeListEnd();
@@ -5450,15 +5750,15 @@ class ReportResultValues {
         case 2:
           if ($ftype == TType::LST) {
             $this->values = array();
-            $_size170 = 0;
-            $_etype173 = 0;
-            $xfer += $input->readListBegin($_etype173, $_size170);
-            for ($_i174 = 0; $_i174 < $_size170; ++$_i174)
+            $_size179 = 0;
+            $_etype182 = 0;
+            $xfer += $input->readListBegin($_etype182, $_size179);
+            for ($_i183 = 0; $_i183 < $_size179; ++$_i183)
             {
-              $elem175 = null;
-              $elem175 = new \com\boxalino\dataintelligence\api\thrift\ReportResultKeyValues();
-              $xfer += $elem175->read($input);
-              $this->values []= $elem175;
+              $elem184 = null;
+              $elem184 = new \com\boxalino\dataintelligence\api\thrift\ReportResultKeyValues();
+              $xfer += $elem184->read($input);
+              $this->values []= $elem184;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -5491,9 +5791,9 @@ class ReportResultValues {
       {
         $output->writeListBegin(TType::STRUCT, count($this->values));
         {
-          foreach ($this->values as $iter176)
+          foreach ($this->values as $iter185)
           {
-            $xfer += $iter176->write($output);
+            $xfer += $iter185->write($output);
           }
         }
         $output->writeListEnd();
@@ -5578,15 +5878,15 @@ class ChoiceReport {
         case 1:
           if ($ftype == TType::LST) {
             $this->results = array();
-            $_size177 = 0;
-            $_etype180 = 0;
-            $xfer += $input->readListBegin($_etype180, $_size177);
-            for ($_i181 = 0; $_i181 < $_size177; ++$_i181)
+            $_size186 = 0;
+            $_etype189 = 0;
+            $xfer += $input->readListBegin($_etype189, $_size186);
+            for ($_i190 = 0; $_i190 < $_size186; ++$_i190)
             {
-              $elem182 = null;
-              $elem182 = new \com\boxalino\dataintelligence\api\thrift\ChoiceReportResult();
-              $xfer += $elem182->read($input);
-              $this->results []= $elem182;
+              $elem191 = null;
+              $elem191 = new \com\boxalino\dataintelligence\api\thrift\ChoiceReportResult();
+              $xfer += $elem191->read($input);
+              $this->results []= $elem191;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -5622,9 +5922,9 @@ class ChoiceReport {
       {
         $output->writeListBegin(TType::STRUCT, count($this->results));
         {
-          foreach ($this->results as $iter183)
+          foreach ($this->results as $iter192)
           {
-            $xfer += $iter183->write($output);
+            $xfer += $iter192->write($output);
           }
         }
         $output->writeListEnd();
@@ -5822,15 +6122,15 @@ class TransactionReportRequest {
         case 1:
           if ($ftype == TType::LST) {
             $this->metrics = array();
-            $_size184 = 0;
-            $_etype187 = 0;
-            $xfer += $input->readListBegin($_etype187, $_size184);
-            for ($_i188 = 0; $_i188 < $_size184; ++$_i188)
+            $_size193 = 0;
+            $_etype196 = 0;
+            $xfer += $input->readListBegin($_etype196, $_size193);
+            for ($_i197 = 0; $_i197 < $_size193; ++$_i197)
             {
-              $elem189 = null;
-              $elem189 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
-              $xfer += $elem189->read($input);
-              $this->metrics []= $elem189;
+              $elem198 = null;
+              $elem198 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
+              $xfer += $elem198->read($input);
+              $this->metrics []= $elem198;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -5840,15 +6140,15 @@ class TransactionReportRequest {
         case 2:
           if ($ftype == TType::LST) {
             $this->dimensions = array();
-            $_size190 = 0;
-            $_etype193 = 0;
-            $xfer += $input->readListBegin($_etype193, $_size190);
-            for ($_i194 = 0; $_i194 < $_size190; ++$_i194)
+            $_size199 = 0;
+            $_etype202 = 0;
+            $xfer += $input->readListBegin($_etype202, $_size199);
+            for ($_i203 = 0; $_i203 < $_size199; ++$_i203)
             {
-              $elem195 = null;
-              $elem195 = new \com\boxalino\dataintelligence\api\thrift\ReportDimension();
-              $xfer += $elem195->read($input);
-              $this->dimensions []= $elem195;
+              $elem204 = null;
+              $elem204 = new \com\boxalino\dataintelligence\api\thrift\ReportDimension();
+              $xfer += $elem204->read($input);
+              $this->dimensions []= $elem204;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -5874,15 +6174,15 @@ class TransactionReportRequest {
         case 5:
           if ($ftype == TType::LST) {
             $this->sortBys = array();
-            $_size196 = 0;
-            $_etype199 = 0;
-            $xfer += $input->readListBegin($_etype199, $_size196);
-            for ($_i200 = 0; $_i200 < $_size196; ++$_i200)
+            $_size205 = 0;
+            $_etype208 = 0;
+            $xfer += $input->readListBegin($_etype208, $_size205);
+            for ($_i209 = 0; $_i209 < $_size205; ++$_i209)
             {
-              $elem201 = null;
-              $elem201 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
-              $xfer += $elem201->read($input);
-              $this->sortBys []= $elem201;
+              $elem210 = null;
+              $elem210 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
+              $xfer += $elem210->read($input);
+              $this->sortBys []= $elem210;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -5939,9 +6239,9 @@ class TransactionReportRequest {
       {
         $output->writeListBegin(TType::STRUCT, count($this->metrics));
         {
-          foreach ($this->metrics as $iter202)
+          foreach ($this->metrics as $iter211)
           {
-            $xfer += $iter202->write($output);
+            $xfer += $iter211->write($output);
           }
         }
         $output->writeListEnd();
@@ -5956,9 +6256,9 @@ class TransactionReportRequest {
       {
         $output->writeListBegin(TType::STRUCT, count($this->dimensions));
         {
-          foreach ($this->dimensions as $iter203)
+          foreach ($this->dimensions as $iter212)
           {
-            $xfer += $iter203->write($output);
+            $xfer += $iter212->write($output);
           }
         }
         $output->writeListEnd();
@@ -5989,9 +6289,9 @@ class TransactionReportRequest {
       {
         $output->writeListBegin(TType::STRUCT, count($this->sortBys));
         {
-          foreach ($this->sortBys as $iter204)
+          foreach ($this->sortBys as $iter213)
           {
-            $xfer += $iter204->write($output);
+            $xfer += $iter213->write($output);
           }
         }
         $output->writeListEnd();
@@ -6100,15 +6400,15 @@ class TransactionReportResult {
         case 1:
           if ($ftype == TType::LST) {
             $this->dimensionValues = array();
-            $_size205 = 0;
-            $_etype208 = 0;
-            $xfer += $input->readListBegin($_etype208, $_size205);
-            for ($_i209 = 0; $_i209 < $_size205; ++$_i209)
+            $_size214 = 0;
+            $_etype217 = 0;
+            $xfer += $input->readListBegin($_etype217, $_size214);
+            for ($_i218 = 0; $_i218 < $_size214; ++$_i218)
             {
-              $elem210 = null;
-              $elem210 = new \com\boxalino\dataintelligence\api\thrift\ReportDimensionValue();
-              $xfer += $elem210->read($input);
-              $this->dimensionValues []= $elem210;
+              $elem219 = null;
+              $elem219 = new \com\boxalino\dataintelligence\api\thrift\ReportDimensionValue();
+              $xfer += $elem219->read($input);
+              $this->dimensionValues []= $elem219;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -6144,9 +6444,9 @@ class TransactionReportResult {
       {
         $output->writeListBegin(TType::STRUCT, count($this->dimensionValues));
         {
-          foreach ($this->dimensionValues as $iter211)
+          foreach ($this->dimensionValues as $iter220)
           {
-            $xfer += $iter211->write($output);
+            $xfer += $iter220->write($output);
           }
         }
         $output->writeListEnd();
@@ -6239,15 +6539,15 @@ class TransactionReport {
         case 1:
           if ($ftype == TType::LST) {
             $this->results = array();
-            $_size212 = 0;
-            $_etype215 = 0;
-            $xfer += $input->readListBegin($_etype215, $_size212);
-            for ($_i216 = 0; $_i216 < $_size212; ++$_i216)
+            $_size221 = 0;
+            $_etype224 = 0;
+            $xfer += $input->readListBegin($_etype224, $_size221);
+            for ($_i225 = 0; $_i225 < $_size221; ++$_i225)
             {
-              $elem217 = null;
-              $elem217 = new \com\boxalino\dataintelligence\api\thrift\TransactionReportResult();
-              $xfer += $elem217->read($input);
-              $this->results []= $elem217;
+              $elem226 = null;
+              $elem226 = new \com\boxalino\dataintelligence\api\thrift\TransactionReportResult();
+              $xfer += $elem226->read($input);
+              $this->results []= $elem226;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -6283,9 +6583,9 @@ class TransactionReport {
       {
         $output->writeListBegin(TType::STRUCT, count($this->results));
         {
-          foreach ($this->results as $iter218)
+          foreach ($this->results as $iter227)
           {
-            $xfer += $iter218->write($output);
+            $xfer += $iter227->write($output);
           }
         }
         $output->writeListEnd();
@@ -6466,15 +6766,15 @@ class BehaviorReportRequest {
         case 1:
           if ($ftype == TType::LST) {
             $this->metrics = array();
-            $_size219 = 0;
-            $_etype222 = 0;
-            $xfer += $input->readListBegin($_etype222, $_size219);
-            for ($_i223 = 0; $_i223 < $_size219; ++$_i223)
+            $_size228 = 0;
+            $_etype231 = 0;
+            $xfer += $input->readListBegin($_etype231, $_size228);
+            for ($_i232 = 0; $_i232 < $_size228; ++$_i232)
             {
-              $elem224 = null;
-              $elem224 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
-              $xfer += $elem224->read($input);
-              $this->metrics []= $elem224;
+              $elem233 = null;
+              $elem233 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
+              $xfer += $elem233->read($input);
+              $this->metrics []= $elem233;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -6484,15 +6784,15 @@ class BehaviorReportRequest {
         case 2:
           if ($ftype == TType::LST) {
             $this->dimensions = array();
-            $_size225 = 0;
-            $_etype228 = 0;
-            $xfer += $input->readListBegin($_etype228, $_size225);
-            for ($_i229 = 0; $_i229 < $_size225; ++$_i229)
+            $_size234 = 0;
+            $_etype237 = 0;
+            $xfer += $input->readListBegin($_etype237, $_size234);
+            for ($_i238 = 0; $_i238 < $_size234; ++$_i238)
             {
-              $elem230 = null;
-              $elem230 = new \com\boxalino\dataintelligence\api\thrift\ReportDimension();
-              $xfer += $elem230->read($input);
-              $this->dimensions []= $elem230;
+              $elem239 = null;
+              $elem239 = new \com\boxalino\dataintelligence\api\thrift\ReportDimension();
+              $xfer += $elem239->read($input);
+              $this->dimensions []= $elem239;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -6510,15 +6810,15 @@ class BehaviorReportRequest {
         case 4:
           if ($ftype == TType::LST) {
             $this->sortBys = array();
-            $_size231 = 0;
-            $_etype234 = 0;
-            $xfer += $input->readListBegin($_etype234, $_size231);
-            for ($_i235 = 0; $_i235 < $_size231; ++$_i235)
+            $_size240 = 0;
+            $_etype243 = 0;
+            $xfer += $input->readListBegin($_etype243, $_size240);
+            for ($_i244 = 0; $_i244 < $_size240; ++$_i244)
             {
-              $elem236 = null;
-              $elem236 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
-              $xfer += $elem236->read($input);
-              $this->sortBys []= $elem236;
+              $elem245 = null;
+              $elem245 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
+              $xfer += $elem245->read($input);
+              $this->sortBys []= $elem245;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -6575,9 +6875,9 @@ class BehaviorReportRequest {
       {
         $output->writeListBegin(TType::STRUCT, count($this->metrics));
         {
-          foreach ($this->metrics as $iter237)
+          foreach ($this->metrics as $iter246)
           {
-            $xfer += $iter237->write($output);
+            $xfer += $iter246->write($output);
           }
         }
         $output->writeListEnd();
@@ -6592,9 +6892,9 @@ class BehaviorReportRequest {
       {
         $output->writeListBegin(TType::STRUCT, count($this->dimensions));
         {
-          foreach ($this->dimensions as $iter238)
+          foreach ($this->dimensions as $iter247)
           {
-            $xfer += $iter238->write($output);
+            $xfer += $iter247->write($output);
           }
         }
         $output->writeListEnd();
@@ -6617,9 +6917,9 @@ class BehaviorReportRequest {
       {
         $output->writeListBegin(TType::STRUCT, count($this->sortBys));
         {
-          foreach ($this->sortBys as $iter239)
+          foreach ($this->sortBys as $iter248)
           {
-            $xfer += $iter239->write($output);
+            $xfer += $iter248->write($output);
           }
         }
         $output->writeListEnd();
@@ -6728,15 +7028,15 @@ class BehaviorReportResult {
         case 1:
           if ($ftype == TType::LST) {
             $this->dimensionValues = array();
-            $_size240 = 0;
-            $_etype243 = 0;
-            $xfer += $input->readListBegin($_etype243, $_size240);
-            for ($_i244 = 0; $_i244 < $_size240; ++$_i244)
+            $_size249 = 0;
+            $_etype252 = 0;
+            $xfer += $input->readListBegin($_etype252, $_size249);
+            for ($_i253 = 0; $_i253 < $_size249; ++$_i253)
             {
-              $elem245 = null;
-              $elem245 = new \com\boxalino\dataintelligence\api\thrift\ReportDimensionValue();
-              $xfer += $elem245->read($input);
-              $this->dimensionValues []= $elem245;
+              $elem254 = null;
+              $elem254 = new \com\boxalino\dataintelligence\api\thrift\ReportDimensionValue();
+              $xfer += $elem254->read($input);
+              $this->dimensionValues []= $elem254;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -6772,9 +7072,9 @@ class BehaviorReportResult {
       {
         $output->writeListBegin(TType::STRUCT, count($this->dimensionValues));
         {
-          foreach ($this->dimensionValues as $iter246)
+          foreach ($this->dimensionValues as $iter255)
           {
-            $xfer += $iter246->write($output);
+            $xfer += $iter255->write($output);
           }
         }
         $output->writeListEnd();
@@ -6867,15 +7167,15 @@ class BehaviorReport {
         case 1:
           if ($ftype == TType::LST) {
             $this->results = array();
-            $_size247 = 0;
-            $_etype250 = 0;
-            $xfer += $input->readListBegin($_etype250, $_size247);
-            for ($_i251 = 0; $_i251 < $_size247; ++$_i251)
+            $_size256 = 0;
+            $_etype259 = 0;
+            $xfer += $input->readListBegin($_etype259, $_size256);
+            for ($_i260 = 0; $_i260 < $_size256; ++$_i260)
             {
-              $elem252 = null;
-              $elem252 = new \com\boxalino\dataintelligence\api\thrift\BehaviorReportResult();
-              $xfer += $elem252->read($input);
-              $this->results []= $elem252;
+              $elem261 = null;
+              $elem261 = new \com\boxalino\dataintelligence\api\thrift\BehaviorReportResult();
+              $xfer += $elem261->read($input);
+              $this->results []= $elem261;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -6911,9 +7211,9 @@ class BehaviorReport {
       {
         $output->writeListBegin(TType::STRUCT, count($this->results));
         {
-          foreach ($this->results as $iter253)
+          foreach ($this->results as $iter262)
           {
-            $xfer += $iter253->write($output);
+            $xfer += $iter262->write($output);
           }
         }
         $output->writeListEnd();

@@ -143,7 +143,11 @@ struct ConfigurationVersion {
 	/**
 	 * an internal number identifying the configuration version
 	 */
-	1: required i16 configurationVersionNumber
+	1: required i16 configurationVersionNumber,
+	/**
+	 * an internal number identifying the configuration version
+	 */
+	2: optional map<string, string> systemParameters
 }
 
 /**
@@ -686,7 +690,84 @@ enum ReportMetricType {
 	/**
 	 * VISITS_WITH_ADD_TO_BASKETS / VISITS 
 	 */
-	VISITS_WITH_ADD_TO_BASKETS_RATE = 27
+	VISITS_WITH_ADD_TO_BASKETS_RATE = 27,
+	/**
+	 * number of time the event has occurred
+	 */
+	EVENT_COUNT = 40,
+	/**
+	 * number of display of a choice
+	 */
+	CHOICE_DISPLAYS = 100,
+	/**
+	 * number of visits having at least one choice display
+	 */
+	VISITS_WITH_CHOICE_DISPLAYS = 101,
+	/**
+	 * number of product views event related to product displayed in a choice display
+	 * if a ReportDimension is on the product id, then only for this product id
+	 */
+	PRODUCT_VIEWS_FROM_CHOICE_DISPLAY = 110,
+	/**
+	 * number of visits having at least one product views event related to product displayed in a choice display
+	 * if a ReportDimension is on the product id, then only for this product id
+	 * if a ReportDimension is on a Choice, then only for this choice
+	 * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+	 */
+	VISITS_WITH_PRODUCT_VIEWS_FROM_CHOICE_DISPLAY = 111,
+	/**
+	 * number of transactions related to product displayed in a choice display
+	 * if a ReportDimension is on the product id, then only for this product id
+	 * if a ReportDimension is on a Choice, then only for this choice
+	 * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+	 */
+	TRANSACTIONS_FROM_CHOICE_DISPLAY = 112,
+	/**
+	 * sum of transaction property value of transactions related to product displayed in a choice display
+	 * if a ReportDimension is on the product id, then only for this product id
+	 * if a ReportDimension is on a Choice, then only for this choice
+	 * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+	 */
+	TRANSACTIONS_PARAMETER_SUM_FROM_CHOICE_DISPLAY = 113,
+	/**
+	 * number of visits having at least one transaction event related to product displayed in a choice display
+	 * if a ReportDimension is on the product id, then only for this product id
+	 * if a ReportDimension is on a Choice, then only for this choice
+	 * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+	 */
+	VISITS_WITH_TRANSACTIONS_FROM_CHOICE_DISPLAY = 114,
+	/**
+	 * number of add to baskets related to product displayed in a choice display
+	 * if a ReportDimension is on the product id, then only for this product id
+	 * if a ReportDimension is on a Choice, then only for this choice
+	 * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+	 */
+	ADD_TO_BASKETS_FROM_CHOICE_DISPLAY = 115,
+	/**
+	 * number of visits having at least one add to basket related to product displayed in a choice display
+	 * if a ReportDimension is on the product id, then only for this product id
+	 * if a ReportDimension is on a Choice, then only for this choice
+	 * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+	 */
+	VISITS_WITH_ADD_TO_BASKETS_FROM_CHOICE_DISPLAY = 116,
+	/**
+	 * number of goals related to product displayed in a choice display
+	 * (require identifier to be provided with the choice identifier)
+	 * (will only work if a product identifier is provided with the goal)
+	 * if a ReportDimension is on the product id, then only for this product id
+	 * if a ReportDimension is on a Choice, then only for this choice
+	 * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+	 */
+	GOALS_FROM_CHOICE_DISPLAY = 117,
+	/**
+	 * number of visits having at least goal related to product displayed in a choice display
+	 * (require identifier to be provided with the choice identifier)
+	 * (will only work if a product identifier is provided with the goal)
+	 * if a ReportDimension is on the product id, then only for this product id
+	 * if a ReportDimension is on a Choice, then only for this choice
+	 * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
+	 */
+	VISITS_WITH_GOALS_FROM_CHOICE_DISPLAY = 118
 }
 
 /**
@@ -752,24 +833,84 @@ enum ReportDimensionType {
 	 */
 	ADWORDS_KEYWORD = 9,
 	/**
+	 * the search queries done in the web-site
+	 */
+	ONSITE_SEARCH_QUERY = 15,
+	/**
+	 * the different hours of the day (from "0" to "24")
+	 */
+	HOUR_OF_DAY = 20,
+	/**
+	 * the different moments of the day ("22-6", "6-10", "10-12", "12-14", "14-17", "17-19", "19-22")
+	 */
+	MOMENT_OF_DAY = 21,
+	/**
+	 * the different days of the week ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+	 */
+	DAY_OF_WEEK = 22,
+	/**
+	 * the different moments of the week ("Monday-Friday", "Saturday-Sunday")
+	 */
+	MOMENT_OF_WEEK = 23,
+	/**
+	 * the timestamp at the beginning of the session (one dimension per session)
+	 */
+	SESSION_START_TIMESTAMP = 24,
+	/**
+	 * the session id (as provided by the tracker)
+	 */
+	SESSION_ID = 25,
+	/**
+	 * the session id (internal id of Boxalino)
+	 */
+	INTERNAL_SESSION_ID = 26,
+	/**
+	 * the visitor id (as provided by the tracker)
+	 */
+	VISITOR_ID = 27,
+	/**
+	 * the visitor id (internal id of Boxalino)
+	 */
+	INTERNAL_VISITOR_ID = 28,
+	/**
 	 * the different values of a URL parameter (require identifier to be provided with url parameter name)
 	 */
 	URL_PARAMETER = 50,
 	/**
-	 * the different values of a transaction property (require identifier to be provided with the transaction property name)
+	 * the different values of a transaction property (requires identifier to be provided with the transaction property name)
 	 * N.B.: a connection to the transaction property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a transaction)
 	 */
 	TRANSACTION_PROPERTY = 100,
 	/**
-	 * the different values of a customer property (require identifier to be provided with the customer property name)
+	 * the different values of a customer property (requires identifier to be provided with the customer property name)
 	 * N.B.: a connection to the transaction property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a login or other ways to link the customer id to the visitor id)
 	 */
 	CUSTOMER_PROPERTY = 150,
 	/**
-	 * the different values of a product property (require identifier to be provided with the product property name)
+	 * the different values of a product property (requires identifier to be provided with the product property name)
 	 * N.B.: a connection to the transaction property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a product purchased)
 	 */
-	PURCHASED_PRODUCT_PROPERTY = 200
+	PURCHASED_PRODUCT_PROPERTY = 200,
+	/**
+	 * the different values of a product property (requires identifier to be provided with the product property name)
+	 * N.B.: a connection to the product property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a product displayed in the choice variant)
+	 */
+	PRODUCT_PROPERTY = 201,
+	/**
+	 * the different possible choice ids (requires identifier to be provided with the choiceId as indicated in the structure Choice)
+	 * N.B.: a connection to the product property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a product displayed in the choice variant)
+	 */
+	CHOICE = 300,
+	/**
+	 * the different possible choice variant ids (requires identifier to be provided with the choiceVariantIdId as indicated in the structure ChoiceVariant)
+	 * N.B.: a connection to the product property must be available (e.g.: For visit&visitor-based reporting, like ChoiceReport, will only work for the visits/visitors with a product displayed in the choice variant)
+	 */
+	CHOICE_VARIANT = 301,
+	/**
+	 * The index of the returned time serie (starting at zero) related to this result (requires identifier to be provided with the cohort id field requested)
+	* N.B.: the ReportDimensionValue value will indicate the index as a number 0->n-1, n-1 being the last time range of the cohort report
+	 */
+	COHORT_INDEX = 1000
 }
 
 /**
@@ -783,7 +924,22 @@ struct ReportDimension {
 	/**
 	 * optional, for the ReportDimensionType requiring it (e.g.: goal) the identifier the metric
 	 */
-	2: optional string identifier
+	2: optional string identifier,
+	/**
+	 * optional, an additional parameter
+	 * Use cases:
+	 * - for hierarchical product properties for the type PURCHASED_PRODUCT_PROPERTY (e.g.: "categories") provide the level of depth to consider: "0" : first level, "1" : second level, ...
+	 * in the response, this parameter will be replaced with the category id (label will provide the bread crumb as value : "cat1 >> cat2 >> cat3", but the id of this cat3 will be provided in the param1)
+	 */
+	3: optional string param1,
+	/**
+	 * optional, an additional parameter (planned, but not used until now)
+	 */
+	4: optional string param2,
+	/**
+	 * optional, an additional parameter (planned, but not used until now)
+	 */
+	5: optional string param3
 }
 
 /**
