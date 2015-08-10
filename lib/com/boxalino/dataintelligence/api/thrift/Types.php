@@ -428,6 +428,18 @@ final class ReportMetricType {
    */
   const EVENT_COUNT = 40;
   /**
+   * number of e-mails sent
+   */
+  const MAIL_SENT = 50;
+  /**
+   * number of e-mails opened
+   */
+  const MAIL_OPENED = 51;
+  /**
+   * number of e-mails clicked
+   */
+  const MAIL_CLICKED = 52;
+  /**
    * number of display of a choice
    */
   const CHOICE_DISPLAYS = 100;
@@ -533,6 +545,9 @@ final class ReportMetricType {
     26 => 'VISITS_WITH_ADD_TO_BASKETS',
     27 => 'VISITS_WITH_ADD_TO_BASKETS_RATE',
     40 => 'EVENT_COUNT',
+    50 => 'MAIL_SENT',
+    51 => 'MAIL_OPENED',
+    52 => 'MAIL_CLICKED',
     100 => 'CHOICE_DISPLAYS',
     101 => 'VISITS_WITH_CHOICE_DISPLAYS',
     110 => 'PRODUCT_VIEWS_FROM_CHOICE_DISPLAY',
@@ -566,7 +581,7 @@ final class ReportDimensionType {
   /**
    * the detected subdivision (Kanton for Switzerland) of the visitor (NULL if none detected)
    */
-  const GEO_SUBDIVISION = 4;
+  const GEO_SUBDIVISION = 10;
   /**
    * the detected city of the visitor (NULL if none detected)
    */
@@ -574,7 +589,7 @@ final class ReportDimensionType {
   /**
    * the user agent name (most common values: IE,Mobile Safari,Chrome,Firefox,Safari,Android browser,Chrome Mobile,Java,IE Mobile,Opera,Mobile Firefox)
    */
-  const BROWSER_NAME = 5;
+  const BROWSER_NAME = 11;
   /**
    * the user agent version
    */
@@ -682,9 +697,9 @@ final class ReportDimensionType {
     1 => 'NEW_VISITOR',
     2 => 'GEO_COUNTRY',
     3 => 'GEO_ZIP',
-    4 => 'GEO_SUBDIVISION',
+    10 => 'GEO_SUBDIVISION',
     4 => 'GEO_CITY',
-    5 => 'BROWSER_NAME',
+    11 => 'BROWSER_NAME',
     5 => 'BROWSER_VERSION',
     6 => 'OPERATING_SYSTEM',
     7 => 'DEVICE_CATEGORY',
