@@ -408,6 +408,10 @@ final class ReportMetricType {
    */
   const TRANSACTIONS_QUANTITY = 30;
   /**
+   * number of transactions customers (different customers having made transactions)
+   */
+  const TRANSACTIONS_CUSTOMERS = 32;
+  /**
    * number of add-to-basket events
    */
   const ADD_TO_BASKETS = 24;
@@ -444,56 +448,92 @@ final class ReportMetricType {
    */
   const CHOICE_DISPLAYS = 100;
   /**
+   * CHOICE_DISPLAYS / VISITS
+   */
+  const CHOICE_DISPLAYS_PER_VISIT = 101;
+  /**
    * number of visits having at least one choice display
    */
-  const VISITS_WITH_CHOICE_DISPLAYS = 101;
+  const VISITS_WITH_CHOICE_DISPLAYS = 102;
+  /**
+   * VISITS_WITH_CHOICE_DISPLAYS / VISITS
+   */
+  const VISITS_WITH_CHOICE_DISPLAYS_RATE = 103;
   /**
    * number of product views event related to product displayed in a choice display
    * if a ReportDimension is on the product id, then only for this product id
    */
   const PRODUCT_VIEWS_FROM_CHOICE_DISPLAY = 110;
   /**
+   * PRODUCT_VIEWS_FROM_CHOICE_DISPLAY / VISITS
+   */
+  const PRODUCT_VIEWS_FROM_CHOICE_DISPLAY_PER_VISIT = 111;
+  /**
    * number of visits having at least one product views event related to product displayed in a choice display
    * if a ReportDimension is on the product id, then only for this product id
    * if a ReportDimension is on a Choice, then only for this choice
    * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
    */
-  const VISITS_WITH_PRODUCT_VIEWS_FROM_CHOICE_DISPLAY = 111;
+  const VISITS_WITH_PRODUCT_VIEWS_FROM_CHOICE_DISPLAY = 112;
+  /**
+   * VISITS_WITH_PRODUCT_VIEWS_FROM_CHOICE_DISPLAY / VISITS
+   */
+  const VISITS_WITH_PRODUCT_VIEWS_FROM_CHOICE_DISPLAY_RATE = 113;
   /**
    * number of transactions related to product displayed in a choice display
    * if a ReportDimension is on the product id, then only for this product id
    * if a ReportDimension is on a Choice, then only for this choice
    * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
    */
-  const TRANSACTIONS_FROM_CHOICE_DISPLAY = 112;
+  const TRANSACTIONS_FROM_CHOICE_DISPLAY = 120;
+  /**
+   * TRANSACTIONS_FROM_CHOICE_DISPLAY / VISITS
+   */
+  const TRANSACTIONS_FROM_CHOICE_DISPLAY_PER_VISIT = 121;
   /**
    * sum of transaction property value of transactions related to product displayed in a choice display
    * if a ReportDimension is on the product id, then only for this product id
    * if a ReportDimension is on a Choice, then only for this choice
    * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
    */
-  const TRANSACTIONS_PARAMETER_SUM_FROM_CHOICE_DISPLAY = 113;
+  const TRANSACTIONS_PARAMETER_SUM_FROM_CHOICE_DISPLAY = 122;
+  /**
+   * TRANSACTIONS_PARAMETER_SUM_FROM_CHOICE_DISPLAY / VISITS
+   */
+  const TRANSACTIONS_PARAMETER_SUM_FROM_CHOICE_DISPLAY_PER_VISIT = 123;
   /**
    * number of visits having at least one transaction event related to product displayed in a choice display
    * if a ReportDimension is on the product id, then only for this product id
    * if a ReportDimension is on a Choice, then only for this choice
    * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
    */
-  const VISITS_WITH_TRANSACTIONS_FROM_CHOICE_DISPLAY = 114;
+  const VISITS_WITH_TRANSACTIONS_FROM_CHOICE_DISPLAY = 130;
+  /**
+   * VISITS_WITH_TRANSACTIONS_FROM_CHOICE_DISPLAY / VISITS
+   */
+  const VISITS_WITH_TRANSACTIONS_FROM_CHOICE_DISPLAY_RATE = 131;
   /**
    * number of add to baskets related to product displayed in a choice display
    * if a ReportDimension is on the product id, then only for this product id
    * if a ReportDimension is on a Choice, then only for this choice
    * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
    */
-  const ADD_TO_BASKETS_FROM_CHOICE_DISPLAY = 115;
+  const ADD_TO_BASKETS_FROM_CHOICE_DISPLAY = 132;
+  /**
+   * ADD_TO_BASKETS_FROM_CHOICE_DISPLAY / VISITS
+   */
+  const ADD_TO_BASKETS_FROM_CHOICE_DISPLAY_PER_VISIT = 133;
   /**
    * number of visits having at least one add to basket related to product displayed in a choice display
    * if a ReportDimension is on the product id, then only for this product id
    * if a ReportDimension is on a Choice, then only for this choice
    * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
    */
-  const VISITS_WITH_ADD_TO_BASKETS_FROM_CHOICE_DISPLAY = 116;
+  const VISITS_WITH_ADD_TO_BASKETS_FROM_CHOICE_DISPLAY = 134;
+  /**
+   * VISITS_WITH_ADD_TO_BASKETS_FROM_CHOICE_DISPLAY / VISITS
+   */
+  const VISITS_WITH_ADD_TO_BASKETS_FROM_CHOICE_DISPLAY_RATE = 135;
   /**
    * number of goals related to product displayed in a choice display
    * (require identifier to be provided with the choice identifier)
@@ -502,7 +542,11 @@ final class ReportMetricType {
    * if a ReportDimension is on a Choice, then only for this choice
    * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
    */
-  const GOALS_FROM_CHOICE_DISPLAY = 117;
+  const GOALS_FROM_CHOICE_DISPLAY = 140;
+  /**
+   * GOALS_FROM_CHOICE_DISPLAY / VISITS
+   */
+  const GOALS_FROM_CHOICE_DISPLAY_PER_VISIT = 141;
   /**
    * number of visits having at least goal related to product displayed in a choice display
    * (require identifier to be provided with the choice identifier)
@@ -511,7 +555,11 @@ final class ReportMetricType {
    * if a ReportDimension is on a Choice, then only for this choice
    * if a ReportDimension is on a ChoiceVariant, then only for this choice variant
    */
-  const VISITS_WITH_GOALS_FROM_CHOICE_DISPLAY = 118;
+  const VISITS_WITH_GOALS_FROM_CHOICE_DISPLAY = 142;
+  /**
+   * VISITS_WITH_GOALS_FROM_CHOICE_DISPLAY / VISITS
+   */
+  const VISITS_WITH_GOALS_FROM_CHOICE_DISPLAY_RATE = 143;
   static public $__names = array(
     1 => 'VISITORS',
     2 => 'VISITS',
@@ -540,6 +588,7 @@ final class ReportMetricType {
     28 => 'TRANSACTIONS_TURNOVER',
     29 => 'TRANSACTIONS_PARAMETER_SUM',
     30 => 'TRANSACTIONS_QUANTITY',
+    32 => 'TRANSACTIONS_CUSTOMERS',
     24 => 'ADD_TO_BASKETS',
     25 => 'ADD_TO_BASKETS_PER_VISIT',
     26 => 'VISITS_WITH_ADD_TO_BASKETS',
@@ -549,16 +598,27 @@ final class ReportMetricType {
     51 => 'MAIL_OPENED',
     52 => 'MAIL_CLICKED',
     100 => 'CHOICE_DISPLAYS',
-    101 => 'VISITS_WITH_CHOICE_DISPLAYS',
+    101 => 'CHOICE_DISPLAYS_PER_VISIT',
+    102 => 'VISITS_WITH_CHOICE_DISPLAYS',
+    103 => 'VISITS_WITH_CHOICE_DISPLAYS_RATE',
     110 => 'PRODUCT_VIEWS_FROM_CHOICE_DISPLAY',
-    111 => 'VISITS_WITH_PRODUCT_VIEWS_FROM_CHOICE_DISPLAY',
-    112 => 'TRANSACTIONS_FROM_CHOICE_DISPLAY',
-    113 => 'TRANSACTIONS_PARAMETER_SUM_FROM_CHOICE_DISPLAY',
-    114 => 'VISITS_WITH_TRANSACTIONS_FROM_CHOICE_DISPLAY',
-    115 => 'ADD_TO_BASKETS_FROM_CHOICE_DISPLAY',
-    116 => 'VISITS_WITH_ADD_TO_BASKETS_FROM_CHOICE_DISPLAY',
-    117 => 'GOALS_FROM_CHOICE_DISPLAY',
-    118 => 'VISITS_WITH_GOALS_FROM_CHOICE_DISPLAY',
+    111 => 'PRODUCT_VIEWS_FROM_CHOICE_DISPLAY_PER_VISIT',
+    112 => 'VISITS_WITH_PRODUCT_VIEWS_FROM_CHOICE_DISPLAY',
+    113 => 'VISITS_WITH_PRODUCT_VIEWS_FROM_CHOICE_DISPLAY_RATE',
+    120 => 'TRANSACTIONS_FROM_CHOICE_DISPLAY',
+    121 => 'TRANSACTIONS_FROM_CHOICE_DISPLAY_PER_VISIT',
+    122 => 'TRANSACTIONS_PARAMETER_SUM_FROM_CHOICE_DISPLAY',
+    123 => 'TRANSACTIONS_PARAMETER_SUM_FROM_CHOICE_DISPLAY_PER_VISIT',
+    130 => 'VISITS_WITH_TRANSACTIONS_FROM_CHOICE_DISPLAY',
+    131 => 'VISITS_WITH_TRANSACTIONS_FROM_CHOICE_DISPLAY_RATE',
+    132 => 'ADD_TO_BASKETS_FROM_CHOICE_DISPLAY',
+    133 => 'ADD_TO_BASKETS_FROM_CHOICE_DISPLAY_PER_VISIT',
+    134 => 'VISITS_WITH_ADD_TO_BASKETS_FROM_CHOICE_DISPLAY',
+    135 => 'VISITS_WITH_ADD_TO_BASKETS_FROM_CHOICE_DISPLAY_RATE',
+    140 => 'GOALS_FROM_CHOICE_DISPLAY',
+    141 => 'GOALS_FROM_CHOICE_DISPLAY_PER_VISIT',
+    142 => 'VISITS_WITH_GOALS_FROM_CHOICE_DISPLAY',
+    143 => 'VISITS_WITH_GOALS_FROM_CHOICE_DISPLAY_RATE',
   );
 }
 
@@ -5746,11 +5806,11 @@ class TransactionReport {
    */
   public $results = null;
   /**
-   * the sum result
+   * the total results (over all the time periods) (one result per TransactionReportResult: indicating dimension values)
    * 
-   * @var \com\boxalino\dataintelligence\api\thrift\ReportResultValues
+   * @var \com\boxalino\dataintelligence\api\thrift\TransactionReportResult[]
    */
-  public $sumResult = null;
+  public $totalResult = null;
 
   public function __construct($vals=null) {
     if (!isset(self::$_TSPEC)) {
@@ -5765,9 +5825,13 @@ class TransactionReport {
             ),
           ),
         2 => array(
-          'var' => 'sumResult',
-          'type' => TType::STRUCT,
-          'class' => '\com\boxalino\dataintelligence\api\thrift\ReportResultValues',
+          'var' => 'totalResult',
+          'type' => TType::LST,
+          'etype' => TType::STRUCT,
+          'elem' => array(
+            'type' => TType::STRUCT,
+            'class' => '\com\boxalino\dataintelligence\api\thrift\TransactionReportResult',
+            ),
           ),
         );
     }
@@ -5775,8 +5839,8 @@ class TransactionReport {
       if (isset($vals['results'])) {
         $this->results = $vals['results'];
       }
-      if (isset($vals['sumResult'])) {
-        $this->sumResult = $vals['sumResult'];
+      if (isset($vals['totalResult'])) {
+        $this->totalResult = $vals['totalResult'];
       }
     }
   }
@@ -5819,9 +5883,19 @@ class TransactionReport {
           }
           break;
         case 2:
-          if ($ftype == TType::STRUCT) {
-            $this->sumResult = new \com\boxalino\dataintelligence\api\thrift\ReportResultValues();
-            $xfer += $this->sumResult->read($input);
+          if ($ftype == TType::LST) {
+            $this->totalResult = array();
+            $_size192 = 0;
+            $_etype195 = 0;
+            $xfer += $input->readListBegin($_etype195, $_size192);
+            for ($_i196 = 0; $_i196 < $_size192; ++$_i196)
+            {
+              $elem197 = null;
+              $elem197 = new \com\boxalino\dataintelligence\api\thrift\TransactionReportResult();
+              $xfer += $elem197->read($input);
+              $this->totalResult []= $elem197;
+            }
+            $xfer += $input->readListEnd();
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -5847,21 +5921,30 @@ class TransactionReport {
       {
         $output->writeListBegin(TType::STRUCT, count($this->results));
         {
-          foreach ($this->results as $iter192)
+          foreach ($this->results as $iter198)
           {
-            $xfer += $iter192->write($output);
+            $xfer += $iter198->write($output);
           }
         }
         $output->writeListEnd();
       }
       $xfer += $output->writeFieldEnd();
     }
-    if ($this->sumResult !== null) {
-      if (!is_object($this->sumResult)) {
+    if ($this->totalResult !== null) {
+      if (!is_array($this->totalResult)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('sumResult', TType::STRUCT, 2);
-      $xfer += $this->sumResult->write($output);
+      $xfer += $output->writeFieldBegin('totalResult', TType::LST, 2);
+      {
+        $output->writeListBegin(TType::STRUCT, count($this->totalResult));
+        {
+          foreach ($this->totalResult as $iter199)
+          {
+            $xfer += $iter199->write($output);
+          }
+        }
+        $output->writeListEnd();
+      }
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();
@@ -6043,15 +6126,15 @@ class BehaviorReportRequest {
         case 1:
           if ($ftype == TType::LST) {
             $this->metrics = array();
-            $_size193 = 0;
-            $_etype196 = 0;
-            $xfer += $input->readListBegin($_etype196, $_size193);
-            for ($_i197 = 0; $_i197 < $_size193; ++$_i197)
+            $_size200 = 0;
+            $_etype203 = 0;
+            $xfer += $input->readListBegin($_etype203, $_size200);
+            for ($_i204 = 0; $_i204 < $_size200; ++$_i204)
             {
-              $elem198 = null;
-              $elem198 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
-              $xfer += $elem198->read($input);
-              $this->metrics []= $elem198;
+              $elem205 = null;
+              $elem205 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
+              $xfer += $elem205->read($input);
+              $this->metrics []= $elem205;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -6061,15 +6144,15 @@ class BehaviorReportRequest {
         case 2:
           if ($ftype == TType::LST) {
             $this->dimensions = array();
-            $_size199 = 0;
-            $_etype202 = 0;
-            $xfer += $input->readListBegin($_etype202, $_size199);
-            for ($_i203 = 0; $_i203 < $_size199; ++$_i203)
+            $_size206 = 0;
+            $_etype209 = 0;
+            $xfer += $input->readListBegin($_etype209, $_size206);
+            for ($_i210 = 0; $_i210 < $_size206; ++$_i210)
             {
-              $elem204 = null;
-              $elem204 = new \com\boxalino\dataintelligence\api\thrift\ReportDimension();
-              $xfer += $elem204->read($input);
-              $this->dimensions []= $elem204;
+              $elem211 = null;
+              $elem211 = new \com\boxalino\dataintelligence\api\thrift\ReportDimension();
+              $xfer += $elem211->read($input);
+              $this->dimensions []= $elem211;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -6087,15 +6170,15 @@ class BehaviorReportRequest {
         case 4:
           if ($ftype == TType::LST) {
             $this->sortBys = array();
-            $_size205 = 0;
-            $_etype208 = 0;
-            $xfer += $input->readListBegin($_etype208, $_size205);
-            for ($_i209 = 0; $_i209 < $_size205; ++$_i209)
+            $_size212 = 0;
+            $_etype215 = 0;
+            $xfer += $input->readListBegin($_etype215, $_size212);
+            for ($_i216 = 0; $_i216 < $_size212; ++$_i216)
             {
-              $elem210 = null;
-              $elem210 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
-              $xfer += $elem210->read($input);
-              $this->sortBys []= $elem210;
+              $elem217 = null;
+              $elem217 = new \com\boxalino\dataintelligence\api\thrift\ReportMetric();
+              $xfer += $elem217->read($input);
+              $this->sortBys []= $elem217;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -6159,9 +6242,9 @@ class BehaviorReportRequest {
       {
         $output->writeListBegin(TType::STRUCT, count($this->metrics));
         {
-          foreach ($this->metrics as $iter211)
+          foreach ($this->metrics as $iter218)
           {
-            $xfer += $iter211->write($output);
+            $xfer += $iter218->write($output);
           }
         }
         $output->writeListEnd();
@@ -6176,9 +6259,9 @@ class BehaviorReportRequest {
       {
         $output->writeListBegin(TType::STRUCT, count($this->dimensions));
         {
-          foreach ($this->dimensions as $iter212)
+          foreach ($this->dimensions as $iter219)
           {
-            $xfer += $iter212->write($output);
+            $xfer += $iter219->write($output);
           }
         }
         $output->writeListEnd();
@@ -6201,9 +6284,9 @@ class BehaviorReportRequest {
       {
         $output->writeListBegin(TType::STRUCT, count($this->sortBys));
         {
-          foreach ($this->sortBys as $iter213)
+          foreach ($this->sortBys as $iter220)
           {
-            $xfer += $iter213->write($output);
+            $xfer += $iter220->write($output);
           }
         }
         $output->writeListEnd();
@@ -6317,15 +6400,15 @@ class BehaviorReportResult {
         case 1:
           if ($ftype == TType::LST) {
             $this->dimensionValues = array();
-            $_size214 = 0;
-            $_etype217 = 0;
-            $xfer += $input->readListBegin($_etype217, $_size214);
-            for ($_i218 = 0; $_i218 < $_size214; ++$_i218)
+            $_size221 = 0;
+            $_etype224 = 0;
+            $xfer += $input->readListBegin($_etype224, $_size221);
+            for ($_i225 = 0; $_i225 < $_size221; ++$_i225)
             {
-              $elem219 = null;
-              $elem219 = new \com\boxalino\dataintelligence\api\thrift\ReportDimensionValue();
-              $xfer += $elem219->read($input);
-              $this->dimensionValues []= $elem219;
+              $elem226 = null;
+              $elem226 = new \com\boxalino\dataintelligence\api\thrift\ReportDimensionValue();
+              $xfer += $elem226->read($input);
+              $this->dimensionValues []= $elem226;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -6361,9 +6444,9 @@ class BehaviorReportResult {
       {
         $output->writeListBegin(TType::STRUCT, count($this->dimensionValues));
         {
-          foreach ($this->dimensionValues as $iter220)
+          foreach ($this->dimensionValues as $iter227)
           {
-            $xfer += $iter220->write($output);
+            $xfer += $iter227->write($output);
           }
         }
         $output->writeListEnd();
@@ -6399,11 +6482,11 @@ class BehaviorReport {
    */
   public $results = null;
   /**
-   * the sum result
+   * the total results (over all the time periods) (one result per BehaviorReportResult: indicating dimension values)
    * 
-   * @var \com\boxalino\dataintelligence\api\thrift\ReportResultValues
+   * @var \com\boxalino\dataintelligence\api\thrift\BehaviorReportResult[]
    */
-  public $sumResult = null;
+  public $totalResult = null;
 
   public function __construct($vals=null) {
     if (!isset(self::$_TSPEC)) {
@@ -6418,9 +6501,13 @@ class BehaviorReport {
             ),
           ),
         2 => array(
-          'var' => 'sumResult',
-          'type' => TType::STRUCT,
-          'class' => '\com\boxalino\dataintelligence\api\thrift\ReportResultValues',
+          'var' => 'totalResult',
+          'type' => TType::LST,
+          'etype' => TType::STRUCT,
+          'elem' => array(
+            'type' => TType::STRUCT,
+            'class' => '\com\boxalino\dataintelligence\api\thrift\BehaviorReportResult',
+            ),
           ),
         );
     }
@@ -6428,8 +6515,8 @@ class BehaviorReport {
       if (isset($vals['results'])) {
         $this->results = $vals['results'];
       }
-      if (isset($vals['sumResult'])) {
-        $this->sumResult = $vals['sumResult'];
+      if (isset($vals['totalResult'])) {
+        $this->totalResult = $vals['totalResult'];
       }
     }
   }
@@ -6456,15 +6543,15 @@ class BehaviorReport {
         case 1:
           if ($ftype == TType::LST) {
             $this->results = array();
-            $_size221 = 0;
-            $_etype224 = 0;
-            $xfer += $input->readListBegin($_etype224, $_size221);
-            for ($_i225 = 0; $_i225 < $_size221; ++$_i225)
+            $_size228 = 0;
+            $_etype231 = 0;
+            $xfer += $input->readListBegin($_etype231, $_size228);
+            for ($_i232 = 0; $_i232 < $_size228; ++$_i232)
             {
-              $elem226 = null;
-              $elem226 = new \com\boxalino\dataintelligence\api\thrift\BehaviorReportResult();
-              $xfer += $elem226->read($input);
-              $this->results []= $elem226;
+              $elem233 = null;
+              $elem233 = new \com\boxalino\dataintelligence\api\thrift\BehaviorReportResult();
+              $xfer += $elem233->read($input);
+              $this->results []= $elem233;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -6472,9 +6559,19 @@ class BehaviorReport {
           }
           break;
         case 2:
-          if ($ftype == TType::STRUCT) {
-            $this->sumResult = new \com\boxalino\dataintelligence\api\thrift\ReportResultValues();
-            $xfer += $this->sumResult->read($input);
+          if ($ftype == TType::LST) {
+            $this->totalResult = array();
+            $_size234 = 0;
+            $_etype237 = 0;
+            $xfer += $input->readListBegin($_etype237, $_size234);
+            for ($_i238 = 0; $_i238 < $_size234; ++$_i238)
+            {
+              $elem239 = null;
+              $elem239 = new \com\boxalino\dataintelligence\api\thrift\BehaviorReportResult();
+              $xfer += $elem239->read($input);
+              $this->totalResult []= $elem239;
+            }
+            $xfer += $input->readListEnd();
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -6500,21 +6597,30 @@ class BehaviorReport {
       {
         $output->writeListBegin(TType::STRUCT, count($this->results));
         {
-          foreach ($this->results as $iter227)
+          foreach ($this->results as $iter240)
           {
-            $xfer += $iter227->write($output);
+            $xfer += $iter240->write($output);
           }
         }
         $output->writeListEnd();
       }
       $xfer += $output->writeFieldEnd();
     }
-    if ($this->sumResult !== null) {
-      if (!is_object($this->sumResult)) {
+    if ($this->totalResult !== null) {
+      if (!is_array($this->totalResult)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('sumResult', TType::STRUCT, 2);
-      $xfer += $this->sumResult->write($output);
+      $xfer += $output->writeFieldBegin('totalResult', TType::LST, 2);
+      {
+        $output->writeListBegin(TType::STRUCT, count($this->totalResult));
+        {
+          foreach ($this->totalResult as $iter241)
+          {
+            $xfer += $iter241->write($output);
+          }
+        }
+        $output->writeListEnd();
+      }
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();
